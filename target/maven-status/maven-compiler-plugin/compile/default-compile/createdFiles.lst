@@ -1,0 +1,4 @@
+com\javaschool\config\WebConfig.class
+com\javaschool\config\RootConfig.class
+com\javaschool\config\WebAppInitialiser.class
+com\javaschool\controller\HomeController.class
