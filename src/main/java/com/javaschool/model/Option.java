@@ -1,25 +1,38 @@
 package com.javaschool.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "options")
 public class Option {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(name = "name")
+    private int name;
+
+    @Column(name = "price")
     private int price;
 
+    @Column(name = "serviceCost")
     private int serviceCost;
 
     public Option() {
     }
 
-    public Option(long id, int price, int serviceCost) {
+    public int getName() {
+        return name;
+    }
+
+    public void setName(int name) {
+        this.name = name;
+    }
+
+    public Option(long id, int name, int price, int serviceCost) {
         this.id = id;
+        this.name = name;
         this.price = price;
         this.serviceCost = serviceCost;
     }
