@@ -57,7 +57,6 @@ public class Option {
         this.id = id;
     }
 
-    @Id
     public long getId() {
         return id;
     }
