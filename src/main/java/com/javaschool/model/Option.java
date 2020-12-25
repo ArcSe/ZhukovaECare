@@ -11,7 +11,7 @@ public class Option {
     private long id;
 
     @Column(name = "name")
-    private int name;
+    private String name;
 
     @Column(name = "price")
     private int price;
