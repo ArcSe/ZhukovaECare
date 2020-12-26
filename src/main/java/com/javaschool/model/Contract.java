@@ -1,8 +1,13 @@
 package com.javaschool.model;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 @Entity
+@Getter @Setter @NoArgsConstructor
 @Table(name = "contracts")
 public class Contract {
 
@@ -10,30 +15,11 @@ public class Contract {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "number")
+    @Column(name = "number", nullable=false)
     private int number;
-
-    public Contract() {
-    }
 
     public Contract(long id, int number) {
         this.id = id;
-        this.number = number;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public int getNumber() {
-        return number;
-    }
-
-    public void setNumber(int number) {
         this.number = number;
     }
 }
