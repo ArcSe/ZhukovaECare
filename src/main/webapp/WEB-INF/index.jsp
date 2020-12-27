@@ -11,10 +11,6 @@ Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <body>
 <div align="center">
     <h2>Option Manager</h2>
-    <form method="get" action="search">
-        <input type="text" name="keyword" />
-        <input type="submit" value="Search" />
-    </form>
     <h3><a href="/new">New Option</a></h3>
     <table border="1" cellpadding="5">
         <tr>

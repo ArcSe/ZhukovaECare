@@ -7,10 +7,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 public class OptionController {
@@ -31,15 +32,30 @@ public class OptionController {
     }
 
     @RequestMapping("/new")
-    public String newCustomerForm(Map<String, Object> model) {
+    public String newOption(Map<String, Object> model) {
         Option option = new Option();
         model.put("option", option);
-        return "new_option";
+        return "options/new_option";
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public String saveCustomer(@ModelAttribute("option") Option option) {
+    public String saveOption(@ModelAttribute("option") Option option) {
         optionRepository.save(option);
+        return "redirect:/";
+    }
+
+    @RequestMapping("/edit")
+    public ModelAndView editOption(@RequestParam long id) {
+        ModelAndView mav = new ModelAndView("options/edit_option");
+        Optional<Option> option = optionRepository.findById(id);
+        mav.addObject("option", option.get());
+
+        return mav;
+    }
+
+    @RequestMapping("/delete")
+    public String deleteOptionById(@RequestParam long id) {
+        optionRepository.deleteById(id);
         return "redirect:/";
     }
 
