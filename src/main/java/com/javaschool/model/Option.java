@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Getter @Setter @NoArgsConstructor
@@ -31,4 +32,16 @@ public class Option {
         this.serviceCost = serviceCost;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Option option = (Option) o;
+        return id == option.id && price == option.price && serviceCost == option.serviceCost && Objects.equals(name, option.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, price, serviceCost);
+    }
 }
