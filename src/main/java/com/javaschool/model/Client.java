@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Getter @Setter @NoArgsConstructor
@@ -38,7 +39,12 @@ public class Client {
     @Column(name = "password", nullable=false)
     private String password;
 
-    public Client(long id, String name, String surname, Date birthday, int passport, String email, String address, String password) {
+    @OneToMany(mappedBy = "client")
+    private Set<Contract> contracts;
+
+
+    public Client(long id, String name, String surname, Date birthday, int passport,
+                  String email, String address, String password, Set<Contract> contracts) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -47,6 +53,6 @@ public class Client {
         this.email = email;
         this.address = address;
         this.password = password;
+        this.contracts = contracts;
     }
-
 }
