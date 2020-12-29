@@ -2,6 +2,7 @@ package com.javaschool.controller;
 
 import com.javaschool.model.Option;
 import com.javaschool.repository.OptionRepository;
+import com.javaschool.service.OptionsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -11,21 +12,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Map;
-import java.util.Optional;
 
 @Controller
 public class OptionController {
 
-    private OptionRepository optionRepository;
+    private OptionsService optionService;
 
     @Autowired
-    public OptionController(OptionRepository optionRepository) {
-        this.optionRepository = optionRepository;
+    public OptionController(OptionsService optionService) {
+        this.optionService = optionService;
     }
 
     @RequestMapping("/")
     public ModelAndView home() {
-        Iterable<Option> listOption = optionRepository.findAll();
+        Iterable<Option> listOption = optionService.findAll();
         ModelAndView mav = new ModelAndView("index");
         mav.addObject("listOption", listOption);
         return mav;
@@ -40,22 +40,24 @@ public class OptionController {
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public String saveOption(@ModelAttribute("option") Option option) {
-        optionRepository.save(option);
+        optionService.save(option);
         return "redirect:/";
     }
 
     @RequestMapping("/edit")
     public ModelAndView editOption(@RequestParam long id) {
         ModelAndView mav = new ModelAndView("options/edit_option");
-        Optional<Option> option = optionRepository.findById(id);
-        mav.addObject("option", option.get());
+        Option option = optionService.get(id);
+        mav.addObject("option", option);
 
         return mav;
     }
 
+
+
     @RequestMapping("/delete")
     public String deleteOptionById(@RequestParam long id) {
-        optionRepository.deleteById(id);
+        optionService.delete(id);
         return "redirect:/";
     }
 

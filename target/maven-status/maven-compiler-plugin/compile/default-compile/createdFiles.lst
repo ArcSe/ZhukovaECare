@@ -1,4 +1,11 @@
+com\javaschool\service\OptionsService.class
+com\javaschool\config\PersistenceJPAConfig.class
 com\javaschool\config\WebConfig.class
+com\javaschool\model\Tariff.class
+com\javaschool\model\Option.class
 com\javaschool\config\RootConfig.class
+com\javaschool\controller\OptionController.class
+com\javaschool\model\Client.class
+com\javaschool\repository\OptionRepository.class
 com\javaschool\config\WebAppInitialiser.class
-com\javaschool\controller\HomeController.class
+com\javaschool\model\Contract.class

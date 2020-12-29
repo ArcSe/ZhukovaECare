@@ -1,4 +1,11 @@
-C:\Users\Arc\ZhukovaECare\src\main\java\com\javaschool\config\WebAppInitialiser.java
-C:\Users\Arc\ZhukovaECare\src\main\java\com\javaschool\config\WebConfig.java
-C:\Users\Arc\ZhukovaECare\src\main\java\com\javaschool\controller\HomeController.java
-C:\Users\Arc\ZhukovaECare\src\main\java\com\javaschool\config\RootConfig.java
+C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\model\Option.java
+C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\service\OptionsService.java
+C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\model\Tariff.java
+C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\config\PersistenceJPAConfig.java
+C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\config\WebConfig.java
+C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\repository\OptionRepository.java
+C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\controller\OptionController.java
+C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\model\Client.java
+C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\model\Contract.java
+C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\config\WebAppInitialiser.java
+C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\config\RootConfig.java

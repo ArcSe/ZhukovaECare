@@ -23,6 +23,7 @@ public class Client {
     private String surname;
 
     @Column(name = "birthday")
+    @Temporal(TemporalType.DATE)
     private Date birthday;
 
     @Column(name = "passport", nullable=false)
