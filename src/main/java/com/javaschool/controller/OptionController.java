@@ -1,5 +1,6 @@
 package com.javaschool.controller;
 
+import com.javaschool.dao.OptionDao;
 import com.javaschool.model.Option;
 import com.javaschool.repository.OptionRepository;
 import com.javaschool.service.OptionsService;
@@ -11,21 +12,33 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
 import java.util.Map;
 
 @Controller
 public class OptionController {
 
     private OptionsService optionService;
+    private OptionDao optionDao;
 
     @Autowired
+    public OptionController(OptionsService optionService, OptionDao optionDao) {
+        this.optionService = optionService;
+        this.optionDao = optionDao;
+    }
+
     public OptionController(OptionsService optionService) {
         this.optionService = optionService;
     }
 
+    public OptionController(OptionDao optionDao) {
+        this.optionDao = optionDao;
+    }
+
     @RequestMapping("/")
     public ModelAndView home() {
-        Iterable<Option> listOption = optionService.findAll();
+        List<Option> listOption = optionDao.getAll();
+        //Iterable<Option> listOption = optionService.findAll();
         ModelAndView mav = new ModelAndView("index");
         mav.addObject("listOption", listOption);
         return mav;
