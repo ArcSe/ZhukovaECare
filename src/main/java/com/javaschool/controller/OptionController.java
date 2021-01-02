@@ -32,25 +32,25 @@ public class OptionController {
         return mav;
     }
 
-    @RequestMapping("/new")
+    @RequestMapping("options/new")
     public String newOption(Map<String, Object> model) {
         Option option = new Option();
         model.put("option", option);
         return "options/new_option";
     }
 
-    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    @RequestMapping(value = "options/save", method = RequestMethod.POST)
     public String saveOption(@ModelAttribute("option") Option option) {
         optionService.add(option);
         return "redirect:/";
     }
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    @RequestMapping(value = "options/update", method = RequestMethod.POST)
     public String updateOption(@ModelAttribute("option") Option option) {
         optionService.update(option);
         return "redirect:/";
     }
 
-    @RequestMapping("/edit")
+    @RequestMapping("options/edit")
     public ModelAndView editOption(@RequestParam long id) {
         ModelAndView mav = new ModelAndView("options/edit_option");
         Option option = optionService.getById(id);
@@ -60,7 +60,7 @@ public class OptionController {
 
 
 
-    @RequestMapping("/delete")
+    @RequestMapping("options/delete")
     public String deleteOptionById(@RequestParam long id) {
         optionService.delete(id);
         return "redirect:/";
