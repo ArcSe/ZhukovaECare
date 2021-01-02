@@ -6,5 +6,13 @@ import java.util.List;
 
 public interface OptionService {
 
-    List<Option> getOptions();
+    List<Option> getAll();
+
+    void add(Option option);
+
+    void delete(long id);
+
+    void update(Option option);
+
+    Option getById(long id);
 }

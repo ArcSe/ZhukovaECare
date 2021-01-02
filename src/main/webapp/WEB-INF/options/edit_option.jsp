@@ -11,7 +11,7 @@
 <body>
 <div align="center">
     <h2>Edit Option</h2>
-    <form:form action="save" method="post" modelAttribute="option">
+    <form:form action="update" method="post" modelAttribute="option">
         <table border="0" cellpadding="5">
             <tr>
                 <td>ID: </td>

@@ -10,5 +10,14 @@ import java.util.List;
 
 @Repository
 public interface OptionDao {
+
     List<Option> getAll();
+
+    void add(Option option);
+
+    Option getById(long id);
+
+    void delete(long id);
+
+    void update(Option option);
 }
