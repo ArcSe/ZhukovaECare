@@ -29,8 +29,8 @@ public class OptionServiceImpl implements OptionService {
     }
 
     @Override
-    public void add(Option option) {
-        optionDao.add(option);
+    public void add(OptionDto option) {
+        optionDao.add(optionMapper.toEntity(option));
     }
 
     @Override
@@ -39,12 +39,12 @@ public class OptionServiceImpl implements OptionService {
     }
 
     @Override
-    public void update(Option option) {
-        optionDao.update(option);
+    public void update(OptionDto option) {
+        optionDao.update(optionMapper.toEntity(option));
     }
 
     @Override
-    public Option getById(long id) {
-        return optionDao.getById(id);
+    public OptionDto getById(long id) {
+        return optionMapper.toDto(optionDao.getById(id));
     }
 }

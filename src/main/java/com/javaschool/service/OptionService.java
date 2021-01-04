@@ -9,11 +9,11 @@ public interface OptionService {
 
     List<OptionDto> getAll();
 
-    void add(Option option);
+    void add(OptionDto option);
 
     void delete(long id);
 
-    void update(Option option);
+    void update(OptionDto option);
 
-    Option getById(long id);
+    OptionDto getById(long id);
 }

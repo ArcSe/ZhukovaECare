@@ -38,7 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout();
     }
 
-    /*
+
     @Bean
     @Override
     public UserDetailsService userDetailsService() {
@@ -52,5 +52,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new InMemoryUserDetailsManager(user);
     }
 
-     */
+
 }

@@ -11,7 +11,7 @@ Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <body>
 <div align="center">
     <h2>Option Manager</h2>
-    <h3><a href="/new">New Option</a></h3>
+    <h3><a href="/options/new">New Option</a></h3>
     <table border="1" cellpadding="5">
         <tr>
             <th>ID</th>
@@ -27,9 +27,9 @@ Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
                 <td>${option.price}</td>
                 <td>${option.serviceCost}</td>
                 <td>
-                    <a href="/edit?id=${option.id}">Edit</a>
+                    <a href="/options/edit?id=${option.id}">Edit</a>
 
-                    <a href="/delete?id=${option.id}">Delete</a>
+                    <a href="/options/delete?id=${option.id}">Delete</a>
                 </td>
             </tr>
         </c:forEach>
