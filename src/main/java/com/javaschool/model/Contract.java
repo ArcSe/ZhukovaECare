@@ -1,5 +1,6 @@
 package com.javaschool.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,12 +10,10 @@ import java.util.Set;
 
 @Entity
 @Getter @Setter @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "contracts")
-public class Contract {
+public class Contract extends AbstractModel{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
 
     @Column(name = "number", nullable=false, unique = true)
     private int number;
@@ -27,10 +26,12 @@ public class Contract {
     @JoinColumn(name = "client_id")
     private Client client;
 
-    public Contract(long id, int number, Tariff tariff, Client client) {
-        this.id = id;
-        this.number = number;
-        this.tariff = tariff;
-        this.client = client;
-    }
+    @ManyToMany
+    @JoinTable(
+            name = "option_contract",
+            joinColumns = @JoinColumn(name = "contract_id"),
+            inverseJoinColumns = @JoinColumn(name = "option_id")
+    )
+    private Set<Contract> options;
+
 }

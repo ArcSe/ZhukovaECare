@@ -1,5 +1,6 @@
 package com.javaschool.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,18 +11,14 @@ import java.util.Set;
 
 @Entity
 @Getter @Setter @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "tariffs")
-public class Tariff {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+public class Tariff extends AbstractModel{
 
     @Column(name = "name", nullable=false)
     private String name;
 
-    public Tariff(long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
+    @ManyToMany(mappedBy = "tariffs")
+    private Set<Option> options;
+
 }

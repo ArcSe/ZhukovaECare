@@ -1,32 +1,32 @@
 package com.javaschool.service.ipml;
 
 import com.javaschool.dao.OptionDao;
+import com.javaschool.dto.OptionDto;
+import com.javaschool.mapper.OptionMapper;
 import com.javaschool.model.Option;
 import com.javaschool.service.OptionService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class OptionServiceImpl implements OptionService {
-    OptionDao optionDao;
 
-    @Autowired
-    public OptionServiceImpl(OptionDao optionDao) {
+    private final OptionDao optionDao;
+    private final OptionMapper optionMapper;
+
+
+    public OptionServiceImpl(OptionDao optionDao, OptionMapper optionMapper) {
         this.optionDao = optionDao;
+        this.optionMapper = optionMapper;
     }
 
-    public void setOptionDao(OptionDao optionDao) {
-        this.optionDao = optionDao;
-    }
 
     @Override
-    public List<Option> getAll() {
-        return optionDao.getAll();
+    public List<OptionDto> getAll() {
+        return optionDao.getAll().stream().map(optionMapper::toDto).collect(Collectors.toList());
     }
-
 
     @Override
     public void add(Option option) {

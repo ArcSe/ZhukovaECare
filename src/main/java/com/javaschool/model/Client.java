@@ -1,5 +1,6 @@
 package com.javaschool.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,12 +11,10 @@ import java.util.Set;
 
 @Entity
 @Getter @Setter @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "clients", uniqueConstraints={@UniqueConstraint(columnNames={"email"})})
-public class Client {
+public class Client extends AbstractModel {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
 
     @Column(name = "name", nullable=false)
     private String name;
@@ -42,17 +41,4 @@ public class Client {
     @OneToMany(mappedBy = "client")
     private Set<Contract> contracts;
 
-
-    public Client(long id, String name, String surname, Date birthday, int passport,
-                  String email, String address, String password, Set<Contract> contracts) {
-        this.id = id;
-        this.name = name;
-        this.surname = surname;
-        this.birthday = birthday;
-        this.passport = passport;
-        this.email = email;
-        this.address = address;
-        this.password = password;
-        this.contracts = contracts;
-    }
 }

@@ -1,6 +1,6 @@
 package com.javaschool.controller;
 
-import com.javaschool.dao.OptionDao;
+import com.javaschool.dto.OptionDto;
 import com.javaschool.model.Option;
 import com.javaschool.service.OptionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class OptionController {
 
     @RequestMapping("/")
     public ModelAndView home() {
-        List<Option> listOption = optionService.getAll();
+        List<OptionDto> listOption = optionService.getAll();
         ModelAndView mav = new ModelAndView("index");
         mav.addObject("listOption", listOption);
         return mav;
