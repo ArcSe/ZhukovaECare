@@ -1,6 +1,8 @@
 package com.javaschool.controller.crud;
 
+import com.javaschool.dto.OptionDto;
 import com.javaschool.dto.TariffDto;
+import com.javaschool.service.OptionService;
 import com.javaschool.service.TariffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,10 +17,12 @@ import java.util.Map;
 @Controller
 public class TariffController {
     private final TariffService tariffService;
+    private final OptionService optionService;
 
     @Autowired
-    public TariffController(TariffService tariffService) {
+    public TariffController(TariffService tariffService, OptionService optionService) {
         this.tariffService = tariffService;
+        this.optionService = optionService;
     }
     
     @RequestMapping("/tariff")
@@ -32,7 +36,9 @@ public class TariffController {
     @RequestMapping("tariffs/new")
     public String newTariff(Map<String, Object> model) {
         TariffDto tariff = new TariffDto();
+        List<OptionDto> options = optionService.getAll();
         model.put("tariff", tariff);
+        model.put("options", options);
         return "tariffs/new_tariff";
     }
 

@@ -5,6 +5,7 @@ import com.javaschool.dto.OptionDto;
 import com.javaschool.mapper.OptionMapper;
 import com.javaschool.model.Option;
 import com.javaschool.service.OptionService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public class OptionServiceImpl implements OptionService {
     private final OptionDao optionDao;
     private final OptionMapper optionMapper;
 
-
+    @Autowired
     public OptionServiceImpl(OptionDao optionDao, OptionMapper optionMapper) {
         this.optionDao = optionDao;
         this.optionMapper = optionMapper;

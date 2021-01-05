@@ -1,7 +1,6 @@
 package com.javaschool.controller.crud;
 
 import com.javaschool.dto.OptionDto;
-import com.javaschool.model.Option;
 import com.javaschool.service.OptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,7 +26,7 @@ public class OptionController {
     @RequestMapping("/")
     public ModelAndView home() {
         List<OptionDto> listOption = optionService.getAll();
-        ModelAndView mav = new ModelAndView("index");
+        ModelAndView mav = new ModelAndView("home");
         mav.addObject("listOption", listOption);
         return mav;
     }
