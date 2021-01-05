@@ -1,13 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
          pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<c:import url="general/index.jsp"/>
 <!doctype html>
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <title>Option Manager</title>
-    <h3><a href="/tariff">Tariff</a></h3>
+    <c:import url="general/template.jsp"/>
 </head>
 <body>
 <div align="center">
