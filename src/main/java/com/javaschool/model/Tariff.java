@@ -18,7 +18,7 @@ public class Tariff extends AbstractModel{
     @Column(name = "name", nullable=false)
     private String name;
 
-    @ManyToMany(mappedBy = "tariffs")
+    @ManyToMany(mappedBy = "tariffs", fetch = FetchType.EAGER)
     private Set<Option> options;
 
 }

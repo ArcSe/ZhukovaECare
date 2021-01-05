@@ -32,6 +32,6 @@ public class Contract extends AbstractModel{
             joinColumns = @JoinColumn(name = "contract_id"),
             inverseJoinColumns = @JoinColumn(name = "option_id")
     )
-    private Set<Contract> options;
+    private Set<Option> options;
 
 }

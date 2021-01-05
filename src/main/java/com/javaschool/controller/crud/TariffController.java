@@ -1,4 +1,4 @@
-package com.javaschool.controller;
+package com.javaschool.controller.crud;
 
 import com.javaschool.dto.TariffDto;
 import com.javaschool.service.TariffService;
