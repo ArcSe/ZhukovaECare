@@ -13,7 +13,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "options")
+@Table(name = "options", uniqueConstraints={@UniqueConstraint(columnNames={"name"})})
 public class Option extends AbstractModel{
 
     @Column(name = "name", nullable=false)
@@ -25,7 +25,7 @@ public class Option extends AbstractModel{
     @Column(name = "serviceCost")
     private int serviceCost;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "tariff_option",
             joinColumns = @JoinColumn(name = "option_id"),

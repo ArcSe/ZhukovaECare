@@ -17,7 +17,7 @@ import java.util.Map;
 @Controller
 public class OptionController {
 
-    private OptionService optionService;
+    private final OptionService optionService;
 
     @Autowired
     public OptionController(OptionService optionService) {
