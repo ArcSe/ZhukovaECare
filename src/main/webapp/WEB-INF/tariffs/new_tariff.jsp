@@ -15,23 +15,21 @@
 <div align="center">
     <h2>New Tariff</h2>
     <form:form action="save" method="post" modelAttribute="tariff">
-        <table border="0" cellpadding="5">
-            <tr>
-                <td>Name: </td>
-                <td><form:input path="name" /></td>
-            </tr>
-            <tr>
-                <p><strong>?????</strong></p>
-                    <p><select name="options">
-                        <c:forEach items="${options}" var="option">
-                        <option>${option.name}</option>
-                        </c:forEach>
-                    </select>
-            </tr>
-            <tr>
-                <td colspan="2"><input type="submit" value="Save"></td>
-            </tr>
-        </table>
+        <div>
+            <div class="form-group col-md-4">
+                <label for="name">Name</label>
+                <form:input type="text" class="form-control" path="name" placeholder="new name"/>
+            </div>
+            <div class="form-group col-md-4">
+                <label >State</label>
+                <form:select  path="options" class="form-control">
+                    <form:option value="NONE" label="--- Select ---" />
+                    <form:options items="${options}"/>
+                </form:select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
     </form:form>
 </div>
 </body>

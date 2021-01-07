@@ -11,8 +11,10 @@
 <body>
 <div align="center">
     <h2>Option Manager</h2>
+    <br>
     <h3><a href="/options/new">New Option</a></h3>
-    <table border="1" cellpadding="5">
+    <br>
+    <table border="1" cellpadding="5" class="table">
         <tr>
             <th>ID</th>
             <th>Name</th>

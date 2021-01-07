@@ -9,6 +9,8 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Getter
+@Setter
 public class TariffDto extends AbstractDto{
 
     private String name;

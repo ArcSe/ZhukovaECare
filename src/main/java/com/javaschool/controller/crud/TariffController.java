@@ -2,6 +2,7 @@ package com.javaschool.controller.crud;
 
 import com.javaschool.dto.OptionDto;
 import com.javaschool.dto.TariffDto;
+import com.javaschool.model.Tariff;
 import com.javaschool.service.OptionService;
 import com.javaschool.service.TariffService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -45,6 +47,12 @@ public class TariffController {
     @RequestMapping(value = "tariffs/save", method = RequestMethod.POST)
     public String saveTariff(@ModelAttribute("tariff") TariffDto tariff) {
         tariffService.add(tariff);
+        return "redirect:/";
+    }
+
+    @RequestMapping(value ="tariffs/delete", method = RequestMethod.DELETE)
+    public String deleteOptionById(@RequestParam long id) {
+        tariffService.delete(id);
         return "redirect:/";
     }
 }

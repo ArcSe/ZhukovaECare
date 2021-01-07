@@ -11,27 +11,33 @@
     <c:import url="../general/template.jsp"/>
 </head>
 <body>
-<div align="center">
+<div class="container">
     <h2>New Option</h2>
-    <form:form action="save" method="post" modelAttribute="option">
-        <table border="0" cellpadding="5">
-            <tr>
-                <td>Name: </td>
-                <td><form:input path="name" /></td>
-            </tr>
-            <tr>
-                <td>Price: </td>
-                <td><form:input path="price" /></td>
-            </tr>
-            <tr>
-                <td>Service Cost: </td>
-                <td><form:input path="serviceCost" /></td>
-            </tr>
-            <tr>
-                <td colspan="2"><input type="submit" value="Save"></td>
-            </tr>
-        </table>
-    </form:form>
+    <br>
+        <form:form action="save" method="post" modelAttribute="option">
+            <div class="form-group row">
+                <label for="name" class="col-sm-2 col-form-label">Name: </label>
+                <div class="col-sm-4">
+                    <form:input type="text" class="form-control" path="name"
+                           placeholder="Enter name"/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="price" class="col-sm-2 col-form-label">Price: </label>
+                <div class="col-sm-4">
+                    <form:input type="text" class="form-control" path="price"
+                                placeholder="Enter name"/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="serviceCost" class="col-sm-2 col-form-label">Service Cost: </label>
+                <div class="col-sm-4">
+                    <form:input type="text" class="form-control" path="serviceCost"
+                                placeholder="Enter name"/>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form:form>
 </div>
 </body>
 </html>

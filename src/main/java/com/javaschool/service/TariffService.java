@@ -1,6 +1,5 @@
 package com.javaschool.service;
 
-import com.javaschool.dto.OptionDto;
 import com.javaschool.dto.TariffDto;
 
 import java.util.List;
