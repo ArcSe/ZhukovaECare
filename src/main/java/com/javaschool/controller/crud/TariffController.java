@@ -88,7 +88,7 @@ public class TariffController {
     }
 
     @RequestMapping(value ="tariffs/delete", method = RequestMethod.DELETE)
-    public String deleteOptionById(@RequestParam long id) {
+    public String deleteTariffById(@RequestParam long id) {
         tariffService.delete(id);
         return "redirect:/tariff";
     }

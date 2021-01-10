@@ -18,15 +18,15 @@ public class Contract extends AbstractModel{
     @Column(name = "number", nullable=false, unique = true)
     private int number;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne( fetch = FetchType.EAGER)
     @JoinColumn(name = "tarrif_id")
     private Tariff tariff;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "client_id")
     private Client client;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "option_contract",
             joinColumns = @JoinColumn(name = "contract_id"),

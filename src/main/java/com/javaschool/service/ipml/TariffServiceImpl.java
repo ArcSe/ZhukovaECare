@@ -54,7 +54,12 @@ public class TariffServiceImpl implements TariffService {
     @Override
     public TariffDto getById(long id) {
         TariffDto dto = tariffMapper.toDto(tariffDao.getById(id));
-        System.out.println("опции существующего dto" + dto);
+        return dto;
+    }
+
+    @Override
+    public TariffDto getByName(String name) {
+        TariffDto dto = tariffMapper.toDto(tariffDao.getByName(name));
         return dto;
     }
 }

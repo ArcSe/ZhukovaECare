@@ -37,7 +37,7 @@ public class Client extends AbstractModel {
     @Column(name = "password", nullable=false)
     private String password;
 
-    @OneToMany(mappedBy = "client")
+    @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
     private Set<Contract> contracts;
 
 }

@@ -9,17 +9,17 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a class="nav-link" href="/">Options</a>
                 </li>
                 <li class="nav-item ">
                     <a class="nav-link" href="/tariff">Tariffs</a>
                 </li>
                 <li class="nav-item ">
-                    <a class="nav-link" href="#"> Users </a>
+                    <a class="nav-link" href="/clients"> Users </a>
                 </li>
                 <li class="nav-item ">
-                    <a class="nav-link" href="#"> Contracts </a>
+                    <a class="nav-link" href="/contracts"> Contracts </a>
                 </li>
             </ul>
             <a class="nav-link" href="#"> User </a>

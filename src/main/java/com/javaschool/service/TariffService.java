@@ -15,4 +15,6 @@ public interface TariffService {
     void update(TariffDto tariff);
 
     TariffDto getById(long id);
+
+    TariffDto getByName(String name);
 }

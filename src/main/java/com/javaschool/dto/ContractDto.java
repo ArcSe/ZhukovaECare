@@ -16,7 +16,7 @@ import java.util.Set;
 @ToString
 public class ContractDto extends AbstractDto {
     private int number;
-    private long tariffId;
+    private TariffDto tariff;
     private long clientId;
     private Set<OptionDto> options;
 }
