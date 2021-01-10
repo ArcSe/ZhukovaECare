@@ -12,36 +12,39 @@
 <body>
 <div align="center">
     <h2>Tariff Manager</h2>
-    <h3><a href="/tariffs/new">New Tariff</a></h3>
-    <table border="1" cellpadding="5">
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Pr</th>
-            <th>Actions</th>
-        </tr>
-        <c:forEach items="${listTariff}" var="tariff">
-            <td>${tariff.id}</td>
-            <td>${tariff.name}</td>
-            <td>${tariff.options}</td>
-            <c:forEach items="${tariff.options}" var="option">
+    <br>
+    <div>
+        <a class="btn btn-info" href="/tariffs/new" role="button">New Tariff</a>
+    </div>
+    <br>
+    <div class="container">
+        <table class="table">
+            <thead>
             <tr>
-                <td>${tariff.id}</td>
-                <td>${tariff.name}</td>
-                <td>
-                    <a href="/tariffs/edit?id=${tariff.id}">Edit</a>
-
-                    <a href="/tariffs/delete?id=${tariff.id}">Delete</a>
-                </td>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Option</th>
+                <th scope="col">Actions</th>
             </tr>
-            </c:forEach>
-            <td>
-                <a href="/tariffs/edit?id=${tariff.id}">Edit</a>
+            </thead>
+            <tbody>
+            <c:forEach items="${listTariff}" var="tariff">
+                <c:forEach items="${tariff.options}" var="option">
+                    <td>${tariff.id}</td>
+                    <td>${tariff.name}</td>
+                    <td>${tariff.options}</td>
+                    <td>${option.name}</td>
+                    <td>${option.price}</td>
+                    <td>
+                        <a href="/tariffs/edit?id=${tariff.id}">Edit</a>
 
-                <a href="/tariffs/delete?id=${tariff.id}">Delete</a>
-            </td>
-        </c:forEach>
-    </table>
+                        <a href="/tariffs/delete?id=${tariff.id}">Delete</a>
+                    </td>
+                </c:forEach>
+            </c:forEach>
+            </tbody>
+        </table>
+    </div>
 </div>
 </body>
 </html>

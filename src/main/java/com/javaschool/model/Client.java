@@ -15,7 +15,6 @@ import java.util.Set;
 @Table(name = "clients", uniqueConstraints={@UniqueConstraint(columnNames={"email"})})
 public class Client extends AbstractModel {
 
-
     @Column(name = "name", nullable=false)
     private String name;
 

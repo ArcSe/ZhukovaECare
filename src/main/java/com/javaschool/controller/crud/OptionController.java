@@ -30,7 +30,6 @@ public class OptionController {
         mav.addObject("listOption", listOption);
         return mav;
     }
-
     @RequestMapping("options/new")
     public String newOption(Map<String, Object> model) {
         OptionDto option = new OptionDto();
@@ -43,6 +42,7 @@ public class OptionController {
         optionService.add(option);
         return "redirect:/";
     }
+
     @RequestMapping(value = "options/update", method = RequestMethod.POST)
     public String updateOption(@ModelAttribute("option") OptionDto option) {
         optionService.update(option);
@@ -57,9 +57,7 @@ public class OptionController {
         return mav;
     }
 
-
-
-    @RequestMapping("options/delete")
+    @RequestMapping(value = "options/delete", method = RequestMethod.DELETE)
     public String deleteOptionById(@RequestParam long id) {
         optionService.delete(id);
         return "redirect:/";

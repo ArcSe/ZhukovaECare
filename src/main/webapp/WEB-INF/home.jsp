@@ -12,30 +12,38 @@
 <div align="center">
     <h2>Option Manager</h2>
     <br>
-    <h3><a href="/options/new">New Option</a></h3>
+    <div>
+        <a class="btn btn-info" href="/options/new" role="button">New Option</a>
+    </div>
     <br>
-    <table border="1" cellpadding="5" class="table">
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Service Cost</th>
-            <th>Actions</th>
-        </tr>
-        <c:forEach items="${listOption}" var="option">
+    <div class="container">
+        <table class="table">
+            <thead>
             <tr>
-                <td>${option.id}</td>
-                <td>${option.name}</td>
-                <td>${option.price}</td>
-                <td>${option.serviceCost}</td>
-                <td>
-                    <a href="/options/edit?id=${option.id}">Edit</a>
-
-                    <a href="/options/delete?id=${option.id}">Delete</a>
-                </td>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Price</th>
+                <th scope="col">Service Cost</th>
+                <th scope="col">Actions</th>
             </tr>
-        </c:forEach>
-    </table>
+            </thead>
+            <tbody>
+            <c:forEach items="${listOption}" var="option">
+                <tr>
+                    <td scope="row">${option.id}</td>
+                    <td>${option.name}</td>
+                    <td>${option.price}</td>
+                    <td>${option.serviceCost}</td>
+                    <td>
+                        <a class="btn btn-light" href="/options/edit?id=${option.id}" role="button">Edit</a>
+
+                        <a class="btn btn-danger" href="/options/delete?id=${option.id}" role="button">Delete</a>
+                    </td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+    </div>
 </div>
 </body>
 </html>

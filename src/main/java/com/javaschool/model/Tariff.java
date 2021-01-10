@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -18,7 +17,11 @@ public class Tariff extends AbstractModel{
     @Column(name = "name", nullable=false)
     private String name;
 
-    @ManyToMany(mappedBy = "tariffs", fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "tariff_option",
+            joinColumns = @JoinColumn(name = "tariff_id"),
+            inverseJoinColumns = @JoinColumn(name = "option_id"))
     private Set<Option> options;
 
 }

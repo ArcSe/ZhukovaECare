@@ -28,6 +28,7 @@ public abstract class AbstractJpaDaoImpl<T extends AbstractModel> implements Abs
         return em.createQuery("select c from "+  entityClass.getName() + " c").getResultList();
     }
 
+
     @Transactional
     public void add(T o){
         em.persist(o);

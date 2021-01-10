@@ -3,11 +3,14 @@ package com.javaschool.service.ipml;
 import com.javaschool.dao.TariffDao;
 import com.javaschool.dto.TariffDto;
 import com.javaschool.mapper.TariffMapper;
+import com.javaschool.model.Option;
 import com.javaschool.service.TariffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,8 +32,12 @@ public class TariffServiceImpl implements TariffService {
         return tariffDao.getAll().stream().map(tariffMapper::toDto).collect(Collectors.toList());
     }
 
+
     @Override
     public void add(TariffDto tariff) {
+        Set<Option> tariffDto = tariffMapper.toEntity(tariff).getOptions();
+       Option option = tariffDto.stream().iterator().next();
+        System.out.println(option.getId() + " " + option.getName() + " " + option.getPrice() + " " + option.getServiceCost());
         tariffDao.add(tariffMapper.toEntity(tariff));
     }
 
@@ -46,6 +53,8 @@ public class TariffServiceImpl implements TariffService {
 
     @Override
     public TariffDto getById(long id) {
-        return tariffMapper.toDto(tariffDao.getById(id));
+        TariffDto dto = tariffMapper.toDto(tariffDao.getById(id));
+        System.out.println("опции существующего dto" + dto);
+        return dto;
     }
 }

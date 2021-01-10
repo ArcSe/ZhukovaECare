@@ -22,10 +22,11 @@
             </div>
             <div class="form-group col-md-4">
                 <label >State</label>
-                <form:select  path="options" class="form-control">
-                    <form:option value="NONE" label="--- Select ---" />
-                    <form:options items="${options}"/>
-                </form:select>
+                <select  name="option.id" class="form-control">
+                    <c:forEach items="${options}" var="option">
+                        <option value="${option.id}">${option.name}</option>
+                    </c:forEach>
+                </select>
             </div>
 
             <button type="submit" class="btn btn-primary">Submit</button>

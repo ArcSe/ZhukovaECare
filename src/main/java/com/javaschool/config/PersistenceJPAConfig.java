@@ -21,7 +21,7 @@ public class PersistenceJPAConfig {
     DriverManagerDataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/ecare?useUnicode=true&serverTimezone=UTC");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/ecare?useUnicode=true&serverTimezone=UTC&useSSL=false");
         dataSource.setUsername("root");
         dataSource.setPassword("root");
         return dataSource;
