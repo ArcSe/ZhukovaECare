@@ -40,9 +40,9 @@
                     <td>${client.address}</td>
                     <td>${client.contracts}</td>
                     <td>
-                        <a class="btn btn-light" href="/options/edit?id=${option.id}" role="button">Edit</a>
+                        <a class="btn btn-light" href="/clients/edit?id=${client.id}" role="button">Edit</a>
 
-                        <a class="btn btn-danger" href="/options/delete?id=${option.id}" role="button">Delete</a>
+                        <a class="btn btn-danger" href="/clients/delete?id=${client.id}" role="button">Delete</a>
                     </td>
                 </tr>
             </c:forEach>
