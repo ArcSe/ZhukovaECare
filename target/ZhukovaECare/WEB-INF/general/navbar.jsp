@@ -10,7 +10,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/">Options</a>
+                    <a class="nav-link" href="/options">Options</a>
                 </li>
                 <li class="nav-item ">
                     <a class="nav-link" href="/tariff">Tariffs</a>

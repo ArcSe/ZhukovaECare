@@ -23,10 +23,10 @@ public class OptionController {
         this.optionService = optionService;
     }
 
-    @RequestMapping("/")
+    @RequestMapping("/options")
     public ModelAndView home() {
         List<OptionDto> listOption = optionService.getAll();
-        ModelAndView mav = new ModelAndView("home");
+        ModelAndView mav = new ModelAndView("options/home");
         mav.addObject("listOption", listOption);
         return mav;
     }

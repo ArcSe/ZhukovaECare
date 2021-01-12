@@ -6,7 +6,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <title>Option Manager</title>
-    <c:import url="general/template.jsp"/>
+    <c:import url="../general/template.jsp"/>
 </head>
 <body>
 <div align="center">
