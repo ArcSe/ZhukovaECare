@@ -40,15 +40,6 @@
                 <label for="address">Password</label>
                 <form:input type="text" class="form-control" path="password" placeholder="new number"/>
             </div>
-            <div class="form-group col-md-4">
-                <label >Contract</label>
-                <select  name="contract.id" class="form-control">
-                    <c:forEach items="${contracts}" var="contract">
-                        <option value="${contract.id}">${contract.number}</option>
-                    </c:forEach>
-                </select>
-            </div>
-
             <button type="submit" class="btn btn-primary">Submit</button>
         </div>
     </form:form>

@@ -7,6 +7,7 @@ import com.javaschool.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,9 +29,11 @@ public class ClientServiceImpl implements ClientService {
         return clientDao.getAll().stream().map(clientMapper::toDto).collect(Collectors.toList());
     }
 
+    @Transactional
     @Override
     public void add(ClientDto client) {
         clientDao.add(clientMapper.toEntity(client));
+        System.out.println("Service" + clientMapper.toEntity(client).getContracts().iterator().next().getNumber());
     }
 
     @Override

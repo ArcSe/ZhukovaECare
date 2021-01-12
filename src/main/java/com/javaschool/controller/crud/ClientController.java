@@ -3,6 +3,7 @@ package com.javaschool.controller.crud;
 import com.javaschool.dto.ClientDto;
 import com.javaschool.dto.ContractDto;
 import com.javaschool.dto.ContractDto;
+import com.javaschool.dto.OptionDto;
 import com.javaschool.service.ClientService;
 import com.javaschool.service.ContractService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,14 +38,13 @@ public class ClientController {
 
     @RequestMapping("clients/new")
     public String newClient(Map<String, Object> model) {
-        List<ContractDto> contractDto = contractService.getAll();
         ClientDto clientDto = new ClientDto();
         model.put("client", clientDto);
         return "clients/new_client";
     }
 
     @RequestMapping(value = "clients/save", method = RequestMethod.POST)
-    public String saveClient( @ModelAttribute("client") ClientDto client) {
+    public String saveClient(@ModelAttribute("client") ClientDto client) {
         clientService.add(client);
         return "redirect:/clients";
     }

@@ -37,7 +37,7 @@
                     <td>
                         <a class="btn btn-light" href="/options/edit?id=${option.id}" role="button">Edit</a>
 
-                        <a class="btn btn-danger" href="/options/delete?id=${option.id}" role="button">Delete</a>
+                        <a class="btn btn-danger" href="/options/delete?id=${option.id}" method = "DELETE" role="button">Delete</a>
                     </td>
                 </tr>
             </c:forEach>

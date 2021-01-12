@@ -45,5 +45,6 @@ public abstract class AbstractJpaDaoImpl<T extends AbstractModel> implements Abs
 
     @Transactional
     public void update(T o){
-        em.merge(o);}
+        em.merge(o);
+    }
 }

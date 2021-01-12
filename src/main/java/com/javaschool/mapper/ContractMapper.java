@@ -38,12 +38,10 @@ public class ContractMapper extends AbstractMapper<Contract, ContractDto> {
 
     @Override
     public void mapSpecificFields(Contract source, ContractDto destination) {
-        if(Objects.isNull(getId(source))){
-            destination.setClientId(0);
-        }
-        else {
+        if(!Objects.isNull(getId(source))){
             destination.setClientId(getId(source));
         }
+
     }
 
     private Long getId(Contract source) {

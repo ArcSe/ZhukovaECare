@@ -16,7 +16,7 @@
                     <a class="nav-link" href="/tariff">Tariffs</a>
                 </li>
                 <li class="nav-item ">
-                    <a class="nav-link" href="/clients"> Users </a>
+                    <a class="nav-link" href="/clients"> Clients </a>
                 </li>
                 <li class="nav-item ">
                     <a class="nav-link" href="/contracts"> Contracts </a>

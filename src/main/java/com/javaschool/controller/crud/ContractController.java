@@ -1,8 +1,10 @@
 package com.javaschool.controller.crud;
 
+import com.javaschool.dto.ClientDto;
 import com.javaschool.dto.ContractDto;
 import com.javaschool.dto.OptionDto;
 import com.javaschool.dto.TariffDto;
+import com.javaschool.service.ClientService;
 import com.javaschool.service.ContractService;
 import com.javaschool.service.OptionService;
 import com.javaschool.service.TariffService;
@@ -25,12 +27,14 @@ public class ContractController {
     private final ContractService contractService;
     private final TariffService tariffService;
     private final OptionService optionService;
+    private final ClientService clientService;
 
     @Autowired
-    public ContractController(ContractService contractService, TariffService tariffService, OptionService optionService) {
+    public ContractController(ContractService contractService, TariffService tariffService, OptionService optionService, ClientService clientService) {
         this.contractService = contractService;
         this.tariffService = tariffService;
         this.optionService = optionService;
+        this.clientService = clientService;
     }
 
     @RequestMapping("contracts")
@@ -40,6 +44,7 @@ public class ContractController {
         mav.addObject("contracts", contracts);
         return mav;
     }
+
 
     @RequestMapping(value = "contracts/update", method = RequestMethod.POST)
     public String updateOption(@RequestParam("option.id") long optionId,
@@ -56,8 +61,10 @@ public class ContractController {
         }
         contract.setTariff(tariffService.getById(tariffsId));
         contractService.update(contract);
-        return "redirect:/";
+        return "redirect:/contracts";
     }
+
+
 
     @RequestMapping("contracts/edit")
     public ModelAndView editOption(@RequestParam long id) {
@@ -100,9 +107,29 @@ public class ContractController {
         return "redirect:/contracts";
     }
 
-    @RequestMapping(value ="contracts/delete", method = RequestMethod.DELETE)
+    @RequestMapping(value ="contracts/delete", method = RequestMethod.POST)
     public String deleteContractById(@RequestParam long id) {
         contractService.delete(id);
         return "redirect:/contracts";
     }
+
+    @RequestMapping(value ="contracts/addClient")
+    public ModelAndView addClient(@RequestParam long id) {
+        ModelAndView mav = new ModelAndView("contracts/add_client");
+        ContractDto contractDto = contractService.getById(id);
+        List<ClientDto> clientDtos = clientService.getAll();
+        mav.addObject("clients", clientDtos);
+        mav.addObject("contract", contractDto);
+        return mav;
+    }
+
+    @RequestMapping(value = "contracts/updateClient", method = RequestMethod.POST)
+    public String updateClients(@RequestParam("contract.id") long contractId,
+                                @RequestParam("client.id") long clientId) {
+        ContractDto contractDto = contractService.getById(contractId);
+        contractDto.setClientId(clientId);
+        contractService.update(contractDto);
+        return "redirect:/contracts";
+    }
+
 }

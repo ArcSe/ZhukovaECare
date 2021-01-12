@@ -23,7 +23,8 @@ public class Contract extends AbstractModel{
     private Tariff tariff;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "client_id")
+    @JoinColumn(name = "client_id",
+                referencedColumnName ="id")
     private Client client;
 
     @ManyToMany(fetch = FetchType.EAGER)

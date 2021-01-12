@@ -40,7 +40,6 @@
                 <label for="address">Password</label>
                 <form:input type="text" class="form-control" path="password" placeholder="new number"/>
             </div>
-
             <button type="submit" class="btn btn-primary">Submit</button>
         </div>
     </form:form>
