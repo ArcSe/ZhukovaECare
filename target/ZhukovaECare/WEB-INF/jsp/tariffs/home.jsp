@@ -3,17 +3,18 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!doctype html>
 <html lang="en">
+<c:import url="../../general/index.jsp"/>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <title>Option Manager</title>
-    <c:import url="../general/template.jsp"/>
+    <title>Tariff Manager</title>
+    <c:import url="../../general/template.jsp"/>
 </head>
 <body>
 <div align="center">
-    <h2>Option Manager</h2>
+    <h2>Tariff Manager</h2>
     <br>
     <div>
-        <a class="btn btn-info" href="/options/new" role="button">New Option</a>
+        <a class="btn btn-info" href="/tariffs/new" role="button">New Tariff</a>
     </div>
     <br>
     <div class="container">
@@ -22,24 +23,24 @@
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Name</th>
-                <th scope="col">Price</th>
-                <th scope="col">Service Cost</th>
+                <th scope="col">Option</th>
                 <th scope="col">Actions</th>
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${listOption}" var="option">
-                <tr>
-                    <td scope="row">${option.id}</td>
+            <c:forEach items="${listTariff}" var="tariff">
+                <c:forEach items="${tariff.options}" var="option">
+                    <td>${tariff.id}</td>
+                    <td>${tariff.name}</td>
+                    <td>${tariff.options}</td>
                     <td>${option.name}</td>
                     <td>${option.price}</td>
-                    <td>${option.serviceCost}</td>
                     <td>
-                        <a class="btn btn-light" href="/options/edit?id=${option.id}" role="button">Edit</a>
+                        <a href="/tariffs/edit?id=${tariff.id}">Edit</a>
 
-                        <a class="btn btn-danger" href="/options/delete?id=${option.id}" method = "DELETE" role="button">Delete</a>
+                        <a href="/tariffs/delete?id=${tariff.id}">Delete</a>
                     </td>
-                </tr>
+                </c:forEach>
             </c:forEach>
             </tbody>
         </table>
