@@ -8,6 +8,6 @@ public class HomePageController {
 
     @RequestMapping(value = "/")
     public String getHomePage(){
-        return "jsp/index";
+        return "jsp/errors/500";
     }
 }
