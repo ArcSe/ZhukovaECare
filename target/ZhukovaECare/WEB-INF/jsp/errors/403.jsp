@@ -16,7 +16,7 @@
             <div class="col-md-12 col-lg-4 align-self-center">
                 <h1 class="text-centre display-1">403</h1>
                 <h2 class="text-centre display-4"> Ooops, You don't have enough permissions</h2>
-                <h5 class="text-muted">If you sure about URL and your permission, please, ask our administrator</h5>
+                <h5 class="text-muted">If you sure about URL and your permission, pleas, ask our administrator</h5>
 
             </div>
         </div>

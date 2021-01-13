@@ -3,7 +3,7 @@
 <html>
 <head>
     <title> Ecare</title>
-    <c:import url="../general/template.jsp"/>
+    <c:import url="general/template.jsp"/>
 </head>
 <body>
     <div>
