@@ -40,7 +40,7 @@ public class ContractController {
     @RequestMapping("contracts")
     public ModelAndView home(){
         List<ContractDto> contracts = contractService.getAll();
-        ModelAndView mav = new ModelAndView("contracts/home");
+        ModelAndView mav = new ModelAndView("jsp/contracts/home");
         mav.addObject("contracts", contracts);
         return mav;
     }
@@ -68,7 +68,7 @@ public class ContractController {
 
     @RequestMapping("contracts/edit")
     public ModelAndView editOption(@RequestParam long id) {
-        ModelAndView mav = new ModelAndView("contracts/edit_contract");
+        ModelAndView mav = new ModelAndView("jsp/contracts/edit_contract");
         ContractDto contractDto = contractService.getById(id);
         List<OptionDto> options = optionService.getAll();
         List<TariffDto> tariffs = tariffService.getAll();
@@ -86,7 +86,7 @@ public class ContractController {
         model.put("tariffs", tariffs);
         model.put("options", options);
         model.put("contract", contractDto);
-        return "contracts/new_contract";
+        return "jsp/contracts/new_contract";
     }
 
     @RequestMapping(value = "contracts/save", method = RequestMethod.POST)
@@ -115,7 +115,7 @@ public class ContractController {
 
     @RequestMapping(value ="contracts/addClient")
     public ModelAndView addClient(@RequestParam long id) {
-        ModelAndView mav = new ModelAndView("contracts/add_client");
+        ModelAndView mav = new ModelAndView("jsp/contracts/add_client");
         ContractDto contractDto = contractService.getById(id);
         List<ClientDto> clientDtos = clientService.getAll();
         mav.addObject("clients", clientDtos);

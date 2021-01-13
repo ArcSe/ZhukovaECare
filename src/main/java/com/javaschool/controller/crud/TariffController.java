@@ -31,7 +31,7 @@ public class TariffController {
     @RequestMapping("/tariff")
     public ModelAndView home() {
         List<TariffDto> listTariff = tariffService.getAll();
-        ModelAndView mav = new ModelAndView("tariffs/home");
+        ModelAndView mav = new ModelAndView("jsp/tariffs/home");
         mav.addObject("listTariff", listTariff);
         return mav;
     }
@@ -55,7 +55,7 @@ public class TariffController {
 
     @RequestMapping("tariffs/edit")
     public ModelAndView editOption(@RequestParam long id) {
-        ModelAndView mav = new ModelAndView("tariffs/edit_tariff");
+        ModelAndView mav = new ModelAndView("jsp/tariffs/edit_tariff");
         TariffDto tariffDto = tariffService.getById(id);
         List<OptionDto> options = optionService.getAll();
         mav.addObject("tariff", tariffDto);
@@ -69,7 +69,7 @@ public class TariffController {
         List<OptionDto> options = optionService.getAll();
         model.put("tariff", tariff);
         model.put("options", options);
-        return "tariffs/new_tariff";
+        return "jsp/tariffs/new_tariff";
     }
 
     @RequestMapping(value = "tariffs/save", method = RequestMethod.POST)

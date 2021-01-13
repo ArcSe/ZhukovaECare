@@ -29,7 +29,7 @@ public class ClientController {
     @RequestMapping("/clients")
     public ModelAndView home() {
         List<ClientDto> listClient = clientService.getAll();
-        ModelAndView mav = new ModelAndView("clients/home");
+        ModelAndView mav = new ModelAndView("jsp/clients/home");
         mav.addObject("listClient", listClient);
         return mav;
     }
@@ -38,7 +38,7 @@ public class ClientController {
     public String newClient(Map<String, Object> model) {
         ClientDto clientDto = new ClientDto();
         model.put("client", clientDto);
-        return "clients/new_client";
+        return "jsp/clients/new_client";
     }
 
     @RequestMapping(value = "clients/save", method = RequestMethod.POST)
@@ -55,7 +55,7 @@ public class ClientController {
 
     @RequestMapping("clients/edit")
     public ModelAndView editClient(@RequestParam long id) {
-        ModelAndView mav = new ModelAndView("clients/edit_client");
+        ModelAndView mav = new ModelAndView("jsp/clients/edit_client");
         ClientDto client = clientService.getById(id);
         mav.addObject("client", client);
         return mav;

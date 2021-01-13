@@ -26,7 +26,7 @@ public class OptionController {
     @RequestMapping("/options")
     public ModelAndView home() {
         List<OptionDto> listOption = optionService.getAll();
-        ModelAndView mav = new ModelAndView("options/home");
+        ModelAndView mav = new ModelAndView("jsp/options/home");
         mav.addObject("listOption", listOption);
         return mav;
     }
@@ -34,7 +34,7 @@ public class OptionController {
     public String newOption(Map<String, Object> model) {
         OptionDto option = new OptionDto();
         model.put("option", option);
-        return "options/new_option";
+        return "jsp/options/new_option";
     }
 
     @RequestMapping(value = "options/save", method = RequestMethod.POST)
@@ -51,7 +51,7 @@ public class OptionController {
 
     @RequestMapping("options/edit")
     public ModelAndView editOption(@RequestParam long id) {
-        ModelAndView mav = new ModelAndView("options/edit_option");
+        ModelAndView mav = new ModelAndView("jsp/options/edit_option");
         OptionDto option = optionService.getById(id);
         mav.addObject("option", option);
         return mav;
