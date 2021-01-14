@@ -22,7 +22,7 @@
                     <a class="nav-link" href="/contracts"> Contracts </a>
                 </li>
             </ul>
-            <a class="nav-link" href="#"> User </a>
+            <a class="nav-link" href="/client/userProfile"> User </a>
         </div>
 </nav>
 </head>

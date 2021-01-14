@@ -29,16 +29,18 @@
             <tbody>
             <c:forEach items="${listTariff}" var="tariff">
                 <c:forEach items="${tariff.options}" var="option">
-                    <td>${tariff.id}</td>
-                    <td>${tariff.name}</td>
-                    <td>${tariff.options}</td>
-                    <td>${option.name}</td>
-                    <td>${option.price}</td>
-                    <td>
-                        <a href="/tariffs/edit?id=${tariff.id}">Edit</a>
+                    <tr>
+                        <td>${tariff.id}</td>
+                        <td>${tariff.name}</td>
+                        <td>${tariff.options}</td>
+                        <td>${option.name}</td>
+                        <td>${option.price}</td>
+                        <td>
+                            <a href="/tariffs/edit?id=${tariff.id}">Edit</a>
 
-                        <a href="/tariffs/delete?id=${tariff.id}">Delete</a>
-                    </td>
+                            <a href="/tariffs/delete?id=${tariff.id}">Delete</a>
+                        </td>
+                    </tr>
                 </c:forEach>
             </c:forEach>
             </tbody>

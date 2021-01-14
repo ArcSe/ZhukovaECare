@@ -1,0 +1,44 @@
+package com.javaschool.controller.pages;
+
+import com.javaschool.dto.TariffDto;
+import com.javaschool.service.TariffService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
+
+@Controller
+public class AnonPageController {
+
+    private final TariffService tariffService;
+
+    @Autowired
+    public AnonPageController(TariffService tariffService) {
+        this.tariffService = tariffService;
+    }
+
+    @RequestMapping(value = "/")
+    public ModelAndView getHomePage(){
+        List<TariffDto> listTariff = tariffService.getAll();
+        ModelAndView mav = new ModelAndView("jsp/client/index");
+        mav.addObject("tariffs", listTariff);
+        return mav;
+    }
+
+    @RequestMapping(value = "/404")
+    public String get404(){
+        return "jsp/errors/404notFound";
+    }
+
+    @RequestMapping(value = "/500")
+    public String get500(){
+        return "jsp/errors/500";
+    }
+
+    @RequestMapping(value = "/403")
+    public String get403(){
+        return "jsp/errors/403";
+    }
+}

@@ -16,7 +16,7 @@
             <div class="col-md-12 col-lg-4 align-self-center">
                     <h1 class="text-centre display-1">404</h1>
                     <h2 class="text-centre display-4"> Not found</h2>
-                    <small class="text-muted-centre">Sorry, this page isn't exit. You can try to find interesting information on our site</small>
+                    <h5 class="text-muted">Sorry, this page isn't exit. You can try to find interesting information on our site</h5>
 
             </div>
         </div>

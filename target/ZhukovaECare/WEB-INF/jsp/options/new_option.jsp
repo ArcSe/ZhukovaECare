@@ -8,13 +8,13 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <title>New Option</title>
-    
+    <c:import url="../general/template.jsp"/>
 </head>
 <body>
 <div class="container">
     <h2>New Option</h2>
     <br>
-        <form:form action="save" method="post" modelAttribute="">
+        <form:form action="save" method="post" modelAttribute="option">
             <div class="form-group row">
                 <label for="name" class="col-sm-2 col-form-label">Name: </label>
                 <div class="col-sm-4">
