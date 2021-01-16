@@ -35,6 +35,8 @@
                 <th scope="col">Tariff</th>
                 <th scope="col">Options</th>
                 <th scope="col">Actions</th>
+                <th scope="col">Locked</th>
+                <th scope="col">ByAdmin</th>
             </tr>
             </thead>
             <tbody>
@@ -44,21 +46,15 @@
                         <td>${contract.number}</td>
                         <td>${contract.tariff.name}</td>
                         <td>${contract.options}</td>
+                        <td>${contract.locked}</td>
+                        <td>${contract.lockedByAdmin}</td>
                         <td>
                             <a class="btn btn-light" href="#" role="button">Change tariff</a>
-                            <a class="btn btn-primary" href="#" role="button">Lock</a>
-                            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target=".multi-collapse" aria-expanded="false" aria-controls="multiCollapseExample1">Show</button>
+                            <a class="btn btn-primary" href="/client/lockedContract?contractId=${contract.id}" role="button">Lock</a>
+                            <a class="btn btn-danger" href="#" role="button">Show options</a>
                         </td>
                     </tr>
                 </c:forEach>
-                <div class="row">
-                    <div class="col">
-                        <div class="collapse multi-collapse" id="multiCollapseExample1">
-                            <div class="card card-body">
-                                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-                            </div>
-                        </div>
-                    </div>
             </tbody>
         </table>
     </div>

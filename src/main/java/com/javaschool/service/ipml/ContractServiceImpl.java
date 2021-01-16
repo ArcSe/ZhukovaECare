@@ -3,6 +3,7 @@ package com.javaschool.service.ipml;
 import com.javaschool.dao.ContractDao;
 import com.javaschool.dto.ContractDto;
 import com.javaschool.mapper.ContractMapper;
+import com.javaschool.model.Contract;
 import com.javaschool.service.ContractService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,5 +47,22 @@ public class ContractServiceImpl implements ContractService {
     @Override
     public ContractDto getById(long id) {
         return contractMapper.toDto(contractDao.getById(id));
+    }
+
+    @Override
+    public void lockedContract(long id) {
+        Contract contract = contractDao.getById(id);
+        if(!contract.isLockedByAdmin()) {
+            contract.setLocked(!contract.isLocked());
+            contractDao.update(contract);
+        }
+    }
+
+    @Override
+    public void lockedContractByAdmin(long id) {
+        Contract contract = contractDao.getById(id);
+        contract.setLockedByAdmin(!contract.isLockedByAdmin());
+        contract.setLocked(!contract.isLocked());
+        contractDao.update(contract);
     }
 }

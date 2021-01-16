@@ -16,6 +16,8 @@ import java.util.Set;
 @ToString
 public class ContractDto extends AbstractDto {
     private int number;
+    private boolean isLocked;
+    private boolean isLockedByAdmin;
     private TariffDto tariff;
     private long clientId;
     private Set<OptionDto> options;

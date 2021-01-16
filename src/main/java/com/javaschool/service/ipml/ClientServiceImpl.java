@@ -3,6 +3,7 @@ package com.javaschool.service.ipml;
 import com.javaschool.dao.ClientDao;
 import com.javaschool.dto.ClientDto;
 import com.javaschool.mapper.ClientMapper;
+import com.javaschool.model.Client;
 import com.javaschool.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,5 +50,16 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public ClientDto getById(long id) {
         return clientMapper.toDto(clientDao.getById(id));
+    }
+
+    @Override
+    public Client getByClientEmail(String email) {
+        return clientDao.getByEmail(email);
+    }
+
+    @Override
+    public void save(Client client) {
+        System.out.println(client.getEmail() + " " + client.getPassword() + " " + client.isActive());
+        clientDao.save(client);
     }
 }

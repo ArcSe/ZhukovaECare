@@ -12,10 +12,10 @@ import java.util.Set;
 public class ClientDto extends AbstractDto {
     private String name;
     private String surname;
-    //private String birthday;
-    private int passport;
-    private String password;
     private String email;
+    //private String birthday;
+    private int active;
+    private int passport;
     private String address;
     private Set<ContractDto> contracts;
 }

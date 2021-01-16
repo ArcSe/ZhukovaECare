@@ -6,9 +6,15 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class ClientDaoImpl extends AbstractJpaDaoImpl<Client> implements ClientDao {
+
     @Override
-    public void add(Client o) {
-        super.add(o);
-        System.out.println("DAO" + o.getContracts().iterator().next().getNumber());
+    public void save(Client client) {
+        System.out.println(client.getEmail() + " " + client.getPassword() + " " + client.isActive());
+        em.persist(client);
+    }
+
+    @Override
+    public Client getByEmail(String email) {
+        return em.find(Client.class, email);
     }
 }

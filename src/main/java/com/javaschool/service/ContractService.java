@@ -15,4 +15,8 @@ public interface ContractService {
     void update(ContractDto contract);
 
     ContractDto getById(long id);
+
+    void lockedContract(long id);
+
+    void lockedContractByAdmin(long id);
 }

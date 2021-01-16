@@ -18,6 +18,12 @@ public class Contract extends AbstractModel{
     @Column(name = "number", nullable=false, unique = true)
     private int number;
 
+    @Column(name = "isLocked")
+    private boolean isLocked = false;
+
+    @Column(name = "isLockedByAdmin")
+    private boolean isLockedByAdmin = false;
+
     @ManyToOne( fetch = FetchType.EAGER)
     @JoinColumn(name = "tarrif_id")
     private Tariff tariff;

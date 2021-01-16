@@ -1,7 +1,9 @@
 package com.javaschool.service;
 
 import com.javaschool.dto.ClientDto;
+import com.javaschool.model.Client;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 public interface ClientService {
@@ -14,4 +16,9 @@ public interface ClientService {
     void update(ClientDto option);
 
     ClientDto getById(long id);
+
+    Client getByClientEmail(String email);
+
+    @Transactional
+    void save(Client client);
 }

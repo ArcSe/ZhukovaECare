@@ -1,10 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
+<%@ include file="../general/template.jsp"%>
 <html>
 <head>
     <title> Ecare</title>
-    <c:import url="../general/template.jsp"/>
 </head>
 <body>
     <div class="container-fluid">
