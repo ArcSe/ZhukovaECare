@@ -14,16 +14,16 @@ public interface UserService extends UserDetailsService {
 
     List<User> getAllEntity();
 
-    void add(UserDto option);
+    void add(UserDto user);
 
     void delete(long id);
 
-    void update(UserDto option);
+    void update(UserDto user);
 
     UserDto getById(long id);
 
     User getByUserEmail(String email);
 
     @Transactional
-    void save(User client);
+    boolean save(UserDto user);
 }

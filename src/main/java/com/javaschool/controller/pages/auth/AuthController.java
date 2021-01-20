@@ -1,4 +1,4 @@
-package com.javaschool.controller.pages;
+package com.javaschool.controller.pages.auth;
 
 import com.javaschool.dao.UserDao;
 import com.javaschool.dto.UserDto;
@@ -19,33 +19,22 @@ import java.util.Map;
 @Controller
 public class AuthController {
 
-    @Autowired
-    private UserService userService;
-    private UserMapper mapper;
-    BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final UserService userService;
 
+    @Autowired
+    public AuthController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping("/auth/registration")
     public String registration(Map<String, Object> model){
-        User user = new User();
-        model.put("user", user);
+        model.put("user", new UserDto());
         return "jsp/auth/registration";
     }
 
     @PostMapping("/auth/registration")
-    public String addUser(@ModelAttribute("user") User user, Map<String, Object> model) {
- /*
-        User userFromDb = userService.getByUserEmail(user.getEmail());
-
-        if (userFromDb != null) {
-            model.put("message", "User exists!");
-            return "redirect:/login";
-        }
-*/
-        user.setActive(true);
-        user.setRoles(Collections.singleton(Role.USER));
+    public String addUser(@ModelAttribute("user") UserDto user, Map<String, Object> model) {
         userService.save(user);
-
         return "redirect:/login";
     }
 }

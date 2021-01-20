@@ -3,6 +3,7 @@ package com.javaschool.service.ipml;
 import com.javaschool.dao.UserDao;
 import com.javaschool.dto.UserDto;
 import com.javaschool.mapper.UserMapper;
+import com.javaschool.model.Role;
 import com.javaschool.model.User;
 import com.javaschool.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -67,9 +69,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void save(User user) {
+    public boolean save(UserDto user) {
+        User userFromDb = getByUserEmail(user.getEmail());
+
+        if (userFromDb != null) {
+            return false;
+        }
+        user.setActive(true);
+        user.setRoles(Collections.singleton(Role.USER));
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        userDao.save(user);
+        userDao.save(userMapper.toEntity(user));
+
+        return true;
     }
 
     @Override
