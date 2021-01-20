@@ -24,6 +24,9 @@
                 <li class="nav-item ">
                     <a class="nav-link" href="/admin/users"> Users </a>
                 </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="/logout"> Logout </a>
+                </li>
             </ul>
             <a class="nav-link" href="/client/userProfile"> User </a>
         </div>
