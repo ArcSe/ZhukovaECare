@@ -29,7 +29,7 @@
                     <td>${user.password}</td>
                     <td>${user.roles}</td>
                     <td>
-                        <a class="btn btn-light" href="/options/edit?id=${option.id}" role="button">Edit</a>
+                        <a class="btn btn-light" href="/admin/users/edit?id=${user.id}" role="button">Edit</a>
 
                         <a class="btn btn-danger" href="/options/delete?id=${option.id}" method = "DELETE" role="button">Delete</a>
                     </td>
