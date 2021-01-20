@@ -44,7 +44,6 @@ public class AuthController {
 */
         user.setActive(true);
         user.setRoles(Collections.singleton(Role.USER));
-        System.out.println(user.getEmail() + " " + user.getPassword() + " " + user.isActive());
         userService.save(user);
 
         return "redirect:/login";

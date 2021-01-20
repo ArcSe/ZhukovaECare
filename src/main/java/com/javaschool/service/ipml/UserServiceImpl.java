@@ -6,6 +6,8 @@ import com.javaschool.mapper.UserMapper;
 import com.javaschool.model.User;
 import com.javaschool.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -16,24 +18,29 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
     
     private final UserDao userDao;
-    private final UserMapper clientMapper;
+    private final UserMapper userMapper;
 
     @Autowired
-    public UserServiceImpl(UserDao userDao, UserMapper clientMapper) {
+    public UserServiceImpl(UserDao userDao, UserMapper userMapper) {
         this.userDao = userDao;
-        this.clientMapper = clientMapper;
+        this.userMapper = userMapper;
     }
 
 
     @Override
     public List<UserDto> getAll() {
-        return userDao.getAll().stream().map(clientMapper::toDto).collect(Collectors.toList());
+        return userDao.getAll().stream().map(userMapper::toDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<User> getAllEntity() {
+        return userDao.getAll();
     }
 
     @Transactional
     @Override
-    public void add(UserDto client) {
-        userDao.add(clientMapper.toEntity(client));
+    public void add(UserDto user) {
+        userDao.add(userMapper.toEntity(user));
     }
 
     @Override
@@ -42,13 +49,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void update(UserDto client) {
-        userDao.update(clientMapper.toEntity(client));
+    public void update(UserDto user) {
+        userDao.update(userMapper.toEntity(user));
     }
 
     @Override
     public UserDto getById(long id) {
-        return clientMapper.toDto(userDao.getById(id));
+        return userMapper.toDto(userDao.getById(id));
     }
 
     @Override
@@ -57,8 +64,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void save(User client) {
-        System.out.println(client.getEmail() + " " + client.getPassword() + " " + client.isActive());
-        userDao.save(client);
+    public void save(User user) {
+        userDao.save(user);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        return getByUserEmail(s);
     }
 }

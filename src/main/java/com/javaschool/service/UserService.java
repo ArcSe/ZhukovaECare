@@ -2,12 +2,17 @@ package com.javaschool.service;
 
 import com.javaschool.dto.UserDto;
 import com.javaschool.model.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
 
-public interface UserService {
+@Service
+public interface UserService extends UserDetailsService {
     List<UserDto> getAll();
+
+    List<User> getAllEntity();
 
     void add(UserDto option);
 

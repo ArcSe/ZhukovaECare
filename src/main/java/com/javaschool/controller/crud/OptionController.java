@@ -1,8 +1,10 @@
 package com.javaschool.controller.crud;
 
 import com.javaschool.dto.OptionDto;
+import com.javaschool.model.User;
 import com.javaschool.service.OptionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +26,7 @@ public class OptionController {
     }
 
     @RequestMapping("/options")
-    public ModelAndView home() {
+    public ModelAndView home(@AuthenticationPrincipal User user) {
         List<OptionDto> listOption = optionService.getAll();
         ModelAndView mav = new ModelAndView("jsp/options/home");
         mav.addObject("listOption", listOption);

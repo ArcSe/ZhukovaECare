@@ -1,8 +1,10 @@
 package com.javaschool.controller.pages;
 
 import com.javaschool.dto.TariffDto;
+import com.javaschool.model.User;
 import com.javaschool.service.TariffService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
