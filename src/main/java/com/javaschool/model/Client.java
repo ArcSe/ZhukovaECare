@@ -34,11 +34,6 @@ public class Client extends AbstractModel {
     @Column(name = "address")
     private String address;
 
-    @Column(name = "password")
-    private String password;
-
-    private boolean active;
-
     @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
     private Set<Contract> contracts;
 

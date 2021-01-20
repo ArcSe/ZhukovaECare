@@ -7,7 +7,7 @@
     <title>Spring Security Example </title>
 </head>
 <body>
-<form:form action="/auth/registration" method="post" modelAttribute="client">
+<form:form action="/auth/registration" method="post" modelAttribute="user">
     <div><label> Email : <form:input type="email" path="email"/> </label></div>
     <div><label> Password: <form:input type="password" path="password"/> </label></div>
     <input type="hidden" name="_csrf" value="{{_csrf.token}}" />

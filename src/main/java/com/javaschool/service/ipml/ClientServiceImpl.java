@@ -59,7 +59,6 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public void save(Client client) {
-        System.out.println(client.getEmail() + " " + client.getPassword() + " " + client.isActive());
         clientDao.save(client);
     }
 }

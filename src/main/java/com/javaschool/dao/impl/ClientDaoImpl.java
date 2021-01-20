@@ -9,7 +9,6 @@ public class ClientDaoImpl extends AbstractJpaDaoImpl<Client> implements ClientD
 
     @Override
     public void save(Client client) {
-        System.out.println(client.getEmail() + " " + client.getPassword() + " " + client.isActive());
         em.persist(client);
     }
 
