@@ -8,6 +8,7 @@ import com.javaschool.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -19,11 +20,13 @@ public class UserServiceImpl implements UserService {
     
     private final UserDao userDao;
     private final UserMapper userMapper;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserDao userDao, UserMapper userMapper) {
+    public UserServiceImpl(UserDao userDao, UserMapper userMapper, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userDao = userDao;
         this.userMapper = userMapper;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
 
@@ -65,6 +68,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void save(User user) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userDao.save(user);
     }
 
