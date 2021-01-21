@@ -20,33 +20,33 @@
         <table class="table">
             <thead>
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">Surname</th>
-                <th scope="col">Passport</th>
-                <th scope="col">Email</th>
-                <th scope="col">Address</th>
-                <th scope="col">Contracts</th>
-                <th scope="col">Actions</th>
+                <th scope="col" class="text-center">#</th>
+                <th scope="col" class="text-center">Name</th>
+                <th scope="col" class="text-center">Surname</th>
+                <th scope="col" class="text-center">Passport</th>
+                <th scope="col" class="text-center">Email</th>
+                <th scope="col" class="text-center">Address</th>
+                <th scope="col" class="text-center">Contracts</th>
+                <th scope="col" class="text-center">Actions</th>
             </tr>
             </thead>
             <tbody>
             <c:forEach items="${listClient}" var="client">
                 <tr>
-                    <td scope="row">${client.id}</td>
-                    <td>${client.name}</td>
-                    <td>${client.surname}</td>
-                    <td>${client.passport}</td>
-                    <td>${client.email}</td>
-                    <td>${client.address}</td>
-                    <td>
-                        <c:forEach items="${client.contracts}" var="contract">
-                            <ul>
+                    <td scope="row" class="text-center">${client.id}</td>
+                    <td class="text-center">${client.name}</td>
+                    <td class="text-center">${client.surname}</td>
+                    <td class="text-center">${client.passport}</td>
+                    <td class="text-center">${client.email}</td>
+                    <td class="text-center">${client.address}</td>
+                    <td class="text-center">
+                        <ul>
+                            <c:forEach items="${client.contracts}" var="contract">
                                 <a href="/managers/contracts/getById?id=${contract.id}"> ${contract.number}</a>
-                            </ul>
-                        </c:forEach>
+                            </c:forEach>
+                        </ul>
                     </td>
-                    <td>
+                    <td class="text-center">
                         <a class="btn btn-light" href="/managers/client/getById?id=${client.id}" role="button">Show Details</a>
                         <a class="btn btn-primary" href="/managers/client/edit?id=${client.id}" role="button">Edit</a>
 

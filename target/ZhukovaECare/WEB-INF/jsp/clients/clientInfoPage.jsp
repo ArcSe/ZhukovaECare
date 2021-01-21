@@ -1,8 +1,9 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@include file="../general/template.jsp"%>
 <html>
 <head>
     <title>Client profile</title>
+    <c:import url="../general/template.jsp"/>
 </head>
 <body>
 <div class="container">
@@ -53,7 +54,7 @@
                 <td class="text-center">${contract.locked}</td>
                 <td class="text-center">${contract.lockedByAdmin}</td>
                 <td class="text-center">
-                    <a class="btn btn-light" href="#" role="button">Show details</a>
+                    <a class="btn btn-light" href="/managers/contracts/getById?id=${contract.id}" role="button">Show details</a>
                     <a class="btn btn-primary" href="/client/lockedContract?contractId=${contract.id}" role="button">Lock</a>
                 </td>
             </tr>

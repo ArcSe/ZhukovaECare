@@ -31,7 +31,7 @@ public class TariffController {
     @RequestMapping("/tariff")
     public ModelAndView home() {
         List<TariffDto> listTariff = tariffService.getAll();
-        ModelAndView mav = new ModelAndView("jsp/tariffs/home");
+        ModelAndView mav = new ModelAndView("jsp/tariffs/tariffList");
         mav.addObject("listTariff", listTariff);
         return mav;
     }

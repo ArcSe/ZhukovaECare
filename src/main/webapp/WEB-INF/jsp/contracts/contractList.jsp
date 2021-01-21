@@ -20,29 +20,29 @@
         <table class="table">
             <thead>
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">Number</th>
-                <th scope="col">Tariff</th>
-                <th scope="col">Option</th>
-                <th scope="col">ClientId</th>
-                <th scope="col">Actions</th>
+                <th scope="col" class="text-center">#</th>
+                <th scope="col" class="text-center">Number</th>
+                <th scope="col" class="text-center">Tariff</th>
+                <th scope="col" class="text-center">Option</th>
+                <th scope="col" class="text-center">ClientId</th>
+                <th scope="col" class="text-center">Actions</th>
             </tr>
             </thead>
             <tbody>
             <c:forEach items="${contracts}" var="contract">
                 <tr>
-                    <td scope="row">${contract.id}</td>
-                    <td>${contract.number}</td>
-                    <td>${contract.tariff.name}</td>
-                    <td>
+                    <td scope="row" class="text-center">${contract.id}</td>
+                    <td class="text-center">${contract.number}</td>
+                    <td class="text-center">${contract.tariff.name}</td>
+                    <td class="text-center">
                         <ul>
                             <c:forEach items="${contract.options}" var="option">
                                 <li>${option.name}</li>
                             </c:forEach>
                         </ul>
                     </td>
-                    <td>${contract.clientId}</td>
-                    <td>
+                    <td class="text-center">${contract.clientId}</td>
+                    <td class="text-center">
                         <a class="btn btn-light" href="/contracts/addClient?id=${contract.id}" role="button">Add Client</a>
                         <a class="btn btn-light" href="/managers/contracts/getById?id=${contract.id}" role="button">Show Details</a>
                         <a class="btn btn-primary" href="/contracts/edit?id=${contract.id}" role="button">Edit</a>

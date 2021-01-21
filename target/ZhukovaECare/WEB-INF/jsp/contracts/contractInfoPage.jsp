@@ -10,7 +10,7 @@
 </head>
 <body>
 <div class="container">
-    <h2>Contract ${contract.number}</h2>
+    <h2>Contract #${contract.number}</h2>
     <br>
     <div>
         <dl class="row">
@@ -31,21 +31,21 @@
         <table class="table">
             <thead>
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">Price</th>
-                <th scope="col">Service Cost</th>
-                <th scope="col">Actions</th>
+                <th scope="col" class="text-center">#</th>
+                <th scope="col" class="text-center">Name</th>
+                <th scope="col" class="text-center">Price</th>
+                <th scope="col" class="text-center">Service Cost</th>
+                <th scope="col" class="text-center">Actions</th>
             </tr>
             </thead>
             <tbody>
             <c:forEach items="${contract.options}" var="option">
                 <tr>
-                    <td scope="row">${option.id}</td>
-                    <td>${option.name}</td>
-                    <td>${option.price}</td>
-                    <td>${option.serviceCost}</td>
-                    <td>
+                    <td scope="row" class="text-center">${option.id}</td>
+                    <td class="text-center">${option.name}</td>
+                    <td class="text-center">${option.price}</td>
+                    <td class="text-center">${option.serviceCost}</td>
+                    <td class="text-center">
                         <a class="btn btn-light" href="/options/edit?id=${option.id}" role="button">Edit</a>
 
                         <a class="btn btn-danger" href="/options/delete?id=${option.id}" method = "DELETE" role="button">Delete</a>
