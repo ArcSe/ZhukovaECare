@@ -14,5 +14,6 @@ public class UserDto extends AbstractDto{
     private String password;
     private String email;
     private boolean active;
+    private ClientDto client;
     private Set<Role> roles;
 }

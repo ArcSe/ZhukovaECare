@@ -26,6 +26,10 @@ public class User extends AbstractModel implements UserDetails {
 
     private boolean active;
 
+    @OneToOne()
+    @JoinColumn(name = "client_id", referencedColumnName = "id")
+    private Client client;
+
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)

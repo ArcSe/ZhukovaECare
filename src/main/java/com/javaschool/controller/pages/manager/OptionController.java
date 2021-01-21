@@ -1,4 +1,4 @@
-package com.javaschool.controller.crud;
+package com.javaschool.controller.pages.manager;
 
 import com.javaschool.dto.OptionDto;
 import com.javaschool.model.User;

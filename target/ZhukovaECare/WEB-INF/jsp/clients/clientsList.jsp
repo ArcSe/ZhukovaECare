@@ -27,6 +27,7 @@
                 <th scope="col">Email</th>
                 <th scope="col">Address</th>
                 <th scope="col">Contracts</th>
+                <th scope="col">Actions</th>
             </tr>
             </thead>
             <tbody>
@@ -38,11 +39,18 @@
                     <td>${client.passport}</td>
                     <td>${client.email}</td>
                     <td>${client.address}</td>
-                    <td>${client.contracts}</td>
                     <td>
-                        <a class="btn btn-light" href="/clients/edit?id=${client.id}" role="button">Edit</a>
+                        <c:forEach items="${client.contracts}" var="contract">
+                            <ul>
+                                <a href="/managers/contracts/getById?id=${contract.id}"> ${contract.number}</a>
+                            </ul>
+                        </c:forEach>
+                    </td>
+                    <td>
+                        <a class="btn btn-light" href="/managers/client/getById?id=${client.id}" role="button">Show Details</a>
+                        <a class="btn btn-primary" href="/managers/client/edit?id=${client.id}" role="button">Edit</a>
 
-                        <a class="btn btn-danger" href="/clients/delete?id=${client.id}" role="button">Delete</a>
+                        <a class="btn btn-danger" href="/managers/client/delete?id=${client.id}" role="button">Delete</a>
                     </td>
                 </tr>
             </c:forEach>

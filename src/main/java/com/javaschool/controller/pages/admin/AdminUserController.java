@@ -1,7 +1,10 @@
 package com.javaschool.controller.pages.admin;
 
+import com.javaschool.dto.ClientDto;
+import com.javaschool.dto.ContractDto;
 import com.javaschool.dto.UserDto;
 import com.javaschool.model.Role;
+import com.javaschool.service.ClientService;
 import com.javaschool.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -12,16 +15,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/admin/users")
 @PreAuthorize("hasAuthority('ADMIN')")
 public class AdminUserController {
 
     final UserService userService;
+    final ClientService clientService;
 
     @Autowired
-    public AdminUserController(UserService userService) {
+    public AdminUserController(UserService userService, ClientService clientService) {
         this.userService = userService;
+        this.clientService = clientService;
     }
 
     @RequestMapping()
@@ -29,6 +36,25 @@ public class AdminUserController {
         ModelAndView mav = new ModelAndView("jsp/admin/user/users");
         mav.addObject("listUsers", userService.getAll());
         return mav;
+    }
+
+    @RequestMapping(value ="/addClientId")
+    public ModelAndView addClient(@RequestParam long id) {
+        ModelAndView mav = new ModelAndView("jsp/admin/user/addClient");
+        UserDto userDto = userService.getById(id);
+        List<ClientDto> clientDtos = clientService.getAll();
+        mav.addObject("clients", clientDtos);
+        mav.addObject("user", userDto);
+        return mav;
+    }
+
+    @RequestMapping(value = "/addClientId", method = RequestMethod.POST)
+    public String updateClients(@RequestParam("user.id") long userId,
+                                @RequestParam("client.id") long clientId) {
+        UserDto userDto = userService.getById(userId);
+        userDto.setClient(clientService.getById(clientId));
+        userService.update(userDto);
+        return "redirect:/admin/users";
     }
 
     @RequestMapping("/edit")

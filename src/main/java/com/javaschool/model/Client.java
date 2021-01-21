@@ -12,7 +12,7 @@ import java.util.Set;
 @Entity
 @Getter @Setter @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "clients", uniqueConstraints={@UniqueConstraint(columnNames={"email"})})
+@Table(name = "clients")
 public class Client extends AbstractModel {
 
     @Column(name = "name")
@@ -28,18 +28,14 @@ public class Client extends AbstractModel {
     @Column(name = "passport")
     private int passport;
 
-    @Column(name = "email")
-    private String email;
-
     @Column(name = "address")
     private String address;
+
+    @OneToOne(mappedBy = "client")
+    private User user;
 
     @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
     private Set<Contract> contracts;
 
-    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "client_role", joinColumns = @JoinColumn(name = "client_id"))
-    @Enumerated(EnumType.STRING)
-    private Set<Role> roles;
 
 }

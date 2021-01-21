@@ -1,4 +1,4 @@
-package com.javaschool.controller.crud;
+package com.javaschool.controller.pages.manager;
 
 import com.javaschool.dto.ClientDto;
 import com.javaschool.dto.ContractDto;
@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Controller
+@RequestMapping("/managers")
 public class ContractController {
 
     private final ContractService contractService;
@@ -37,14 +38,20 @@ public class ContractController {
         this.clientService = clientService;
     }
 
-    @RequestMapping("contracts")
+    @RequestMapping("/contracts")
     public ModelAndView home(){
         List<ContractDto> contracts = contractService.getAll();
-        ModelAndView mav = new ModelAndView("jsp/contracts/home");
+        ModelAndView mav = new ModelAndView("jsp/contracts/contractList");
         mav.addObject("contracts", contracts);
         return mav;
     }
 
+    @RequestMapping("/contracts/getById")
+    public ModelAndView getById(@RequestParam long id) {
+        ModelAndView mav = new ModelAndView("jsp/contracts/contractInfoPage");
+        mav.addObject("contract", contractService.getById(id));
+        return mav;
+    }
 
     @RequestMapping(value = "contracts/update", method = RequestMethod.POST)
     public String updateOption(@RequestParam("option.id") long optionId,

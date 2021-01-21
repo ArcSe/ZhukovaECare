@@ -1,4 +1,4 @@
-package com.javaschool.controller.pages;
+package com.javaschool.controller.pages.anon;
 
 import com.javaschool.dto.TariffDto;
 import com.javaschool.model.User;

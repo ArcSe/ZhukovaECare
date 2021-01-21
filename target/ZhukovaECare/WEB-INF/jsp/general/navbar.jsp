@@ -16,10 +16,10 @@
                     <a class="nav-link" href="/tariff">Tariffs</a>
                 </li>
                 <li class="nav-item ">
-                    <a class="nav-link" href="/clients"> Clients </a>
+                    <a class="nav-link" href="/managers/client"> Clients </a>
                 </li>
                 <li class="nav-item ">
-                    <a class="nav-link" href="/contracts"> Contracts </a>
+                    <a class="nav-link" href="/managers/contracts"> Contracts </a>
                 </li>
                 <li class="nav-item ">
                     <a class="nav-link" href="/admin/users"> Users </a>

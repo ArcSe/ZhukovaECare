@@ -9,7 +9,7 @@
     <c:import url="../../general/template.jsp"/>
 </head>
 <body>
-    <h2 align="centre">Option Manager</h2>
+    <h2 align="centre">User Manager</h2>
     <div class="container">
         <table class="table">
             <thead>
@@ -18,6 +18,7 @@
                 <th scope="col">Email</th>
                 <th scope="col">Password</th>
                 <th scope="col">Roles</th>
+                <th scope="col">Client ID</th>
                 <th scope="col">Actions</th>
             </tr>
             </thead>
@@ -27,11 +28,12 @@
                     <td scope="row">${user.id}</td>
                     <td>${user.email}</td>
                     <td>${user.password}</td>
+                    <td>${user.client.id}</td>
                     <td>${user.roles}</td>
                     <td>
                         <a class="btn btn-light" href="/admin/users/edit?id=${user.id}" role="button">Edit</a>
-
-                        <a class="btn btn-danger" href="/options/delete?id=${option.id}" method = "DELETE" role="button">Delete</a>
+                        <a class="btn btn-light" href="/admin/users/addClientId?id=${user.id}" role="button">Add Client Id</a>
+                        <a class="btn btn-danger" href="#" method = "DELETE" role="button">Delete</a>
                     </td>
                 </tr>
             </c:forEach>

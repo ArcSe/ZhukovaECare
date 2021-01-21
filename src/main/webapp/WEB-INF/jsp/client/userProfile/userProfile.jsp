@@ -8,7 +8,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-4">
-                <h1 class="display-4">${client.name} ${client.surname}</h1>
+                <h1 class="display-4">${user.client.name} ${user.client.surname}</h1>
             </div>
             <div class="pt-4">
                 <a class="btn btn-light" href="#" role="button">Setting</a>
@@ -19,13 +19,13 @@
             <dd class="col-sm-11"> 10 мая 1234</dd>
 
             <dt class="col-sm-1">Passport:</dt>
-            <dd class="col-sm-11">${client.passport}</dd>
+            <dd class="col-sm-11">${user.client.passport}</dd>
 
             <dt class="col-sm-1">Address:</dt>
-            <dd class="col-sm-11">${client.address}</dd>
+            <dd class="col-sm-11">${user.client.address}</dd>
 
             <dt class="col-sm-1">Email:</dt>
-            <dd class="col-sm-11">${client.email}</dd>
+            <dd class="col-sm-11">${user.email}</dd>
         </dl>
         <table class="table pt-5">
             <thead>
@@ -40,7 +40,7 @@
             </tr>
             </thead>
             <tbody>
-                <c:forEach items="${client.contracts}" var="contract">
+                <c:forEach items="${user.client.contracts}" var="contract">
                     <tr>
                         <td>${contract.id}</td>
                         <td>${contract.number}</td>

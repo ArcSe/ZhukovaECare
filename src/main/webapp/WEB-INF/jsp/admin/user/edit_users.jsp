@@ -33,12 +33,9 @@
         <div class="form-group row">
             <label  class="col-sm-2 col-form-label">Roles: </label>
             <div class="col-sm-4">
-                <c:forEach items="${user.roles}" var="role">
-                    <div class="form-check">
-                        <form:checkboxes path="roles" items="${roles}" />
-                    </div>
-                    <br>
-                </c:forEach>
+                <div class="form-check">
+                    <form:checkboxes path="roles" items="${roles}" />
+                </div>
             </div>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
