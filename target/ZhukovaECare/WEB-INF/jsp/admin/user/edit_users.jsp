@@ -22,6 +22,7 @@
             <form:hidden class="form-control" path="id" />
             <form:hidden class="form-control" path="password" />
             <form:hidden class="form-control" path="active" />
+            <form:hidden class="form-control" path="clientId" />
         </div>
     </div>
     <div class="form-group row">

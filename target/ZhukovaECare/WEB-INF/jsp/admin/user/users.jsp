@@ -10,15 +10,15 @@
 </head>
 <body>
     <h2 align="centre">User Manager</h2>
+    <br/>
     <div class="container">
         <table class="table">
             <thead>
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Email</th>
-                <th scope="col">Password</th>
-                <th scope="col">Roles</th>
                 <th scope="col">Client ID</th>
+                <th scope="col">Roles</th>
                 <th scope="col">Actions</th>
             </tr>
             </thead>
@@ -27,13 +27,16 @@
                 <tr>
                     <td scope="row">${user.id}</td>
                     <td>${user.email}</td>
-                    <td>${user.password}</td>
-                    <td>${user.client.id}</td>
+                    <td>${user.clientId}</td>
                     <td>${user.roles}</td>
                     <td>
-                        <a class="btn btn-light" href="/admin/users/edit?id=${user.id}" role="button">Edit</a>
-                        <a class="btn btn-light" href="/admin/users/addClientId?id=${user.id}" role="button">Add Client Id</a>
-                        <a class="btn btn-danger" href="#" method = "DELETE" role="button">Delete</a>
+                        <a class="btn btn-light" href="${pageContext.request.contextPath}/admin/users/edit?id=${user.id}" role="button">Edit</a>
+                        <a class="btn btn-light" href="${pageContext.request.contextPath}/admin/users/addClientId?id=${user.id}" role="button">Add Client Id</a>
+                        <form action="${pageContext.request.contextPath}/admin/users/delete" method="post">
+                            <input type="hidden" name="userId" value="${user.id}"/>
+                            <input type="hidden" name="action" value="delete"/>
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
                     </td>
                 </tr>
             </c:forEach>

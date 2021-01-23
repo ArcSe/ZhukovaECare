@@ -8,10 +8,8 @@ import com.javaschool.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -50,7 +48,7 @@ public class AdminUserController {
     public String updateClients(@RequestParam("user.id") long userId,
                                 @RequestParam("client.id") long clientId) {
         UserDto userDto = userService.getById(userId);
-        userDto.setClient(clientService.getById(clientId));
+        userDto.setClientId(clientId);
         userService.update(userDto);
         return "redirect:/admin/users";
     }
@@ -67,5 +65,21 @@ public class AdminUserController {
     public String updateOption(@ModelAttribute("user") UserDto user) {
         userService.update(user);
         return "redirect:/";
+    }
+
+    @PostMapping("/delete")
+    public String  deleteUser(@RequestParam(required = true, defaultValue = "" ) Long userId,
+                              @RequestParam(required = true, defaultValue = "" ) String action,
+                              Model model) {
+        if (action.equals("delete")){
+            userService.delete(userId);
+        }
+        return "redirect:/admin/users";
+    }
+
+    @GetMapping("/admin/gt/{userId}")
+    public String  gtUser(@PathVariable("userId") Long userId, Model model) {
+        model.addAttribute("allUsers", userService.getById(userId));
+        return "redirect:/admin/users";
     }
 }

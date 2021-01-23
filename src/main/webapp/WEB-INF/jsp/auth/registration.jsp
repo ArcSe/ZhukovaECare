@@ -8,8 +8,17 @@
 </head>
 <body>
 <form:form action="/auth/registration" method="post" modelAttribute="user">
-    <div><label> Email : <form:input type="email" path="email"/> </label></div>
+    <div><label> Email : <form:input type="email" path="email"/> </label>
+        <form:errors path="email"/>
+        ${emailError}
+    </div>
     <div><label> Password: <form:input type="password" path="password"/> </label></div>
+    <div>
+        <form:input type="password" path="passwordConfirm"
+                    placeholder="Confirm your password"/>
+        <form:errors path="password"/>
+            ${passwordError}
+    </div>
     <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
     <div><input type="submit" value="Sign In"/></div>
 </form:form>
