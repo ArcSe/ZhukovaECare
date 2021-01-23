@@ -35,6 +35,7 @@
                 </c:forEach>
             </select>
         </div>
+        <a class="btn btn-light" href="/managers/tariff/editOptions?id=${tariff.id}" role="button">Change options</a>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form:form>
 </div>

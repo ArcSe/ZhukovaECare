@@ -16,16 +16,13 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/managers/client")
-@PreAuthorize("hasAuthority('MANAGER')")
 public class ClientController {
 
     private final ClientService clientService;
-    private final ContractService contractService;
 
     @Autowired
-    public ClientController(ClientService clientService, ContractService contractService) {
+    public ClientController(ClientService clientService) {
         this.clientService = clientService;
-        this.contractService = contractService;
     }
 
     @RequestMapping()

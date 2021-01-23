@@ -1,7 +1,6 @@
 package com.javaschool.controller.pages.admin;
 
 import com.javaschool.dto.ClientDto;
-import com.javaschool.dto.ContractDto;
 import com.javaschool.dto.UserDto;
 import com.javaschool.model.Role;
 import com.javaschool.service.ClientService;
@@ -19,7 +18,6 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/admin/users")
-@PreAuthorize("hasAuthority('ADMIN')")
 public class AdminUserController {
 
     final UserService userService;

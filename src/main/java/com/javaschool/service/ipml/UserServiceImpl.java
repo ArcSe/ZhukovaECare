@@ -76,7 +76,7 @@ public class UserServiceImpl implements UserService {
             return false;
         }
         user.setActive(true);
-        user.setRoles(Collections.singleton(Role.USER));
+        user.setRoles(Collections.singleton(Role.ROLE_USER));
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userDao.save(userMapper.toEntity(user));
 

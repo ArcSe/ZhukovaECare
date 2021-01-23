@@ -12,12 +12,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Controller
+@RequestMapping("/managers")
 public class TariffController {
     private final TariffService tariffService;
     private final OptionService optionService;
@@ -50,7 +48,7 @@ public class TariffController {
             tariff.getOptions().add(optionDto);
         }
         tariffService.update(tariff);
-        return "redirect:/";
+        return "redirect:/managers/tariff";
     }
 
     @RequestMapping("tariffs/edit")
@@ -84,12 +82,35 @@ public class TariffController {
             tariff.getOptions().add(optionDto);
         }
         tariffService.add(tariff);
-        return "redirect:/tariff";
+        return "redirect:/managers/tariff";
     }
 
-    @RequestMapping(value ="tariffs/delete", method = RequestMethod.DELETE)
+    @RequestMapping("/tariff/editOptions")
+    public ModelAndView editMandatoryOptions(@RequestParam long id) {
+        ModelAndView mav = new ModelAndView("jsp/tariffs/addOptions");
+        mav.addObject("tariff", tariffService.getById(id));
+        mav.addObject("options", optionService.getAll());
+        return mav;
+    }
+
+    @RequestMapping(value = "/tariff/updateOptions", method = RequestMethod.POST)
+    public String updateMandatoryOption(@RequestParam("option.id") Long optionId,
+                                        @RequestParam("tariff.id") Long tariffId) {
+        Set<OptionDto> optionDtos = new HashSet<>();
+        TariffDto tariff = tariffService.getById(tariffId);
+        if(!Objects.isNull(tariff.getOptions())) {
+             optionDtos = tariff.getOptions();
+
+        }
+        optionDtos.add(optionService.getById(optionId));
+        tariff.setOptions(optionDtos);
+        tariffService.update(tariff);
+        return "redirect:/managers/tariff";
+    }
+
+    @RequestMapping(value ="tariffs/delete")
     public String deleteTariffById(@RequestParam long id) {
         tariffService.delete(id);
-        return "redirect:/tariff";
+        return "redirect:/managers/tariff";
     }
 }

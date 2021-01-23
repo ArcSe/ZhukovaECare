@@ -16,5 +16,7 @@ public class OptionDto extends AbstractDto{
     private String name;
     private int price;
     private int serviceCost;
+    private Set<Long> mandatoryOptions;
+    private Set<Long> bannedOptions;
 
 }

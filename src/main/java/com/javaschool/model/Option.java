@@ -25,5 +25,18 @@ public class Option extends AbstractModel{
     @Column(name = "serviceCost")
     private int serviceCost;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "mandatoryOption_option",
+            joinColumns = @JoinColumn(name = "option_id"),
+            inverseJoinColumns = @JoinColumn(name = "mandatoryOption_id"))
+    private Set<Option> mandatoryOptions;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "bannedOption_option",
+            joinColumns = @JoinColumn(name = "option_id"),
+            inverseJoinColumns = @JoinColumn(name = "bannedOption_id"))
+    private Set<Option> bannedOptions;
 
 }

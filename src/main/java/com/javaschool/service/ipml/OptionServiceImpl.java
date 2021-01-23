@@ -7,11 +7,15 @@ import com.javaschool.model.Option;
 import com.javaschool.service.OptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@EnableTransactionManagement
+@Transactional
 public class OptionServiceImpl implements OptionService {
 
     private final OptionDao optionDao;
@@ -25,6 +29,7 @@ public class OptionServiceImpl implements OptionService {
 
 
     @Override
+
     public List<OptionDto> getAll() {
         return optionDao.getAll().stream().map(optionMapper::toDto).collect(Collectors.toList());
     }

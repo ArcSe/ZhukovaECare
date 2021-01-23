@@ -24,6 +24,8 @@
                 <th scope="col" class="text-center">Name</th>
                 <th scope="col" class="text-center">Price</th>
                 <th scope="col" class="text-center">Service Cost</th>
+                <th scope="col" class="text-center">Mandatory Options</th>
+                <th scope="col" class="text-center">Banned Options</th>
                 <th scope="col" class="text-center">Actions</th>
             </tr>
             </thead>
@@ -35,9 +37,23 @@
                     <td class="text-center">${option.price}</td>
                     <td class="text-center">${option.serviceCost}</td>
                     <td class="text-center">
-                        <a class="btn btn-light" href="/options/edit?id=${option.id}" role="button">Edit</a>
+                        <ul>
+                            <c:forEach items="${option.mandatoryOptions}" var="option">
+                                <li>${option.name}</li>
+                            </c:forEach>
+                        </ul>
+                    </td>
+                    <td class="text-center">
+                        <ul>
+                            <c:forEach items="${option.bannedOptions}" var="option">
+                                <li>${option.name}</li>
+                            </c:forEach>
+                        </ul>
+                    </td>
+                    <td class="text-center">
+                        <a class="btn btn-light" href="/managers/options/edit?id=${option.id}" role="button">Edit</a>
 
-                        <a class="btn btn-danger" href="/options/delete?id=${option.id}" method = "DELETE" role="button">Delete</a>
+                        <a class="btn btn-danger" href="manager/options/delete?id=${option.id}" role="button">Delete</a>
                     </td>
                 </tr>
             </c:forEach>

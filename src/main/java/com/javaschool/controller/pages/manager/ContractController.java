@@ -16,10 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 @RequestMapping("/managers")
@@ -67,8 +64,12 @@ public class ContractController {
             contract.getOptions().add(optionDto);
         }
         contract.setTariff(tariffService.getById(tariffsId));
+        System.out.println(contract.getTariff().getOptions());
+        if(!Objects.isNull(contract.getTariff().getOptions())){
+            contract.getOptions().addAll(contract.getTariff().getOptions());
+        }
         contractService.update(contract);
-        return "redirect:/contracts";
+        return "redirect:/managers/contracts";
     }
 
 
@@ -110,14 +111,17 @@ public class ContractController {
             contract.getOptions().add(optionDto);
         }
         contract.setTariff(tariffService.getById(tariffsId));
+        if(!Objects.isNull(contract.getTariff().getOptions())){
+            contract.getOptions().addAll(contract.getTariff().getOptions());
+        }
         contractService.add(contract);
-        return "redirect:/contracts";
+        return "redirect:/managers/contracts";
     }
 
     @RequestMapping(value ="contracts/delete", method = RequestMethod.POST)
     public String deleteContractById(@RequestParam long id) {
         contractService.delete(id);
-        return "redirect:/contracts";
+        return "redirect:/managers/contracts";
     }
 
     @RequestMapping(value ="contracts/addClient")
@@ -136,7 +140,7 @@ public class ContractController {
         ContractDto contractDto = contractService.getById(contractId);
         contractDto.setClientId(clientId);
         contractService.update(contractDto);
-        return "redirect:/contracts";
+        return "redirect:/managers/contracts";
     }
 
 }

@@ -1,26 +1,25 @@
-package com.javaschool.controller.pages.admin;
+package com.javaschool.controller.pages.client;
 
 import com.javaschool.service.ContractService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/admin")
-public class AdminContractsController {
+@RequestMapping("/client")
+public class ContractClientController {
 
-    final ContractService contractService;
+    private final ContractService contractService;
 
     @Autowired
-    public AdminContractsController(ContractService contractService) {
+    public ContractClientController(ContractService contractService) {
         this.contractService = contractService;
     }
 
     @RequestMapping("/lockedContract")
     public String lockedContract(@RequestParam long contractId){
-        contractService.lockedContractByAdmin(contractId);
-        return "redirect:/managers/contracts";
+        contractService.lockedContract(contractId);
+        return "redirect:/client/userProfile";
     }
 }

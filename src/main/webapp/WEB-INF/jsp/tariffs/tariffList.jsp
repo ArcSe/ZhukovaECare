@@ -40,8 +40,8 @@
                         </td>
                         <td class="text-center">
                             <a class="btn btn-light" href="/managers/tariff/getById?id=${tariff.id}" role="button">Show Details</a>
-                            <a class="btn btn-primary" href="/tariffs/edit?id=${tariff.id}" role="button">Edit</a>
-                            <a class="btn btn-danger" href="/tariffs/delete?id=${tariff.id}" role="button">Delete</a>
+                            <a class="btn btn-primary" href="/managers/tariffs/edit?id=${tariff.id}" role="button">Edit</a>
+                            <a class="btn btn-danger" href="/managers/tariffs/delete?id=${tariff.id}" role="button">Delete</a>
                         </td>
                     </tr>
                 </c:forEach>

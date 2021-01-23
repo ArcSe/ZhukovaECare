@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
+@Transactional
 public abstract class AbstractJpaDaoImpl<T extends AbstractModel> implements AbstractDao<T> {
 
     protected Class<T> entityClass;
@@ -24,6 +25,7 @@ public abstract class AbstractJpaDaoImpl<T extends AbstractModel> implements Abs
         this.entityClass = (Class<T>) genericSuperclass
                 .getActualTypeArguments()[0];
     }
+    @Transactional
     public List<T> getAll(){
         return em.createQuery("select c from "+  entityClass.getName() + " c").getResultList();
     }
@@ -34,6 +36,7 @@ public abstract class AbstractJpaDaoImpl<T extends AbstractModel> implements Abs
         em.persist(o);
     }
 
+    @Transactional
     public T getById(long id){
         return em.find(entityClass, id);
     }

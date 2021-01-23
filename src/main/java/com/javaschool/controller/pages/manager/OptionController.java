@@ -1,6 +1,8 @@
 package com.javaschool.controller.pages.manager;
 
 import com.javaschool.dto.OptionDto;
+import com.javaschool.dto.UserDto;
+import com.javaschool.model.Role;
 import com.javaschool.model.User;
 import com.javaschool.service.OptionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
+@RequestMapping("/managers/options")
 public class OptionController {
 
     private final OptionService optionService;
@@ -25,33 +28,33 @@ public class OptionController {
         this.optionService = optionService;
     }
 
-    @RequestMapping("/options")
+    @RequestMapping()
     public ModelAndView home(@AuthenticationPrincipal User user) {
         List<OptionDto> listOption = optionService.getAll();
         ModelAndView mav = new ModelAndView("jsp/options/home");
         mav.addObject("listOption", listOption);
         return mav;
     }
-    @RequestMapping("options/new")
+    @RequestMapping("/new")
     public String newOption(Map<String, Object> model) {
         OptionDto option = new OptionDto();
         model.put("option", option);
         return "jsp/options/new_option";
     }
 
-    @RequestMapping(value = "options/save", method = RequestMethod.POST)
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
     public String saveOption(@ModelAttribute("option") OptionDto option) {
         optionService.add(option);
         return "redirect:/";
     }
 
-    @RequestMapping(value = "options/update", method = RequestMethod.POST)
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String updateOption(@ModelAttribute("option") OptionDto option) {
         optionService.update(option);
         return "redirect:/";
     }
 
-    @RequestMapping("options/edit")
+    @RequestMapping("/edit")
     public ModelAndView editOption(@RequestParam long id) {
         ModelAndView mav = new ModelAndView("jsp/options/edit_option");
         OptionDto option = optionService.getById(id);
@@ -59,7 +62,21 @@ public class OptionController {
         return mav;
     }
 
-    @RequestMapping(value = "options/delete", method = RequestMethod.DELETE)
+    @RequestMapping("/editMandatoryOptions")
+    public ModelAndView editMandatoryOptions(@RequestParam long id) {
+        ModelAndView mav = new ModelAndView("jsp/options/addMandatoryOptions");
+        mav.addObject("option", optionService.getById(id));
+        mav.addObject("options", optionService.getAll());
+        return mav;
+    }
+
+    @RequestMapping(value = "/updateMandatoryOptions", method = RequestMethod.POST)
+    public String updateMandatoryOption(@ModelAttribute("option") OptionDto option) {
+        optionService.update(option);
+        return "redirect:/managers/options";
+    }
+
+    @RequestMapping(value = "/delete")
     public String deleteOptionById(@RequestParam long id) {
         optionService.delete(id);
         return "redirect:/";

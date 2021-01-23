@@ -17,12 +17,10 @@ import org.springframework.web.servlet.ModelAndView;
 public class ClientPageController {
 
     private final ClientService clientService;
-    private final ContractService contractService;
 
     @Autowired
-    public ClientPageController(ClientService clientService, ContractService contractService) {
+    public ClientPageController(ClientService clientService) {
         this.clientService = clientService;
-        this.contractService = contractService;
     }
 
     @RequestMapping("/userProfile")
@@ -30,11 +28,5 @@ public class ClientPageController {
         ModelAndView mav = new ModelAndView("jsp/client/userProfile/userProfile");
         mav.addObject("user", user);
         return mav;
-    }
-
-    @RequestMapping("/lockedContract")
-    public String lockedContract(@RequestParam long contractId){
-        contractService.lockedContract(contractId);
-        return "redirect:/client/userProfile";
     }
 }

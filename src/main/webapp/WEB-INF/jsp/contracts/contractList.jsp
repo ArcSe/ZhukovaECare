@@ -13,7 +13,7 @@
     <h2>Contract Manager</h2>
     <br>
     <div>
-        <a class="btn btn-info" href="/contracts/new" role="button">New Contract</a>
+        <a class="btn btn-info" href="/managers/contracts/new" role="button">New Contract</a>
     </div>
     <br>
     <div class="container">
@@ -43,9 +43,9 @@
                     </td>
                     <td class="text-center">${contract.clientId}</td>
                     <td class="text-center">
-                        <a class="btn btn-light" href="/contracts/addClient?id=${contract.id}" role="button">Add Client</a>
+                        <a class="btn btn-light" href="/managers/contracts/addClient?id=${contract.id}" role="button">Add Client</a>
                         <a class="btn btn-light" href="/managers/contracts/getById?id=${contract.id}" role="button">Show Details</a>
-                        <a class="btn btn-primary" href="/contracts/edit?id=${contract.id}" role="button">Edit</a>
+                        <a class="btn btn-primary" href="/managers/contracts/edit?id=${contract.id}" role="button">Edit</a>
                         <a class="btn btn-danger" href="/admin/lockedContract?contractId=${contract.id}" method ="post" role="button">
                             Delete
                         </a>
