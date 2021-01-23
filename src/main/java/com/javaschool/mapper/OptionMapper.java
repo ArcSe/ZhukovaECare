@@ -55,10 +55,15 @@ public class OptionMapper extends AbstractMapper<Option, OptionDto>{
     @Override
     void mapSpecificFields(OptionDto source, Option destination) {
         Set<Option> options = new HashSet<>();
-        source.getMandatoryOptions().forEach(o -> options.add(optionDao.getById(o)));
-        destination.setMandatoryOptions(options);
+        if(!Objects.isNull(source.getMandatoryOptions())) {
+            source.getMandatoryOptions().forEach(o -> options.add(optionDao.getById(o)));
+            destination.setMandatoryOptions(options);
+        }
         Set<Option> bannedOptions = new HashSet<>();
+        if(!Objects.isNull(source.getMandatoryOptions())) {
         source.getBannedOptions().forEach(o -> bannedOptions.add(optionDao.getById(o)));
         destination.setBannedOptions(bannedOptions);
+        }
+
     }
 }

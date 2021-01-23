@@ -25,7 +25,7 @@ public class Option extends AbstractModel{
     @Column(name = "serviceCost")
     private int serviceCost;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "mandatoryOption_option",
             joinColumns = @JoinColumn(name = "option_id"),

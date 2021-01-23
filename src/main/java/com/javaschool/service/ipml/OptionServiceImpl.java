@@ -10,12 +10,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.transaction.Transactional;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
 @EnableTransactionManagement
-@Transactional
 public class OptionServiceImpl implements OptionService {
 
     private final OptionDao optionDao;
@@ -52,5 +54,23 @@ public class OptionServiceImpl implements OptionService {
     @Override
     public OptionDto getById(long id) {
         return optionMapper.toDto(optionDao.getById(id));
+    }
+
+    @Transactional
+    @Override
+    public void addMandatory(long optionId, long idMandatoryOption) {
+        Option option = optionDao.getById(optionId);
+        System.out.println(option);
+        Set<Option> mandatoryOption;
+        if(!Objects.isNull(option.getMandatoryOptions())) {
+            mandatoryOption = option.getMandatoryOptions();
+        }
+        else {
+            mandatoryOption = new HashSet<>();
+        }
+        System.out.println(optionDao.getById(idMandatoryOption));
+        mandatoryOption.add(optionDao.getById(idMandatoryOption));
+        option.setMandatoryOptions(mandatoryOption);
+        optionDao.update(option);
     }
 }
