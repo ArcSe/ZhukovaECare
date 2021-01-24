@@ -17,6 +17,9 @@ public class Tariff extends AbstractModel{
     @Column(name = "name", nullable=false)
     private String name;
 
+    @Column(name = "price")
+    private int price;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "tariff_option",

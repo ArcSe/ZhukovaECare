@@ -17,4 +17,8 @@ public interface TariffService {
     TariffDto getById(long id);
 
     TariffDto getByName(String name);
+
+    void removeOption(long optionId, long tariffId);
+
+    void addOption(Long optionId, Long tariffId);
 }

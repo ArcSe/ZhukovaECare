@@ -34,6 +34,14 @@ public class TariffController {
         return mav;
     }
 
+    @RequestMapping("/getById")
+    public ModelAndView getById(@RequestParam long id) {
+        TariffDto tariff = tariffService.getById(id);
+        ModelAndView mav = new ModelAndView("jsp/managers/tariffs/tariffgetById");
+        mav.addObject("tariff", tariff);
+        return mav;
+    }
+
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String updateOption(@RequestParam("option.id") long id,
                                @ModelAttribute("tariff") TariffDto tariff) {
@@ -59,21 +67,42 @@ public class TariffController {
         return "jsp/managers/tariffs/new_tariff";
     }
 
-    @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public String saveTariff(@RequestParam("option.id") long id, @ModelAttribute("tariff") TariffDto tariff) {
-        OptionDto optionDto = optionService.getById(id);
-        if(null==tariff.getOptions()){
-            Set<OptionDto> set = new HashSet<>();
-            set.add(optionDto);
-            tariff.setOptions(set);
+    @RequestMapping(value = "/removeOption", method = RequestMethod.POST)
+    public String removeOptionFromTariff(@RequestParam("optionId") Long optionId,
+                                         @RequestParam("tariffId") Long tariffId,
+                                         @RequestParam("isFromAddForm") boolean isForm){
+
+        tariffService.removeOption(optionId, tariffId);
+        if(!isForm) {
+            return "redirect:/managers/tariffs/getById?id=" + tariffId;
         }
         else {
-            tariff.getOptions().add(optionDto);
+            return "redirect:/managers/tariffs/addOption?id=" + tariffId;
         }
+    }
+
+    @RequestMapping(value = "/addOption", method = RequestMethod.POST)
+    public String addOptionToDB(@RequestParam("optionId") Long optionId,
+                                         @RequestParam("tariffId") Long tariffId){
+        tariffService.addOption(optionId, tariffId);
+        return "redirect:/managers/tariffs/addOption?id="+tariffId;
+    }
+
+    @RequestMapping(value = "/addOption")
+    public ModelAndView addOptionToTariff(@RequestParam Long id){
+        ModelAndView mav = new ModelAndView("jsp/managers/tariffs/addOptions");
+        mav.addObject("tariff", tariffService.getById(id));
+        mav.addObject("options", optionService.getAll());
+        return mav;
+    }
+
+
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    public String saveTariff(@ModelAttribute("tariff") TariffDto tariff) {
         tariffService.add(tariff);
         return "redirect:/managers/tariffs";
     }
-
+/*
     @RequestMapping("/editOptions")
     public ModelAndView editMandatoryOptions(@RequestParam long id) {
         ModelAndView mav = new ModelAndView("jsp/managers/tariffs/addOptions");
@@ -81,7 +110,6 @@ public class TariffController {
         mav.addObject("options", optionService.getAll());
         return mav;
     }
-/*
     @RequestMapping(value = "/updateOptions", method = RequestMethod.POST)
     public String updateMandatoryOption(@RequestParam("option.id") Long optionId,
                                         @RequestParam("tariff.id") Long tariffId) {
@@ -97,8 +125,8 @@ public class TariffController {
         return "redirect:/managers/tariffs";
     }
 */
-    @RequestMapping(value ="/delete")
-    public String deleteTariffById(@RequestParam long id) {
+    @RequestMapping(value ="/delete", method = RequestMethod.POST)
+    public String deleteTariffById(@RequestParam("tariffId") long id) {
         tariffService.delete(id);
         return "redirect:/managers/tariffs";
     }

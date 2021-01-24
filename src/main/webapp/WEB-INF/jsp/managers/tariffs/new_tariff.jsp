@@ -20,12 +20,8 @@
                 <form:input type="text" class="form-control" path="name" placeholder="new name"/>
             </div>
             <div class="form-group col-md-4">
-                <label >State</label>
-                <select  name="option.id" class="form-control">
-                    <c:forEach items="${options}" var="option">
-                        <option value="${option.id}">${option.name}</option>
-                    </c:forEach>
-                </select>
+                <label for="name">Price</label>
+                <form:input type="text" class="form-control" path="price" placeholder="tariff price"/>
             </div>
 
             <button type="submit" class="btn btn-primary">Submit</button>

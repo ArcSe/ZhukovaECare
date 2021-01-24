@@ -15,28 +15,31 @@
     <h2>Edit Option</h2>
     <br>
     <form:form action="update" method="post" modelAttribute="tariff">
-    <div class="form-group row">
-        <label for="name" class="col-sm-2 col-form-label">ID: </label>
-        <div class="col-sm-7">
-            <div>${tariff.id}</div>
-            <form:hidden class="form-control" path="id" />
+        <div class="form-group row">
+            <label for="name" class="col-sm-2 col-form-label">ID: </label>
+            <div class="col-sm-7">
+                <div>${tariff.id}</div>
+                <form:hidden class="form-control" path="id" />
+            </div>
         </div>
-    </div>
-    <div class="form-group row">
-        <label for="name" class="col-sm-2 col-form-label">Name: </label>
-        <div class="col-sm-4">
-            <form:input type="text" class="form-control" path="name"/>
+        <div class="form-group row">
+            <label for="name" class="col-sm-2 col-form-label">Price: </label>
+            <div class="col-sm-4">
+                <form:input type="text" class="form-control" path="name"/>
+            </div>
         </div>
-        <div class="form-group col-md-4">
-            <label >State</label>
-            <select  name="option.id" class="form-control">
-                <c:forEach items="${options}" var="option">
-                    <option value="${option.id}">${option.name}</option>
-                </c:forEach>
-            </select>
+        <div class="form-group row">
+            <label for="price" class="col-sm-2 col-form-label">Price: </label>
+            <div class="col-sm-4">
+                <form:input type="text" class="form-control" path="price"/>
+            </div>
         </div>
-        <a class="btn btn-light" href="/managers/tariff/editOptions?id=${tariff.id}" role="button">Change options</a>
-        <button type="submit" class="btn btn-primary">Submit</button>
+            <br/>
+            <div>
+                <a class="btn btn-light" href="/managers/tariff/editOptions?id=${tariff.id}" role="button">Change options</a>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
     </form:form>
 </div>
 </body>

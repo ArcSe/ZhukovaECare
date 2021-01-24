@@ -41,9 +41,9 @@
                             <c:choose>
                                 <c:when test="${option.mandatoryOptions.contains(optionMad.id)}">
                                     <form action="${pageContext.request.contextPath}/managers/options/deleteMandatoryOption" method="post">
-                                            <input type="hidden" name="mandatoryOptionId" value="${optionMad.id}"/>
-                                            <input type="hidden" name="optionId" value="${option.id}"/>
-                                            <button type="submit" class="btn btn-warning">Delete</button>
+                                        <input type="hidden" name="mandatoryOptionId" value="${optionMad.id}"/>
+                                        <input type="hidden" name="optionId" value="${option.id}"/>
+                                        <button type="submit" class="btn btn-warning">Delete</button>
                                     </form>
                                 </c:when>
                                 <c:otherwise>

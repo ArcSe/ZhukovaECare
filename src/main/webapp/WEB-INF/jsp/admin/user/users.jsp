@@ -30,13 +30,15 @@
                     <td>${user.clientId}</td>
                     <td>${user.roles}</td>
                     <td>
-                        <a class="btn btn-light" href="${pageContext.request.contextPath}/admin/users/edit?id=${user.id}" role="button">Edit</a>
-                        <a class="btn btn-light" href="${pageContext.request.contextPath}/admin/users/addClientId?id=${user.id}" role="button">Add Client Id</a>
-                        <form action="${pageContext.request.contextPath}/admin/users/delete" method="post">
-                            <input type="hidden" name="userId" value="${user.id}"/>
-                            <input type="hidden" name="action" value="delete"/>
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </form>
+                        <div class="row-group">
+                            <a class="btn btn-light" href="${pageContext.request.contextPath}/admin/users/edit?id=${user.id}" role="button">Edit</a>
+                            <a class="btn btn-light" href="${pageContext.request.contextPath}/admin/users/addClientId?id=${user.id}" role="button">Add Client Id</a>
+                            <form action="${pageContext.request.contextPath}/admin/users/delete" method="post">
+                                <input type="hidden" name="userId" value="${user.id}"/>
+                                <input type="hidden" name="action" value="delete"/>
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </div>
                     </td>
                 </tr>
             </c:forEach>

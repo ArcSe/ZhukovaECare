@@ -13,7 +13,7 @@
     <h2>Option Manager</h2>
     <br>
     <div>
-        <a class="btn btn-info" href="/managers/options/new" role="button">New Option</a>
+        <a class="btn btn-info" href="${pageContext.request.contextPath}/managers/options/new" role="button">New Option</a>
     </div>
     <br>
     <div class="container">
@@ -52,8 +52,10 @@
                     </td>
                     <td class="text-center">
                         <a class="btn btn-light" href="${pageContext.request.contextPath}/managers/options/edit?id=${option.id}" role="button">Edit</a>
-
-                        <a class="btn btn-danger" href="manager/options/delete?id=${option.id}" role="button">Delete</a>
+                        <form action="${pageContext.request.contextPath}/managers/options/delete?id=${option.id}" method="post">
+                            <input type="hidden" name="optionId" value="${option.id}"/>
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
                     </td>
                 </tr>
             </c:forEach>

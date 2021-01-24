@@ -14,5 +14,6 @@ import java.util.Set;
 public class TariffDto extends AbstractDto{
 
     private String name;
+    private int price;
     private Set<OptionDto> options;
 }

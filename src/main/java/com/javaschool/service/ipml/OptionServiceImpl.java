@@ -135,8 +135,6 @@ public class OptionServiceImpl implements OptionService {
         Option optionDB = optionDao.getById(optionId);
         Set<Option> options = optionDao.getAll().stream().filter(o->o.getId()!=optionId).collect(Collectors.toSet());
         Set<Option> mandatoryOption = optionDB.getMandatoryOptions();
-        System.out.println(options);
-        System.out.println(mandatoryOption);
         options.removeAll(mandatoryOption);
         return options.stream().map(optionMapper::toDto).collect(Collectors.toSet());
     }

@@ -9,28 +9,61 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <title>Add Client</title>
+    <title>Add Option to Tariff</title>
     <c:import url="../../general/template.jsp"/>
 </head>
 <body>
 <div align="center">
-    <h2>Add Client</h2>
-    <form:form action="updateOptions" method="post" modelAttribute="tariff">
-    <div class="col-sm-7">
-        <div>${tariff.id}</div>
-        <input type="hidden" name="tariff.id" value="${tariff.id}"/>
-    </div>
+    <h2>Add Option to Tariff ${tariff.name}</h2>
     <div class="form-group col-md-4">
-        <label >Options</label>
-        <select  name="option.id" class="form-control">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col" class="text-center">#</th>
+                <th scope="col" class="text-center">Name</th>
+                <th scope="col" class="text-center">Price</th>
+                <th scope="col" class="text-center">Service Cost</th>
+                <th scope="col" class="text-center">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
             <c:forEach items="${options}" var="option">
-                <option value="${option.id}">${option.name}</option>
+                <tr>
+                    <td scope="row" class="text-center">${option.id}</td>
+                    <td class="text-center">${option.name}</td>
+                    <td class="text-center">${option.price}</td>
+                    <td class="text-center">${option.serviceCost}</td>
+                    <td class="text-center">
+                        <c:choose>
+                            <c:when test="${tariff.options.contains(option)}">
+                                <form action="${pageContext.request.contextPath}/managers/tariffs/removeOption" method="post">
+                                    <input type="hidden" name="tariffId" value="${tariff.id}"/>
+                                    <input type="hidden" name="optionId" value="${option.id}"/>
+                                    <%
+                                        boolean isFrom = true;
+                                        request.setAttribute("isFrom", isFrom);
+                                    %>
+                                    <input type="hidden" name="isFromAddForm" value="${isFrom}"/>
+                                    <button type="submit" class="btn btn-warning">Delete</button>
+                                </form>
+                            </c:when>
+                            <c:otherwise>
+                                <form action="${pageContext.request.contextPath}/managers/tariffs/addOption" method="post">
+                                    <input type="hidden" name="tariffId" value="${tariff.id}"/>
+                                    <input type="hidden" name="optionId" value="${option.id}"/>
+                                    <button type="submit" class="btn btn-danger">Add</button>
+                                </form>
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
+                </tr>
             </c:forEach>
-        </select>
+            </tbody>
+        </table>
+
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <a href="${pageContext.request.contextPath}/managers/tariffs/getById?id=${tariff.id}" class="btn btn-primary">Back to tariff</a>
 </div>
-</form:form>
 </div>
 </body>
 </html>

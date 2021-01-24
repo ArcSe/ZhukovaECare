@@ -5,18 +5,31 @@
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <title>Option Manager</title>
+    <title>Contract Manager</title>
     <c:import url="../../general/template.jsp"/>
 </head>
 <body>
-<div align="center">
-    <h2>Option Manager</h2>
+<div class="container">
+    <h2>Tariff ${tariff.name}</h2>
     <br>
     <div>
-        <a class="btn btn-info" href="${pageContext.request.contextPath}/managers/options/new" role="button">New Option</a>
+        <dl class="row">
+            <dt class="col-sm-1">ID:</dt>
+            <dd class="col-sm-11">${tariff.id}</dd>
+
+            <dt class="col-sm-1">Name:</dt>
+            <dd class="col-sm-11">${tariff.name}</dd>
+
+            <dt class="col-sm-1">Price:</dt>
+            <dd class="col-sm-11">${tariff.price}</dd>
+        </dl>
     </div>
-    <br>
-    <div class="container">
+    <h1 style="text-align: center"> Tariff options</h1>
+    <div>
+        <a class="btn btn-info" href="${pageContext.request.contextPath}/managers/tariffs/addOption?id=${tariff.id}" role="button">Add Options</a>
+        <a class="btn btn-info" href="${pageContext.request.contextPath}/managers/tariffs" role="button">Back to Tariffs</a>
+    </div>
+    <div class="container mt-3">
         <table class="table">
             <thead>
             <tr>
@@ -30,8 +43,8 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${listOption}" var="option">
-                <tr class="text-center">
+            <c:forEach items="${tariff.options}" var="option">
+                <tr>
                     <td scope="row" class="text-center">${option.id}</td>
                     <td class="text-center">${option.name}</td>
                     <td class="text-center">${option.price}</td>
@@ -51,10 +64,15 @@
                         </ul>
                     </td>
                     <td class="text-center">
-                        <a class="btn btn-light" href="${pageContext.request.contextPath}/managers/options/edit?id=${option.id}" role="button">Edit</a>
-                        <form action="${pageContext.request.contextPath}/managers/options/delete?id=${option.id}" method="post">
+                        <form action="${pageContext.request.contextPath}/managers/tariffs/removeOption" method="post">
                             <input type="hidden" name="optionId" value="${option.id}"/>
-                            <button type="submit" class="btn btn-danger">Delete</button>
+                            <input type="hidden" name="tariffId" value="${tariff.id}"/>
+                            <%
+                                boolean isFrom = false;
+                                request.setAttribute("isFrom", isFrom);
+                            %>
+                            <input type="hidden" name="isFromAddForm" value="${isFrom}"/>
+                            <button type="submit" class="btn btn-warning">Delete</button>
                         </form>
                     </td>
                 </tr>

@@ -75,4 +75,23 @@ public class TariffServiceImpl implements TariffService {
         TariffDto dto = tariffMapper.toDto(tariffDao.getByName(name));
         return dto;
     }
+
+    @Override
+    public void removeOption(long optionId, long tariffId) {
+        Tariff tariff = tariffDao.getById(tariffId);
+        Set<Option> options = tariff.getOptions().stream()
+                .filter(option -> option.getId()!=optionId)
+                .collect(Collectors.toSet());
+        tariff.setOptions(options);
+        tariffDao.update(tariff);
+    }
+
+    @Override
+    public void addOption(Long optionId, Long tariffId) {
+        Tariff tariff = tariffDao.getById(tariffId);
+        Set<Option> options = tariff.getOptions();
+        options.add(optionDao.getById(optionId));
+        tariff.setOptions(options);
+        tariffDao.update(tariff);
+    }
 }
