@@ -73,4 +73,20 @@ public class OptionServiceImpl implements OptionService {
         option.setMandatoryOptions(mandatoryOption);
         optionDao.update(option);
     }
+
+    @Override
+    public boolean deleteMandatoryOption(long idOption, long mandatoryOption) {
+        Option optionDB = optionDao.getById(idOption);
+        Option optionMandatoryDB = optionDao.getById(mandatoryOption);
+        Set<Option> setMandatoryOptions = optionDB.getMandatoryOptions();
+        if (!setMandatoryOptions.contains(optionMandatoryDB)) {
+            return false;
+        }
+        Set<Option> options = optionDB.getMandatoryOptions().stream()
+                .filter(option -> option.getId()!=mandatoryOption)
+                .collect(Collectors.toSet());
+        optionDB.setMandatoryOptions(options);
+        optionDao.update(optionDB);
+        return true;
+    }
 }

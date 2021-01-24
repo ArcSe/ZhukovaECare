@@ -42,7 +42,7 @@ public class OptionMapper extends AbstractMapper<Option, OptionDto>{
             source.getMandatoryOptions().forEach(o -> optionsMandatoryId.add(o.getId()));
             destination.setMandatoryOptions(optionsMandatoryId);
             Set<Long> optionsBannedId = new HashSet<>();
-            source.getMandatoryOptions().forEach(o -> optionsBannedId.add(o.getId()));
+            source.getBannedOptions().forEach(o -> optionsBannedId.add(o.getId()));
             destination.setBannedOptions(optionsBannedId);
         }
 
@@ -60,9 +60,9 @@ public class OptionMapper extends AbstractMapper<Option, OptionDto>{
             destination.setMandatoryOptions(options);
         }
         Set<Option> bannedOptions = new HashSet<>();
-        if(!Objects.isNull(source.getMandatoryOptions())) {
-        source.getBannedOptions().forEach(o -> bannedOptions.add(optionDao.getById(o)));
-        destination.setBannedOptions(bannedOptions);
+        if(!Objects.isNull(source.getBannedOptions())) {
+            source.getBannedOptions().forEach(o -> bannedOptions.add(optionDao.getById(o)));
+            destination.setBannedOptions(bannedOptions);
         }
 
     }

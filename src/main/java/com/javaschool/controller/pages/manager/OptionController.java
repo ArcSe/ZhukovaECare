@@ -9,11 +9,15 @@ import com.javaschool.service.OptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/managers/options")
@@ -63,8 +67,9 @@ public class OptionController {
     @RequestMapping("/editMandatoryOptions")
     public ModelAndView editMandatoryOptions(@RequestParam long id) {
         ModelAndView mav = new ModelAndView("jsp/managers/options/addMandatoryOptions");
+        Set<OptionDto> options = optionService.getAll().stream().filter(o->o.getId()!=id).collect(Collectors.toSet());
         mav.addObject("option", optionService.getById(id));
-        mav.addObject("options", optionService.getAll());
+        mav.addObject("options", options);
         return mav;
     }
 
@@ -85,6 +90,14 @@ public class OptionController {
                              @RequestParam("mandatoryOptionId") long mandatoryOptionId){
         optionService.addMandatory(optionId, mandatoryOptionId);
         editMandatoryOptions(optionId);
+        return "redirect:/managers/options/editMandatoryOptions?id="+ optionId;
+    }
+
+    @PostMapping("/deleteMandatoryOption")
+    public String  deleteMandatoryOption(@RequestParam("optionId") Long optionId,
+                              @RequestParam("mandatoryOptionId") Long optionMandatoryId,
+                              Model model) {
+        optionService.deleteMandatoryOption(optionId, optionMandatoryId);
         return "redirect:/managers/options/editMandatoryOptions?id="+ optionId;
     }
 

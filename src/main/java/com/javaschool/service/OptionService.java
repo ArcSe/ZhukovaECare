@@ -22,4 +22,6 @@ public interface OptionService {
 
     @Transactional
     void addMandatory(long idOption, long mandatoryOption);
+
+    boolean deleteMandatoryOption(long idOption, long mandatoryOption);
 }

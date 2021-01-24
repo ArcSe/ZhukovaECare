@@ -21,7 +21,6 @@
     </div>
     <div class="form-group col-md-4">
         <label >Mandatory Options</label>
-        <div class="container">
             <table class="table">
                 <thead>
                 <tr>
@@ -40,17 +39,27 @@
                         <td class="text-center">${optionMad.price}</td>
                         <td class="text-center">${optionMad.serviceCost}</td>
                         <td class="text-center">
-                            <form action="${pageContext.request.contextPath}/managers/options/addMandatoryOption" method="post">
-                                <input type="hidden" name="mandatoryOptionId" value="${optionMad.id}"/>
-                                <input type="hidden" name="optionId" value="${option.id}"/>
-                                <button type="submit" class="btn btn-danger">Add</button>
-                            </form>
+                            <c:choose>
+                                <c:when test="${option.mandatoryOptions.contains(optionMad.id)}">
+                                    <form action="${pageContext.request.contextPath}/managers/options/deleteMandatoryOption" method="post">
+                                            <input type="hidden" name="mandatoryOptionId" value="${optionMad.id}"/>
+                                            <input type="hidden" name="optionId" value="${option.id}"/>
+                                            <button type="submit" class="btn btn-warning">Delete</button>
+                                    </form>
+                                </c:when>
+                                <c:otherwise>
+                                    <form action="${pageContext.request.contextPath}/managers/options/addMandatoryOption" method="post">
+                                        <input type="hidden" name="mandatoryOptionId" value="${optionMad.id}"/>
+                                        <input type="hidden" name="optionId" value="${option.id}"/>
+                                        <button type="submit" class="btn btn-danger">Add</button>
+                                    </form>
+                                </c:otherwise>
+                            </c:choose>
                         </td>
                     </tr>
                 </c:forEach>
                 </tbody>
             </table>
-        </div>
     </div>
     <a href="/managers/options" class="btn btn-primary">Back to options</a>
 </div>
