@@ -1,15 +1,20 @@
 package com.javaschool.service.ipml;
 
+import com.javaschool.dao.OptionDao;
 import com.javaschool.dao.TariffDao;
+import com.javaschool.dto.OptionDto;
 import com.javaschool.dto.TariffDto;
 import com.javaschool.mapper.TariffMapper;
 import com.javaschool.model.Option;
+import com.javaschool.model.Tariff;
 import com.javaschool.service.TariffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -18,26 +23,24 @@ public class TariffServiceImpl implements TariffService {
     
     private final TariffDao tariffDao;
     private final TariffMapper tariffMapper;
+    private final OptionDao optionDao;
 
 
     @Autowired
-    public TariffServiceImpl(TariffDao tariffDao, TariffMapper tariffMapper) {
+    public TariffServiceImpl(TariffDao tariffDao, TariffMapper tariffMapper, OptionDao optionDao) {
         this.tariffDao = tariffDao;
         this.tariffMapper = tariffMapper;
+        this.optionDao = optionDao;
     }
-
 
     @Override
     public List<TariffDto> getAll() {
         return tariffDao.getAll().stream().map(tariffMapper::toDto).collect(Collectors.toList());
     }
 
-
+    @Transactional
     @Override
     public void add(TariffDto tariff) {
-        Set<Option> tariffDto = tariffMapper.toEntity(tariff).getOptions();
-       Option option = tariffDto.stream().iterator().next();
-        System.out.println(option.getId() + " " + option.getName() + " " + option.getPrice() + " " + option.getServiceCost());
         tariffDao.add(tariffMapper.toEntity(tariff));
     }
 
@@ -47,8 +50,18 @@ public class TariffServiceImpl implements TariffService {
     }
 
     @Override
-    public void update(TariffDto tariff) {
-        tariffDao.update(tariffMapper.toEntity(tariff));
+    public void update(long id, TariffDto tariffDto) {
+        Option option = optionDao.getById(id);
+        Tariff tariff = tariffMapper.toEntity(tariffDto);
+        if(Objects.isNull(tariff.getOptions())){
+            Set<Option> set = new HashSet<>();
+            set.add(option);
+            tariff.setOptions(set);
+        }
+        else {
+            tariff.getOptions().add(option);
+        }
+        tariffDao.update(tariff);
     }
 
     @Override

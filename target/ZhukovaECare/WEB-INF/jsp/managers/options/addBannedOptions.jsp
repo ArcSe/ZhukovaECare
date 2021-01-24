@@ -9,28 +9,59 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <title>Add Client</title>
+    <title>Add Banned Option</title>
     <c:import url="../../general/template.jsp"/>
 </head>
 <body>
 <div align="center">
-    <h2>Add Client</h2>
-    <form:form action="updateClient" method="post" modelAttribute="contract">
+    <h2>Add Mandatory Options</h2>
     <div class="col-sm-7">
-        <div>${contract.id}</div>
-        <input type="hidden" name="contract.id" value="${contract.id}"/>
+        <input type="hidden" name="option.id" value="${option.id}"/>
     </div>
     <div class="form-group col-md-4">
-        <label >Clients</label>
-        <select  name="client.id" class="form-control">
-            <c:forEach items="${clients}" var="client">
-                <option value="${client.id}">${client.name}</option>
-            </c:forEach>
-        </select>
+        <label >Banned Options</label>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col" class="text-center">#</th>
+                    <th scope="col" class="text-center">Name</th>
+                    <th scope="col" class="text-center">Price</th>
+                    <th scope="col" class="text-center">Service Cost</th>
+                    <th scope="col" class="text-center">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="${options}" var="optionBanned">
+                    <tr>
+                        <td scope="row" class="text-center">${optionBanned.id}</td>
+                        <td class="text-center">${optionBanned.name}</td>
+                        <td class="text-center">${optionBanned.price}</td>
+                        <td class="text-center">${optionBanned.serviceCost}</td>
+                        <td class="text-center">
+                            <c:choose>
+                                <c:when test="${option.bannedOptions.contains(optionBanned.id)}">
+                                    <form action="${pageContext.request.contextPath}/managers/options/deleteBannedOption" method="post">
+                                            <input type="hidden" name="bannedOptionId" value="${optionBanned.id}"/>
+                                            <input type="hidden" name="optionId" value="${option.id}"/>
+                                            <button type="submit" class="btn btn-warning">Delete</button>
+                                    </form>
+                                </c:when>
+                                <c:otherwise>
+                                    <form action="${pageContext.request.contextPath}/managers/options/addBannedOption" method="post">
+                                        <input type="hidden" name="bannedOptionId" value="${optionBanned.id}"/>
+                                        <input type="hidden" name="optionId" value="${option.id}"/>
+                                        <button type="submit" class="btn btn-danger">Add</button>
+                                    </form>
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <a href="/managers/options" class="btn btn-primary">Back to options</a>
 </div>
-</form:form>
 </div>
 </body>
 </html>

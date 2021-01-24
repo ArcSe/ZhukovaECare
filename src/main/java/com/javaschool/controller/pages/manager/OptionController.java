@@ -3,6 +3,7 @@ package com.javaschool.controller.pages.manager;
 import com.javaschool.dto.ContractDto;
 import com.javaschool.dto.OptionDto;
 import com.javaschool.dto.UserDto;
+import com.javaschool.model.Option;
 import com.javaschool.model.Role;
 import com.javaschool.model.User;
 import com.javaschool.service.OptionService;
@@ -37,6 +38,7 @@ public class OptionController {
         mav.addObject("listOption", listOption);
         return mav;
     }
+
     @RequestMapping("/new")
     public String newOption(Map<String, Object> model) {
         OptionDto option = new OptionDto();
@@ -67,17 +69,19 @@ public class OptionController {
     @RequestMapping("/editMandatoryOptions")
     public ModelAndView editMandatoryOptions(@RequestParam long id) {
         ModelAndView mav = new ModelAndView("jsp/managers/options/addMandatoryOptions");
-        Set<OptionDto> options = optionService.getAll().stream().filter(o->o.getId()!=id).collect(Collectors.toSet());
-        mav.addObject("option", optionService.getById(id));
-        mav.addObject("options", options);
+        OptionDto optionDB = optionService.getById(id);
+        mav.addObject("option", optionDB);
+        mav.addObject("options", optionService.splitSetMandatoryOptions(id));
         return mav;
     }
-
+/*
     @RequestMapping(value = "/updateMandatoryOptions", method = RequestMethod.POST)
     public String updateMandatoryOption(@ModelAttribute("option") OptionDto option) {
         optionService.update(option);
         return "redirect:/managers/options";
     }
+
+ */
 
     @RequestMapping(value = "/delete")
     public String deleteOptionById(@RequestParam long id) {
@@ -86,7 +90,7 @@ public class OptionController {
     }
 
     @PostMapping("/addMandatoryOption")
-    private String addOption(@RequestParam("optionId") long optionId,
+    private String addMandatoryOption(@RequestParam("optionId") long optionId,
                              @RequestParam("mandatoryOptionId") long mandatoryOptionId){
         optionService.addMandatory(optionId, mandatoryOptionId);
         editMandatoryOptions(optionId);
@@ -101,4 +105,28 @@ public class OptionController {
         return "redirect:/managers/options/editMandatoryOptions?id="+ optionId;
     }
 
+    @RequestMapping("/editBannedOptions")
+    public ModelAndView editBannedOptions(@RequestParam long id) {
+        ModelAndView mav = new ModelAndView("jsp/managers/options/addBannedOptions");
+        Set<OptionDto> options = optionService.getAll().stream().filter(o->o.getId()!=id).collect(Collectors.toSet());
+        mav.addObject("option", optionService.getById(id));
+        mav.addObject("options", optionService.splitSetBannedOptions(id));
+        return mav;
+    }
+
+    @PostMapping("/addBannedOption")
+    private String addBannedOption(@RequestParam("optionId") long optionId,
+                             @RequestParam("bannedOptionId") long bannedOptionId){
+        optionService.addBannedOption(optionId, bannedOptionId);
+        editBannedOptions(optionId);
+        return "redirect:/managers/options/editBannedOptions?id="+ optionId;
+    }
+
+    @PostMapping("/deleteBannedOption")
+    public String  deleteBannedOption(@RequestParam("optionId") Long optionId,
+                                         @RequestParam("bannedOptionId") Long optionBannedId,
+                                         Model model) {
+        optionService.deleteBannedOption(optionId, optionBannedId);
+        return "redirect:/managers/options/editBannedOptions?id="+ optionId;
+    }
 }

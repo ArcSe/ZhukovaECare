@@ -60,7 +60,6 @@ public class OptionServiceImpl implements OptionService {
     @Override
     public void addMandatory(long optionId, long idMandatoryOption) {
         Option option = optionDao.getById(optionId);
-        System.out.println(option);
         Set<Option> mandatoryOption;
         if(!Objects.isNull(option.getMandatoryOptions())) {
             mandatoryOption = option.getMandatoryOptions();
@@ -68,7 +67,6 @@ public class OptionServiceImpl implements OptionService {
         else {
             mandatoryOption = new HashSet<>();
         }
-        System.out.println(optionDao.getById(idMandatoryOption));
         mandatoryOption.add(optionDao.getById(idMandatoryOption));
         option.setMandatoryOptions(mandatoryOption);
         optionDao.update(option);
@@ -89,4 +87,58 @@ public class OptionServiceImpl implements OptionService {
         optionDao.update(optionDB);
         return true;
     }
+
+    @Override
+    public void addBannedOption(long idOption, long bannedOptionId) {
+        Option option = optionDao.getById(idOption);
+        Option bannedOption = optionDao.getById(bannedOptionId);
+        Set<Option> bannedOptions;
+        if(!Objects.isNull(option.getBannedOptions())) {
+            bannedOptions = option.getBannedOptions();
+        }
+        else {
+            bannedOptions = new HashSet<>();
+        }
+        bannedOptions.add(bannedOption);
+        option.setBannedOptions(bannedOptions);
+        optionDao.update(option);
+
+    }
+
+    @Override
+    public boolean deleteBannedOption(long idOption, long bannedOption) {
+        Option optionDB = optionDao.getById(idOption);
+        Option optionBannedDB = optionDao.getById(bannedOption);
+        Set<Option> setBannedOptions = optionDB.getBannedOptions();
+        if (!setBannedOptions.contains(optionBannedDB)) {
+            return false;
+        }
+        Set<Option> options = optionDB.getBannedOptions().stream()
+                .filter(option -> option.getId()!=bannedOption)
+                .collect(Collectors.toSet());
+        optionDB.setBannedOptions(options);
+        optionDao.update(optionDB);
+        return true;
+    }
+
+    @Override
+    public Set<OptionDto> splitSetMandatoryOptions(long optionId) {
+        Option optionDB = optionDao.getById(optionId);
+        Set<Option> options = optionDao.getAll().stream().filter(o->o.getId()!=optionId).collect(Collectors.toSet());
+        Set<Option> bannedOption = optionDB.getBannedOptions();
+        options.removeAll(bannedOption);
+        return options.stream().map(optionMapper::toDto).collect(Collectors.toSet());
+    }
+
+    @Override
+    public Set<OptionDto> splitSetBannedOptions(long optionId) {
+        Option optionDB = optionDao.getById(optionId);
+        Set<Option> options = optionDao.getAll().stream().filter(o->o.getId()!=optionId).collect(Collectors.toSet());
+        Set<Option> mandatoryOption = optionDB.getMandatoryOptions();
+        System.out.println(options);
+        System.out.println(mandatoryOption);
+        options.removeAll(mandatoryOption);
+        return options.stream().map(optionMapper::toDto).collect(Collectors.toSet());
+    }
+
 }

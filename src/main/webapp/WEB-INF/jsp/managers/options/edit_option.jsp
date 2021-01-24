@@ -40,8 +40,8 @@
                 <form:input type="text" class="form-control" path="serviceCost"/>
             </div>
         </div>
-        <a class="btn btn-light" href="${pageContext.request.contextPath}/managers/options/editMandatoryOptions?id=${option.id}" role="button">Add Mandatory Options</a>
-        <a class="btn btn-light" href="${pageContext.request.contextPath}/managers/options/addBannedOptions?id=${option.id}" role="button">Add Banned Options</a>
+        <a class="btn btn-light" href="${pageContext.request.contextPath}/managers/options/editMandatoryOptions?id=${option.id}" role="button">Edit Mandatory Options</a>
+        <a class="btn btn-light" href="${pageContext.request.contextPath}/managers/options/editBannedOptions?id=${option.id}" role="button">Edit Banned Options</a>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form:form>
 </div>

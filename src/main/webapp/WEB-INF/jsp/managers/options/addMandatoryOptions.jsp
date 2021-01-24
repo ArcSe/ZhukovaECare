@@ -9,7 +9,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <title>Add Client</title>
+    <title>Add Mandatory Option</title>
     <c:import url="../../general/template.jsp"/>
 </head>
 <body>

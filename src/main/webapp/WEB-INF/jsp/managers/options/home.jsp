@@ -13,7 +13,7 @@
     <h2>Option Manager</h2>
     <br>
     <div>
-        <a class="btn btn-info" href="/options/new" role="button">New Option</a>
+        <a class="btn btn-info" href="/managers/options/new" role="button">New Option</a>
     </div>
     <br>
     <div class="container">

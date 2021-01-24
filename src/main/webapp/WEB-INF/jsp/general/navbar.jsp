@@ -14,7 +14,7 @@
                         <a class="nav-link" href="/managers/options">Options</a>
                     </li>
                     <li class="nav-item ">
-                        <a class="nav-link" href="/managers/tariff">Tariffs</a>
+                        <a class="nav-link" href="/managers/tariffs">Tariffs</a>
                     </li>
                     <li class="nav-item ">
                         <a class="nav-link" href="/managers/client"> Clients </a>

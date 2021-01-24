@@ -9,14 +9,13 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <title>Add Client</title>
+    <title>Add Mandatory Option</title>
     <c:import url="../../general/template.jsp"/>
 </head>
 <body>
 <div align="center">
     <h2>Add Mandatory Options</h2>
     <div class="col-sm-7">
-        <div>${option.id}</div>
         <input type="hidden" name="option.id" value="${option.id}"/>
     </div>
     <div class="form-group col-md-4">

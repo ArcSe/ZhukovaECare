@@ -15,7 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.*;
 
 @Controller
-@RequestMapping("/managers")
+@RequestMapping("/managers/tariffs")
 public class TariffController {
     private final TariffService tariffService;
     private final OptionService optionService;
@@ -26,34 +26,24 @@ public class TariffController {
         this.optionService = optionService;
     }
     
-    @RequestMapping("/tariff")
+    @RequestMapping()
     public ModelAndView home() {
         List<TariffDto> listTariff = tariffService.getAll();
-        ModelAndView mav = new ModelAndView("jsp/tariffs/tariffList");
+        ModelAndView mav = new ModelAndView("jsp/managers/tariffs/tariffList");
         mav.addObject("listTariff", listTariff);
         return mav;
     }
 
-    @RequestMapping(value = "tariffs/update", method = RequestMethod.POST)
-    public String updateOption(@RequestParam("option.id") long id,@ModelAttribute("tariff") TariffDto tariff) {
-        OptionDto optionDto = optionService.getById(id);
-        System.out.println(tariff);
-        System.out.println(tariff.getOptions());
-        if(null==tariff.getOptions()){
-            Set<OptionDto> set = new HashSet<>();
-            set.add(optionDto);
-            tariff.setOptions(set);
-        }
-        else {
-            tariff.getOptions().add(optionDto);
-        }
-        tariffService.update(tariff);
-        return "redirect:/managers/tariff";
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public String updateOption(@RequestParam("option.id") long id,
+                               @ModelAttribute("tariff") TariffDto tariff) {
+        tariffService.update(id, tariff);
+        return "redirect:/managers/tariffs";
     }
 
-    @RequestMapping("tariffs/edit")
+    @RequestMapping("/edit")
     public ModelAndView editOption(@RequestParam long id) {
-        ModelAndView mav = new ModelAndView("jsp/tariffs/edit_tariff");
+        ModelAndView mav = new ModelAndView("jsp/managers/tariffs/edit_tariff");
         TariffDto tariffDto = tariffService.getById(id);
         List<OptionDto> options = optionService.getAll();
         mav.addObject("tariff", tariffDto);
@@ -61,16 +51,15 @@ public class TariffController {
         return mav;
     }
 
-    @RequestMapping("tariffs/new")
+    @RequestMapping("/new")
     public String newTariff(Map<String, Object> model) {
-        TariffDto tariff = new TariffDto();
         List<OptionDto> options = optionService.getAll();
-        model.put("tariff", tariff);
+        model.put("tariff", new TariffDto());
         model.put("options", options);
-        return "jsp/tariffs/new_tariff";
+        return "jsp/managers/tariffs/new_tariff";
     }
 
-    @RequestMapping(value = "tariffs/save", method = RequestMethod.POST)
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
     public String saveTariff(@RequestParam("option.id") long id, @ModelAttribute("tariff") TariffDto tariff) {
         OptionDto optionDto = optionService.getById(id);
         if(null==tariff.getOptions()){
@@ -82,18 +71,18 @@ public class TariffController {
             tariff.getOptions().add(optionDto);
         }
         tariffService.add(tariff);
-        return "redirect:/managers/tariff";
+        return "redirect:/managers/tariffs";
     }
 
-    @RequestMapping("/tariff/editOptions")
+    @RequestMapping("/editOptions")
     public ModelAndView editMandatoryOptions(@RequestParam long id) {
-        ModelAndView mav = new ModelAndView("jsp/tariffs/addOptions");
+        ModelAndView mav = new ModelAndView("jsp/managers/tariffs/addOptions");
         mav.addObject("tariff", tariffService.getById(id));
         mav.addObject("options", optionService.getAll());
         return mav;
     }
-
-    @RequestMapping(value = "/tariff/updateOptions", method = RequestMethod.POST)
+/*
+    @RequestMapping(value = "/updateOptions", method = RequestMethod.POST)
     public String updateMandatoryOption(@RequestParam("option.id") Long optionId,
                                         @RequestParam("tariff.id") Long tariffId) {
         Set<OptionDto> optionDtos = new HashSet<>();
@@ -105,12 +94,12 @@ public class TariffController {
         optionDtos.add(optionService.getById(optionId));
         tariff.setOptions(optionDtos);
         tariffService.update(tariff);
-        return "redirect:/managers/tariff";
+        return "redirect:/managers/tariffs";
     }
-
-    @RequestMapping(value ="tariffs/delete")
+*/
+    @RequestMapping(value ="/delete")
     public String deleteTariffById(@RequestParam long id) {
         tariffService.delete(id);
-        return "redirect:/managers/tariff";
+        return "redirect:/managers/tariffs";
     }
 }
