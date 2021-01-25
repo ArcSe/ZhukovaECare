@@ -9,10 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 @Component
 public class ClientMapper extends AbstractMapper<Client, ClientDto> {
+
     final
     UserMapper userMapper;
     final UserDao userDao;
@@ -24,20 +28,25 @@ public class ClientMapper extends AbstractMapper<Client, ClientDto> {
         this.userDao = userDao;
     }
 
-
     @PostConstruct
     public void setupMapper() {
         mapper.createTypeMap(Client.class, ClientDto.class)
-                .addMappings(m -> m.skip(ClientDto::setEmail))
+                .addMappings(m -> {m.skip(ClientDto::setEmail); m.skip(ClientDto::setBirthday);} )
                 .setPostConverter(toDtoConverter());
         mapper.createTypeMap(ClientDto.class, Client.class)
-                .addMappings(m -> m.skip(Client::setUser)).setPostConverter(toEntityConverter());
+                .addMappings(m -> {m.skip(Client::setUser); m.skip(Client::setBirthday);})
+                .setPostConverter(toEntityConverter());
     }
 
     @Override
     public void mapSpecificFields(Client source, ClientDto destination) {
         if(!Objects.isNull(getEmail(source))){
             destination.setEmail(getEmail(source));
+        }
+        if(!Objects.isNull(source.getBirthday())){
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate dateTime = source.getBirthday();
+            destination.setBirthday(dateTime.format(formatter));
         }
 
     }
@@ -48,6 +57,14 @@ public class ClientMapper extends AbstractMapper<Client, ClientDto> {
 
     @Override
     void mapSpecificFields(ClientDto source, Client destination) {
-        destination.setUser(userDao.getByEmail(source.getEmail()));
+        if(!Objects.isNull(source.getEmail())) {
+            destination.setUser(userDao.getByEmail(source.getEmail()));
+        }
+        if(!Objects.isNull(source.getBirthday())){
+            String str = source.getBirthday();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate dateTime = LocalDate.parse(str, formatter);
+            destination.setBirthday(dateTime);
+        }
     }
 }

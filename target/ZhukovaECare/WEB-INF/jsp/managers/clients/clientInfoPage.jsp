@@ -25,6 +25,9 @@
         <dt class="col-sm-1">Email:</dt>
         <dd class="col-sm-11">${client.email}</dd>
     </dl>
+    <div>
+        <a class="btn btn-info" href="${pageContext.request.contextPath}/managers/contracts" role="button">Back to Clients</a>
+    </div>
     <h3 class="text-center"> Contract Table</h3>
     <table class="table pt-5">
         <thead>
@@ -54,8 +57,12 @@
                 <td class="text-center">${contract.locked}</td>
                 <td class="text-center">${contract.lockedByAdmin}</td>
                 <td class="text-center">
-                    <a class="btn btn-light" href="/managers/contracts/getById?id=${contract.id}" role="button">Show details</a>
-                    <a class="btn btn-primary" href="/client/lockedContract?contractId=${contract.id}" role="button">Lock</a>
+                    <a class="btn btn-light" href="${pageContext.request.contextPath}/managers/contracts/getById?id=${contract.id}" role="button">Show details</a>
+                    <form action="${pageContext.request.contextPath}/managers/client/deleteContract" method="post">
+                        <input type="hidden" name="contractId" value="${contract.id}"/>
+                        <input type="hidden" name="clientId" value="${client.id}"/>
+                        <button type="submit" class="btn btn-warning">Delete</button>
+                    </form>
                 </td>
             </tr>
         </c:forEach>

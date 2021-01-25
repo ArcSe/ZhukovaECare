@@ -17,14 +17,12 @@ public class ContractMapper extends AbstractMapper<Contract, ContractDto> {
 
     private final ModelMapper mapper;
     private final ClientDao clientDao;
-    private final TariffDao tariffDao;
 
     @Autowired
-    ContractMapper(ModelMapper mapper, TariffDao tariffDao, ClientDao clientDao) {
+    ContractMapper(ModelMapper mapper, ClientDao clientDao) {
         super(Contract.class, ContractDto.class);
         this.mapper = mapper;
         this.clientDao = clientDao;
-        this.tariffDao = tariffDao;
     }
 
     @PostConstruct

@@ -21,4 +21,8 @@ public interface ClientService {
 
     @Transactional
     void save(Client client);
+
+    void addContract(long clientId, long contractId);
+
+    boolean deleteContracts(long clientId, long contractId);
 }

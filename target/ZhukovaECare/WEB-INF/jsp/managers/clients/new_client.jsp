@@ -1,3 +1,6 @@
+<%@ page import="java.util.Date" %>
+<%@ page import="java.time.LocalDate" %>
+<%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
          pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
@@ -29,18 +32,23 @@
                 <form:input type="text" class="form-control" path="passport" placeholder="new number"/>
             </div>
             <div class="form-group col-md-4">
-                <label for="email">Email</label>
-                <form:input type="email" class="form-control" path="email" placeholder="new number"/>
-            </div>
-            <div class="form-group col-md-4">
                 <label for="address">Address</label>
                 <form:input type="text" class="form-control" path="address" placeholder="new number"/>
+            </div
+                <%
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                    LocalDate currentDate = LocalDate.now();
+                    request.setAttribute("currentDate", currentDate);
+                %>
+            <div class="form-group col-md-7 mt-1">
+                <div>
+                <label for="address">Birthday</label>
+                </div>
+                <div>
+                <input type="date" name="calendar" max=${currentDate} min="1900-01-01"/>
+                </div>
             </div>
-            <div class="form-group col-md-4">
-                <label for="address">Password</label>
-                <form:input type="text" class="form-control" path="password" placeholder="new number"/>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary mt-3">Submit</button>
         </div>
     </form:form>
 </div>

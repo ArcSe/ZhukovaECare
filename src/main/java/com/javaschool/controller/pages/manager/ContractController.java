@@ -38,14 +38,14 @@ public class ContractController {
     @RequestMapping("/contracts")
     public ModelAndView home(){
         List<ContractDto> contracts = contractService.getAll();
-        ModelAndView mav = new ModelAndView("jsp/contracts/contractList");
+        ModelAndView mav = new ModelAndView("jsp/managers/contracts/contractList");
         mav.addObject("contracts", contracts);
         return mav;
     }
 
     @RequestMapping("/contracts/getById")
     public ModelAndView getById(@RequestParam long id) {
-        ModelAndView mav = new ModelAndView("jsp/contracts/contractInfoPage");
+        ModelAndView mav = new ModelAndView("jsp/managers/contracts/contractInfoPage");
         mav.addObject("contract", contractService.getById(id));
         return mav;
     }
@@ -76,7 +76,7 @@ public class ContractController {
 
     @RequestMapping("contracts/edit")
     public ModelAndView editOption(@RequestParam long id) {
-        ModelAndView mav = new ModelAndView("jsp/contracts/edit_contract");
+        ModelAndView mav = new ModelAndView("jsp/managers/contracts/edit_contract");
         ContractDto contractDto = contractService.getById(id);
         List<OptionDto> options = optionService.getAll();
         List<TariffDto> tariffs = tariffService.getAll();
@@ -94,7 +94,7 @@ public class ContractController {
         model.put("tariffs", tariffs);
         model.put("options", options);
         model.put("contract", contractDto);
-        return "jsp/contracts/new_contract";
+        return "jsp/managers/contracts/new_contract";
     }
 
     @RequestMapping(value = "contracts/save", method = RequestMethod.POST)
@@ -126,7 +126,7 @@ public class ContractController {
 
     @RequestMapping(value ="contracts/addClient")
     public ModelAndView addClient(@RequestParam long id) {
-        ModelAndView mav = new ModelAndView("jsp/contracts/add_client");
+        ModelAndView mav = new ModelAndView("jsp/managers/contracts/add_client");
         ContractDto contractDto = contractService.getById(id);
         List<ClientDto> clientDtos = clientService.getAll();
         mav.addObject("clients", clientDtos);

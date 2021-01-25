@@ -51,11 +51,17 @@
                         </ul>
                     </td>
                     <td class="text-center">
-                        <a class="btn btn-light" href="${pageContext.request.contextPath}/managers/options/edit?id=${option.id}" role="button">Edit</a>
-                        <form action="${pageContext.request.contextPath}/managers/options/delete?id=${option.id}" method="post">
-                            <input type="hidden" name="optionId" value="${option.id}"/>
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </form>
+                        <div class="row row-cols-auto">
+                            <div class="col">
+                                <a class="btn btn-light" href="${pageContext.request.contextPath}/managers/options/edit?id=${option.id}" role="button">Edit</a>
+                            </div>
+                            <div>
+                                <form action="${pageContext.request.contextPath}/managers/options/delete?id=${option.id}" method="post">
+                                    <input type="hidden" name="optionId" value="${option.id}"/>
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                            </div>
+                        </div>
                     </td>
                 </tr>
             </c:forEach>

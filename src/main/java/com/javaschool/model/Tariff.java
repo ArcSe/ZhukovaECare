@@ -11,7 +11,7 @@ import java.util.Set;
 @Entity
 @Getter @Setter @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "tariffs")
+@Table(name = "tariff")
 public class Tariff extends AbstractModel{
 
     @Column(name = "name", nullable=false)

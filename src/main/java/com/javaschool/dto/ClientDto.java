@@ -13,7 +13,7 @@ public class ClientDto extends AbstractDto {
     private String name;
     private String surname;
     private String email;
-    //private String birthday;
+    private String birthday;
     private int active;
     private int passport;
     private String address;

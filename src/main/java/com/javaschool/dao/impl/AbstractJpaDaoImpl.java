@@ -3,9 +3,12 @@ package com.javaschool.dao.impl;
 import com.javaschool.dao.AbstractDao;
 import com.javaschool.model.AbstractModel;
 import com.javaschool.model.Option;
+import com.javaschool.model.User;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
@@ -38,7 +41,18 @@ public abstract class AbstractJpaDaoImpl<T extends AbstractModel> implements Abs
 
     @Transactional
     public T getById(long id){
-        return em.find(entityClass, id);
+        TypedQuery<T> query = em.createQuery("Select c from " + entityClass.getName() + " c " + "where c.id LIKE "
+                + "?1 ", entityClass);
+        query.setParameter(1, id);
+        T foundUser=null;
+        try {
+            foundUser = query.getSingleResult();
+        }
+        catch (NoResultException e){
+            //!!!Change to log!!!
+            System.out.println(e.getCause());
+        }
+        return foundUser;
     }
 
     @Transactional

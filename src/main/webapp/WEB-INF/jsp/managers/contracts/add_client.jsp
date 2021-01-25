@@ -9,12 +9,12 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <title>Add Client</title>
+    <title>Change Client</title>
     <c:import url="../../general/template.jsp"/>
 </head>
 <body>
 <div align="center">
-    <h2>Add Client</h2>
+    <h2>Change Client</h2>
         <form:form action="updateClient" method="post" modelAttribute="contract">
             <div class="col-sm-7">
                 <div>${contract.id}</div>

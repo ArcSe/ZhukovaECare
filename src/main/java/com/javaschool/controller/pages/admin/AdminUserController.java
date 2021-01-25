@@ -62,7 +62,7 @@ public class AdminUserController {
     }
 
     @RequestMapping(value = "/updateUser", method = RequestMethod.POST)
-    public String updateOption(@ModelAttribute("user") UserDto user) {
+    public String updateUser(@ModelAttribute("user") UserDto user) {
         userService.update(user);
         return "redirect:/";
     }

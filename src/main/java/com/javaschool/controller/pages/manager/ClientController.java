@@ -4,12 +4,9 @@ import com.javaschool.dto.ClientDto;
 import com.javaschool.service.ClientService;
 import com.javaschool.service.ContractService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Map;
@@ -19,22 +16,24 @@ import java.util.Map;
 public class ClientController {
 
     private final ClientService clientService;
+    private final ContractService contractService;
 
     @Autowired
-    public ClientController(ClientService clientService) {
+    public ClientController(ClientService clientService, ContractService contractService) {
         this.clientService = clientService;
+        this.contractService = contractService;
     }
 
     @RequestMapping()
     public ModelAndView getAll() {
-        ModelAndView mav = new ModelAndView("jsp/clients/clientsList");
+        ModelAndView mav = new ModelAndView("jsp/managers/clients/clientsList");
         mav.addObject("listClient", clientService.getAll());
         return mav;
     }
 
     @RequestMapping("/getById")
     public ModelAndView getById(@RequestParam long id) {
-        ModelAndView mav = new ModelAndView("jsp/clients/clientInfoPage");
+        ModelAndView mav = new ModelAndView("jsp/managers/clients/clientInfoPage");
         mav.addObject("client", clientService.getById(id));
         return mav;
     }
@@ -42,24 +41,51 @@ public class ClientController {
     @RequestMapping("new")
     public String newClient(Map<String, Object> model) {
         model.put("client", new ClientDto());
-        return "jsp/clients/new_client";
+        return "jsp/managers/clients/new_client";
+    }
+
+    @RequestMapping("/addContract")
+    public ModelAndView editContract(@RequestParam long id) {
+        ModelAndView mav = new ModelAndView("jsp/managers/clients/addContract");
+        mav.addObject("client", clientService.getById(id));
+        mav.addObject("contracts", contractService.getAll());
+        return mav;
+    }
+
+    @RequestMapping(value = "/addContract", method = RequestMethod.POST)
+    private String addMandatoryOption(@RequestParam("clientId") long clientId,
+                                      @RequestParam("contractId") long contractId){
+        clientService.addContract(clientId, contractId);
+        editContract(clientId);
+        return "redirect:/managers/client/addContract?id="+ clientId;
+    }
+
+    @RequestMapping(value ="/deleteContract", method = RequestMethod.POST)
+    public String  deleteMandatoryOption(@RequestParam("clientId") long clientId,
+                                         @RequestParam("contractId") long contractId){
+        clientService.deleteContracts(clientId, contractId);
+        return "redirect:/managers/client/addContract?id="+ clientId;
     }
 
     @RequestMapping(value = "save", method = RequestMethod.POST)
-    public String saveClient(@ModelAttribute("client") ClientDto client) {
+    public String saveClient(@RequestParam("calendar") String calendar,
+                             @ModelAttribute("client") ClientDto client) {
+        client.setBirthday(calendar);
         clientService.add(client);
         return "redirect:/managers/client";
     }
 
     @RequestMapping(value = "update", method = RequestMethod.POST)
-    public String updateClient(@ModelAttribute("client") ClientDto clientDto) {
+    public String updateClient(@RequestParam("calendar") String calendar,
+                               @ModelAttribute("client") ClientDto clientDto) {
+        clientDto.setBirthday(calendar);
         clientService.update(clientDto);
         return "redirect:/managers/client";
     }
 
     @RequestMapping("edit")
     public ModelAndView editClient(@RequestParam long id) {
-        ModelAndView mav = new ModelAndView("jsp/clients/edit_client");
+        ModelAndView mav = new ModelAndView("jsp/managers/clients/edit_client");
         ClientDto client = clientService.getById(id);
         mav.addObject("client", client);
         return mav;
