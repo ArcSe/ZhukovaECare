@@ -35,7 +35,7 @@ public class Client extends AbstractModel {
     @OneToOne(mappedBy = "client")
     private User user;
 
-    @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "client", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Contract> contracts;
 
 

@@ -13,7 +13,7 @@
     <div class="container">
         <h2 align="center">Client Manager</h2>
         <br>
-        <a class="btn btn-info" href="${pageContext.request.contextPath}/managers/client/new" role="button">New Client</a>
+        <a class="btn btn-info" style="align-self: center" href="${pageContext.request.contextPath}/managers/client/new" role="button">New Client</a>
         <div class="col-lg-3 pt-4 pr-5 offset-lg-7">
             <input type="search" class="form-control" path="name"
                    placeholder="Enter name" style="padding: 5px 2px 5px 25px;

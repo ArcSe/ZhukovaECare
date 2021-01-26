@@ -14,7 +14,7 @@
 </head>
 <body>
 <div align="center">
-    <h2>Add Mandatory Options</h2>
+    <h2>Add Banned Option</h2>
     <div class="col-sm-7">
         <input type="hidden" name="option.id" value="${option.id}"/>
     </div>

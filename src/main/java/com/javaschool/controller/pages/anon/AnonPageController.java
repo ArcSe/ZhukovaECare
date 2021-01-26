@@ -21,6 +21,7 @@ public class AnonPageController {
         this.tariffService = tariffService;
     }
 
+    /*
     @RequestMapping(value = "/")
     public ModelAndView getHomePage(){
         List<TariffDto> listTariff = tariffService.getAll();
@@ -28,6 +29,8 @@ public class AnonPageController {
         mav.addObject("tariffs", listTariff);
         return mav;
     }
+
+     */
 
     @RequestMapping(value = "/404")
     public String get404(){

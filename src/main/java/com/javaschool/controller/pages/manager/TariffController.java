@@ -43,19 +43,19 @@ public class TariffController {
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String updateOption(@RequestParam("option.id") long id,
-                               @ModelAttribute("tariff") TariffDto tariff) {
-        tariffService.update(id, tariff);
+    public String updateTariff(@ModelAttribute("tariff") TariffDto tariff) {
+        TariffDto tariffDB = tariffService.getById(tariff.getId());
+        tariffDB.setName(tariff.getName());
+        tariffDB.setPrice(tariff.getPrice());
+        tariffService.update( tariffDB);
         return "redirect:/managers/tariffs";
     }
 
     @RequestMapping("/edit")
-    public ModelAndView editOption(@RequestParam long id) {
+    public ModelAndView editTariff(@RequestParam long id) {
         ModelAndView mav = new ModelAndView("jsp/managers/tariffs/edit_tariff");
         TariffDto tariffDto = tariffService.getById(id);
-        List<OptionDto> options = optionService.getAll();
         mav.addObject("tariff", tariffDto);
-        mav.addObject("options", options);
         return mav;
     }
 

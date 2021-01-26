@@ -12,7 +12,7 @@ public interface TariffService {
 
     void delete(long id);
 
-    void update(long id, TariffDto tariff);
+    void update( TariffDto tariff);
 
     TariffDto getById(long id);
 

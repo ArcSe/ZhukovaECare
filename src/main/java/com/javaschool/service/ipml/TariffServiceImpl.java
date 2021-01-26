@@ -4,6 +4,7 @@ import com.javaschool.dao.OptionDao;
 import com.javaschool.dao.TariffDao;
 import com.javaschool.dto.OptionDto;
 import com.javaschool.dto.TariffDto;
+import com.javaschool.exception.BadValueException;
 import com.javaschool.mapper.TariffMapper;
 import com.javaschool.model.Option;
 import com.javaschool.model.Tariff;
@@ -50,17 +51,8 @@ public class TariffServiceImpl implements TariffService {
     }
 
     @Override
-    public void update(long id, TariffDto tariffDto) {
-        Option option = optionDao.getById(id);
+    public void update( TariffDto tariffDto) {
         Tariff tariff = tariffMapper.toEntity(tariffDto);
-        if(Objects.isNull(tariff.getOptions())){
-            Set<Option> set = new HashSet<>();
-            set.add(option);
-            tariff.setOptions(set);
-        }
-        else {
-            tariff.getOptions().add(option);
-        }
         tariffDao.update(tariff);
     }
 
@@ -86,11 +78,22 @@ public class TariffServiceImpl implements TariffService {
         tariffDao.update(tariff);
     }
 
+    //todo message about banned options
     @Override
-    public void addOption(Long optionId, Long tariffId) {
+    public void addOption(Long optionId, Long tariffId){
         Tariff tariff = tariffDao.getById(tariffId);
         Set<Option> options = tariff.getOptions();
-        options.add(optionDao.getById(optionId));
+        Option option = optionDao.getById(optionId);
+        options.forEach(option1 -> {if(option1.getBannedOptions().contains(option)){
+            try {
+                throw new BadValueException();
+            } catch (BadValueException e) {
+                e.printStackTrace();
+            }
+        }});
+        Set<Option> mandatoryOptions = option.getMandatoryOptions();
+        options.addAll(mandatoryOptions);
+        options.add(option);
         tariff.setOptions(options);
         tariffDao.update(tariff);
     }

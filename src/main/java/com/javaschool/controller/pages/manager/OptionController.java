@@ -49,13 +49,17 @@ public class OptionController {
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public String saveOption(@ModelAttribute("option") OptionDto option) {
         optionService.add(option);
-        return "redirect:/";
+        return "redirect:/managers/options";
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String updateOption(@ModelAttribute("option") OptionDto option) {
-        optionService.update(option);
-        return "redirect:/";
+        OptionDto optionDB = optionService.getById(option.getId());
+        optionDB.setName(option.getName());
+        optionDB.setPrice(option.getPrice());
+        optionDB.setServiceCost(option.getServiceCost());
+        optionService.update(optionDB);
+        return "redirect:/managers/options";
     }
 
     @RequestMapping("/edit")

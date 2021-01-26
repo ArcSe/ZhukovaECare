@@ -7,12 +7,12 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <title>Edit Option</title>
+    <title>Edit Contract</title>
     <c:import url="../../general/template.jsp"/>
 </head>
 <body>
 <div class="container">
-    <h2>Edit Option</h2>
+    <h2>Edit Contract</h2>
     <br>
     <form:form action="update" method="post" modelAttribute="contract">
         <div class="form-group row">

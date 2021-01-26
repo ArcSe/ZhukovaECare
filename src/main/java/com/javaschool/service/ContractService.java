@@ -22,5 +22,5 @@ public interface ContractService {
 
     void addOption(long optionId, long contractId);
 
-    void deleteOptions(long optionId, long contractId);
+    void deleteOptions(long optionId, long contractId) throws Exception;
 }

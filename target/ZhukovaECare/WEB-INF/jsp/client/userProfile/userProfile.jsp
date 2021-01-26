@@ -8,25 +8,26 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-4">
-                <h1 class="display-4">${user.client.name} ${user.client.surname}</h1>
-            </div>
-            <div class="pt-4">
-                <a class="btn btn-light" href="#" role="button">Setting</a>
+                <h1 class="display-4">${client.name} ${client.surname}</h1>
             </div>
         </div>
         <dl class="row">
             <dt class="col-sm-1">Birthday:</dt>
-            <dd class="col-sm-11"> 10 мая 1234</dd>
+            <dd class="col-sm-11">${client.birthday}</dd>
 
             <dt class="col-sm-1">Passport:</dt>
-            <dd class="col-sm-11">${user.client.passport}</dd>
+            <dd class="col-sm-11">${client.passport}</dd>
 
             <dt class="col-sm-1">Address:</dt>
-            <dd class="col-sm-11">${user.client.address}</dd>
+            <dd class="col-sm-11">${client.address}</dd>
 
             <dt class="col-sm-1">Email:</dt>
-            <dd class="col-sm-11">${user.email}</dd>
+            <dd class="col-sm-11">${client.email}</dd>
         </dl>
+        <div class="pt-4">
+            <a class="btn btn-light" href="#" role="button">New contract</a>
+        </div>
+        <br>
         <table class="table pt-5">
             <thead>
             <tr>
@@ -34,27 +35,37 @@
                 <th scope="col">Number</th>
                 <th scope="col">Tariff</th>
                 <th scope="col">Options</th>
-                <th scope="col">Actions</th>
                 <th scope="col">Locked</th>
                 <th scope="col">ByAdmin</th>
+                <th scope="col">Actions</th>
             </tr>
             </thead>
             <tbody>
-                <c:forEach items="${user.client.contracts}" var="contract">
+                <c:forEach items="${client.contracts}" var="contract">
                     <tr>
                         <td>${contract.id}</td>
                         <td>${contract.number}</td>
                         <td>${contract.tariff.name}</td>
-                        <td>${contract.options}</td>
+                        <td>
+                            <ul>
+                            <c:forEach items="${contract.options}" var="option">
+                                <li>${option.name}</li>
+                            </c:forEach>
+                            </ul>
+                        </td>
                         <td>${contract.locked}</td>
                         <td>${contract.lockedByAdmin}</td>
                         <td>
                             <c:choose>
                                 <c:when test="${!contract.locked}">
-                                    <a class="btn btn-danger" href="#" role="button">Show details</a>
+                                    <a class="btn btn-light" href="/client/addTariff?id=${contract.id}" role="button">Change tariff</a>
+                                    <a class="btn btn-danger" href="/client/contractInfo?id=${contract.id}" role="button">Show details</a>
                                 </c:when>
                                 <c:otherwise>
-                                    <a href="#" role="button"class="btn btn-danger disabled" tabindex="-1"  aria-disabled="true">
+                                    <a  href="/client/addTariff?id=${contract.id}" role="button" class="btn btn-light disabled"
+                                        tabindex="-1"  aria-disabled="true">Change tariff</a>
+                                    <a href="/client/contractInfo?id=${contract.id}" role="button"class="btn btn-danger disabled"
+                                       tabindex="-1"  aria-disabled="true">
                                         Show details
                                     </a>
                                 </c:otherwise>
@@ -65,9 +76,15 @@
                                         Lock
                                     </a>
                                 </c:when>
+                                <c:when test="${contract.lockedByAdmin}">
+                                    <a  href="/client/lockedContract?contractId=${contract.id}" role="button"
+                                        class="btn btn-danger disabled" tabindex="-1"  aria-disabled="true">
+                                        Unlock
+                                    </a>
+                                </c:when>
                                 <c:otherwise>
-                                    <a  href="/client/lockedContract?contractId=${contract.id}" role="button" class="btn btn-danger disabled" tabindex="-1"  aria-disabled="true">
-                                        Lock
+                                    <a  href="/client/lockedContract?contractId=${contract.id}" role="button" class="btn btn-danger">
+                                        Unlock
                                     </a>
                                 </c:otherwise>
                             </c:choose>

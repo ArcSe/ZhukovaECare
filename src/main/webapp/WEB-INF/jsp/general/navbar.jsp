@@ -39,9 +39,6 @@
             <security:authorize access="hasRole('USER')">
                 <a class="nav-link" href="/client/userProfile"> Client Profile </a>
             </security:authorize>
-            <security:authorize access="hasAnyRole('MANAGER','ADMIN')">
-                <a class="nav-link" href="#"> Personal Page </a>
-            </security:authorize>
         </div>
 </nav>
 </head>

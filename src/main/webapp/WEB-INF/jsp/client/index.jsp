@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="../general/template.jsp"%>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <html>
 <head>
     <title> Ecare</title>
@@ -10,12 +11,6 @@
         <div class="row px-5">
             <div class="col-lg-2">
                 <h1 class="display-4" >Tariffs</h1>
-            </div>
-            <div class="col-lg-3 pt-4 pr-5 offset-lg-7">
-                <input type="search" class="form-control" path="name"
-                            placeholder="Enter name" style="padding: 5px 2px 5px 25px;
-                            background: url('http://3.bp.blogspot.com/-4w14hQHr5yQ/Tgm6u7KwUkI/AAAAAAAACAI/Hu2poBOPx3g/s25/search.png')
-                            no-repeat scroll 0 50%;"/>
             </div>
         </div>
         <div class="row pt-3 pl-5">
@@ -30,7 +25,11 @@
                                 ${option.name}
                             </c:forEach>
                         </p>
-                        <a href="#" class="btn btn-dark">Buy </a>
+                        <security:authorize access="isAuthenticated()">
+                            <a href="#" class="btn btn-dark">Include to new contract </a>
+                            <a href="#" class="btn btn-dark">Change tariff in exit contract </a>
+                        </security:authorize>
+                            <a href="#" class="btn btn-dark">Show more</a>
                     </div>
                 </div>
             </c:forEach>

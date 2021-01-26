@@ -90,14 +90,18 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
-    public void deleteOptions(long optionId, long contractId) {
+    public void deleteOptions(long optionId, long contractId) throws Exception {
         Contract contract = contractDao.getById(contractId);
         Option option = optionDao.getById(optionId);
         Set<Option> options = contract.getOptions();
         if (!options.contains(option)) {
             //todo: Exception EntityNotFound
+            throw new Exception();
         }
-        contract.setOptions(options);
+        Set<Option> resultOptions = options.stream()
+                .filter(option1 -> option1.getId()!=optionId)
+                .collect(Collectors.toSet());
+        contract.setOptions(resultOptions);
         contractDao.update(contract);
     }
 }

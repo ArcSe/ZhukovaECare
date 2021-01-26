@@ -28,7 +28,7 @@ public class Contract extends AbstractModel{
     @JoinColumn(name = "tarrif_id")
     private Tariff tariff;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "client_id",
                 referencedColumnName ="id")
     private Client client;

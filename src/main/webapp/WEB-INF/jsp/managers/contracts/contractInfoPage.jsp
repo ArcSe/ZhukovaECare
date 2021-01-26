@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
          pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -30,15 +31,20 @@
     <h3 class="text-center"> Option table</h3>
     <div class="row">
         <div>
+            <security:authorize access="hasRole('MANAGER')">
             <a  class=" btn btn-primary" href="${pageContext.request.contextPath}/managers/contracts" role="button">Back to Contracts</a>
+            </security:authorize>
+            <security:authorize access="hasRole('USER')">
+                <a  class=" btn btn-primary" href="${pageContext.request.contextPath}/client/userProfile" role="button">Back to Client page</a>
+            </security:authorize>
             <c:choose>
                 <c:when test="${!contract.locked}">
-                    <a class="btn btn-info" href="${pageContext.request.contextPath}/managers/contracts/addOption?id=${contract.id}"
+                    <a class="btn btn-info" href="${pageContext.request.contextPath}/contracts/addOption?id=${contract.id}"
                        role="button">Change Options
                     </a>
                 </c:when>
                 <c:otherwise>
-                    <a  href="${pageContext.request.contextPath}/managers/contracts/addOption?id=${contract.id}" role="button"
+                    <a  href="${pageContext.request.contextPath}/contracts/addOption?id=${contract.id}" role="button"
                         class="btn btn-danger disabled" tabindex="-1"  aria-disabled="true">
                         Change Options
                     </a>

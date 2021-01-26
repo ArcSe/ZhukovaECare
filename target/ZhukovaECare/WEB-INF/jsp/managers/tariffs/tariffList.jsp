@@ -41,9 +41,9 @@
                             </ul>
                         </td>
                         <td class="text-center">
-                            <a class="btn btn-light" href="${pageContext.request.contextPath}/managers/tariffs/getById?id=${tariff.id}" role="button">Show Details</a>
-                            <a class="btn btn-primary" href="${pageContext.request.contextPath}/managers/tariffs/edit?id=${tariff.id}" role="button">Edit</a>
                             <form action="${pageContext.request.contextPath}/managers/tariffs/delete" method="post">
+                                <a class="btn btn-light" href="${pageContext.request.contextPath}/managers/tariffs/getById?id=${tariff.id}" role="button">Show Details</a>
+                                <a class="btn btn-primary" href="${pageContext.request.contextPath}/managers/tariffs/edit?id=${tariff.id}" role="button">Edit</a>
                                 <input type="hidden" name="tariffId" value="${tariff.id}"/>
                                 <button type="submit" class="btn btn-danger">Delete</button>
                             </form>

@@ -3,6 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="input" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%@ include file="../../general/index.jsp"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional/RUS"
 "http://www.w3.org/TR/html4/loose.dtd">
@@ -15,10 +16,7 @@
 <body>
 <div align="center">
     <h2>Add Options</h2>
-    <div class="col-sm-7">
-        <input type="hidden" name="contract.id" value="${contract.id}"/>
-    </div>
-    <div class="form-group col-md-4">
+    <div class="container">
         <label >Options</label>
         <table class="table">
             <thead>
@@ -56,14 +54,14 @@
                     <td class="text-center">
                         <c:choose>
                             <c:when test="${contract.options.contains(option)}">
-                                <form action="${pageContext.request.contextPath}/managers/contracts/deleteOption" method="post">
+                                <form action="${pageContext.request.contextPath}/contracts/deleteOption" method="post">
                                     <input type="hidden" name="contractId" value="${contract.id}"/>
                                     <input type="hidden" name="optionId" value="${option.id}"/>
                                     <button type="submit" class="btn btn-warning">Delete</button>
                                 </form>
                             </c:when>
                             <c:otherwise>
-                                <form action="${pageContext.request.contextPath}/managers/contracts/addOption" method="post">
+                                <form action="${pageContext.request.contextPath}/contracts/addOption" method="post">
                                     <input type="hidden" name="contractId" value="${contract.id}"/>
                                     <input type="hidden" name="optionId" value="${option.id}"/>
                                     <button type="submit" class="btn btn-danger">Add</button>
@@ -76,8 +74,12 @@
             </tbody>
         </table>
     </div>
-    <a href="/managers/contracts" class="btn btn-primary">Back to Contracts</a>
-</div>
+    <security:authorize access="hasRole('MANAGER')">
+        <a href="/managers/contracts" class="btn btn-primary">Back to Contracts</a>
+    </security:authorize>
+    <security:authorize access="hasRole('USER')">
+        <a href="/client/userProfile" class="btn btn-primary">Back to client profile</a>
+    </security:authorize>
 </div>
 </body>
 </html>

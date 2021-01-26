@@ -97,9 +97,11 @@ public class ContractController {
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String updateTariff(@RequestParam("tariff.id") long tariffsId,
                                @ModelAttribute("contract") ContractDto contract) {
-
-        contract.setTariff(tariffService.getById(tariffsId));
-        contractService.update(contract);
+        ContractDto contractDB = contractService.getById(contract.getId());
+        contractDB.setTariff(tariffService.getById(tariffsId));
+        contractDB.setClientId(contract.getClientId());
+        contractDB.setNumber(contract.getNumber());
+        contractService.update(contractDB);
         return "redirect:/managers/contracts";
     }
 
@@ -111,29 +113,6 @@ public class ContractController {
         mav.addObject("tariff", tariffs);
         mav.addObject("contract", contractDto);
         return mav;
-    }
-
-    @RequestMapping("/addOption")
-    public ModelAndView editOption(@RequestParam long id) {
-        ModelAndView mav = new ModelAndView("jsp/managers/contracts/addOptions");
-        mav.addObject("contract", contractService.getById(id));
-        mav.addObject("options", optionService.getAll());
-        return mav;
-    }
-
-    @RequestMapping(value = "/addOption", method = RequestMethod.POST)
-    private String addOption(@RequestParam("optionId") long optionId,
-                               @RequestParam("contractId") long contractId){
-        contractService.addOption(optionId, contractId);
-        //editOption(optionId);
-        return "redirect:/managers/contracts/addOption?id="+ contractId;
-    }
-
-    @RequestMapping(value ="/deleteOption", method = RequestMethod.POST)
-    public String  deleteOption(@RequestParam("optionId") long optionId,
-                                @RequestParam("contractId") long contractId){
-        contractService.deleteOptions(optionId, contractId);
-        return "redirect:/managers/contracts/addOption?id="+ contractId;
     }
 
 

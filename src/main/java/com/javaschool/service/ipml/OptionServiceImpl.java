@@ -60,16 +60,57 @@ public class OptionServiceImpl implements OptionService {
     @Override
     public void addMandatory(long optionId, long idMandatoryOption) {
         Option option = optionDao.getById(optionId);
-        Set<Option> mandatoryOption;
+        Option mandatoryOption = optionDao.getById(idMandatoryOption);
+        Set<Option> mandatoryOptions;
         if(!Objects.isNull(option.getMandatoryOptions())) {
-            mandatoryOption = option.getMandatoryOptions();
+            mandatoryOptions = option.getMandatoryOptions();
         }
         else {
-            mandatoryOption = new HashSet<>();
+            mandatoryOptions = new HashSet<>();
         }
-        mandatoryOption.add(optionDao.getById(idMandatoryOption));
-        option.setMandatoryOptions(mandatoryOption);
+        mandatoryOptions.addAll(recursMandatoryOption(mandatoryOptions, mandatoryOption));
+        option.setMandatoryOptions(mandatoryOptions);
         optionDao.update(option);
+    }
+
+    private Set<Option> recursMandatoryOption(Set<Option> options, Option newOption){
+        options.add(newOption);
+        Set<Option> mandatoryOptions;
+        if(!Objects.isNull(newOption.getMandatoryOptions())) {
+            mandatoryOptions = newOption.getMandatoryOptions();
+        }
+        else {
+            mandatoryOptions = new HashSet<>();
+        }
+        mandatoryOptions.removeAll(options);
+        if(mandatoryOptions.isEmpty()){
+            return options;
+        }
+        else {
+            mandatoryOptions.forEach(option ->  {options.addAll(recursMandatoryOption(mandatoryOptions, option));});
+        }
+
+        return options;
+    }
+
+    private Set<Option> recursBannedOption(Set<Option> options, Option newOption){
+        options.add(newOption);
+        Set<Option> bannedOptions;
+        if(!Objects.isNull(newOption.getBannedOptions())) {
+            bannedOptions = newOption.getBannedOptions();
+        }
+        else {
+            bannedOptions = new HashSet<>();
+        }
+        bannedOptions.removeAll(options);
+        if(bannedOptions.isEmpty()){
+            return options;
+        }
+        else {
+            bannedOptions.forEach(option ->  options.addAll(recursMandatoryOption(bannedOptions, option)));
+        }
+
+        return options;
     }
 
     @Override
@@ -99,8 +140,12 @@ public class OptionServiceImpl implements OptionService {
         else {
             bannedOptions = new HashSet<>();
         }
-        bannedOptions.add(bannedOption);
-        option.setBannedOptions(bannedOptions);
+        //bannedOptions.add(bannedOption);
+        Set<Option> resultRecurs = recursBannedOption(bannedOptions, bannedOption).stream()
+                .filter(option1 -> !option1.equals(option))
+                .collect(Collectors.toSet());
+        bannedOptions.addAll(resultRecurs);
+        option.setBannedOptions(resultRecurs);
         optionDao.update(option);
 
     }
