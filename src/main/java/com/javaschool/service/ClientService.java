@@ -5,6 +5,7 @@ import com.javaschool.model.Client;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Set;
 
 public interface ClientService {
     List<ClientDto> getAll();
@@ -25,4 +26,6 @@ public interface ClientService {
     void addContract(long clientId, long contractId);
 
     void deleteContracts(long clientId, long contractId);
+
+    List<ClientDto> getAllByQuery(String name);
 }

@@ -121,7 +121,7 @@ public class OptionController {
     @PostMapping("/addBannedOption")
     private String addBannedOption(@RequestParam("optionId") long optionId,
                              @RequestParam("bannedOptionId") long bannedOptionId){
-        optionService.addBannedOption(optionId, bannedOptionId);
+        optionService.addBannedOptionToDB(optionId, bannedOptionId);
         editBannedOptions(optionId);
         return "redirect:/managers/options/editBannedOptions?id="+ optionId;
     }

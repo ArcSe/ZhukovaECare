@@ -70,6 +70,9 @@ public class OptionServiceImpl implements OptionService {
         }
         mandatoryOptions.addAll(recursMandatoryOption(mandatoryOptions, mandatoryOption));
         option.setMandatoryOptions(mandatoryOptions);
+        Set<Option> banOption = addBannedOption(optionId, idMandatoryOption).getBannedOptions();
+        banOption.remove(mandatoryOption);
+        option.getBannedOptions().addAll(banOption);
         optionDao.update(option);
     }
 
@@ -130,7 +133,13 @@ public class OptionServiceImpl implements OptionService {
     }
 
     @Override
-    public void addBannedOption(long idOption, long bannedOptionId) {
+    public void addBannedOptionToDB(long idOption, long bannedOptionId) {
+        Option option = addBannedOption(idOption,bannedOptionId);
+        optionDao.update(option);
+    }
+
+
+    public Option addBannedOption(long idOption, long bannedOptionId) {
         Option option = optionDao.getById(idOption);
         Option bannedOption = optionDao.getById(bannedOptionId);
         Set<Option> bannedOptions;
@@ -146,8 +155,7 @@ public class OptionServiceImpl implements OptionService {
                 .collect(Collectors.toSet());
         bannedOptions.addAll(resultRecurs);
         option.setBannedOptions(resultRecurs);
-        optionDao.update(option);
-
+        return option;
     }
 
     @Override

@@ -30,7 +30,7 @@ public class UserDaoImpl extends AbstractJpaDaoImpl<User> implements UserDao {
             foundUser = query.getSingleResult();
         }
         catch (NoResultException e){
-            //!!!Change to log!!!
+            //todo!!!Change to log!!!
             System.out.println(e.getCause());
         }
         return foundUser;

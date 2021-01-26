@@ -94,4 +94,14 @@ public class ClientServiceImpl implements ClientService {
         client.setContracts(contracts);
         clientDao.update(client);
     }
+
+    @Override
+    public List<ClientDto> getAllByQuery(String name) {
+        if(name.equals("")){
+            return getAll();
+        }
+        else {
+            return clientDao.getByName(name).stream().map(clientMapper::toDto).collect(Collectors.toList());
+        }
+    }
 }

@@ -31,6 +31,13 @@ public class ClientController {
         return mav;
     }
 
+    @RequestMapping( method = RequestMethod.POST)
+    public ModelAndView getAllByQuery(@RequestParam String name) {
+        ModelAndView mav = new ModelAndView("jsp/managers/clients/clientsList");
+        mav.addObject("listClient", clientService.getAllByQuery(name));
+        return mav;
+    }
+
     @RequestMapping("/getById")
     public ModelAndView getById(@RequestParam long id) {
         ModelAndView mav = new ModelAndView("jsp/managers/clients/clientInfoPage");
