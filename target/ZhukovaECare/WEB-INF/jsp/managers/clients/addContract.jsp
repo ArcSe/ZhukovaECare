@@ -24,7 +24,6 @@
                     <th scope="col" class="text-center">Number</th>
                     <th scope="col" class="text-center">Tariff</th>
                     <th scope="col" class="text-center">Option</th>
-                    <th scope="col" class="text-center">ClientId</th>
                     <th scope="col" class="text-center">Actions</th>
                 </tr>
                 </thead>
@@ -49,6 +48,9 @@
                                     <input type="hidden" name="clientId" value="${client.id}"/>
                                     <button type="submit" class="btn btn-warning">Delete</button>
                                 </form>
+                            </c:when>
+                            <c:when test="${contract.clientId != null}">
+                                <button type="submit" class="btn btn-warning" disabled>Add</button>
                             </c:when>
                             <c:otherwise>
                                 <form action="${pageContext.request.contextPath}/managers/client/addContract" method="post">

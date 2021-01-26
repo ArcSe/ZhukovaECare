@@ -9,14 +9,18 @@
     <c:import url="../../general/template.jsp"/>
 </head>
 <body>
-<div align="center">
-    <h2>Client Manager</h2>
-    <br>
-    <div>
-        <a class="btn btn-info" href="${pageContext.request.contextPath}/managers/client/new" role="button">New Client</a>
-    </div>
-    <br>
+<div>
     <div class="container">
+        <h2 align="center">Client Manager</h2>
+        <br>
+        <a class="btn btn-info" href="${pageContext.request.contextPath}/managers/client/new" role="button">New Client</a>
+        <div class="col-lg-3 pt-4 pr-5 offset-lg-7">
+            <input type="search" class="form-control" path="name"
+                   placeholder="Enter name" style="padding: 5px 2px 5px 25px;
+                            background: url('http://3.bp.blogspot.com/-4w14hQHr5yQ/Tgm6u7KwUkI/AAAAAAAACAI/Hu2poBOPx3g/s25/search.png')
+                            no-repeat scroll 0 50%;"/>
+        </div>
+        <br>
         <table class="table">
             <thead>
             <tr>
@@ -44,15 +48,13 @@
                     <td class="text-center">
                         <ul>
                             <c:forEach items="${client.contracts}" var="contract">
-                                <a href="${pageContext.request.contextPath}/managers/contracts/getById?id=${contract.id}"> ${contract.number}</a>
+                                <li><a href="${pageContext.request.contextPath}/managers/contracts/getById?id=${contract.id}"> ${contract.number}</a></li>
                             </c:forEach>
                         </ul>
                     </td>
                     <td class="text-center">
                         <a class="btn btn-light" href="${pageContext.request.contextPath}/managers/client/getById?id=${client.id}" role="button">Show Details</a>
-                        <a class="btn btn-light" href="${pageContext.request.contextPath}/managers/contracts" role="button">Choose contract</a>
                         <a class="btn btn-primary" href="${pageContext.request.contextPath}/managers/client/edit?id=${client.id}" role="button">Edit</a>
-
                         <a class="btn btn-danger" href="${pageContext.request.contextPath}/managers/client/delete?id=${client.id}" role="button">Delete</a>
                     </td>
                 </tr>

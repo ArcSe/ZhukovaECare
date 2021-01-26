@@ -16,7 +16,7 @@
         </div>
         <dl class="row">
             <dt class="col-sm-1">Birthday:</dt>
-            <dd class="col-sm-11"> 10 мая 1234</dd>
+            <dd class="col-sm-11">${user.client.birthday}</dd>
 
             <dt class="col-sm-1">Passport:</dt>
             <dd class="col-sm-11">${user.client.passport}</dd>
@@ -49,9 +49,28 @@
                         <td>${contract.locked}</td>
                         <td>${contract.lockedByAdmin}</td>
                         <td>
-                            <a class="btn btn-light" href="#" role="button">Change tariff</a>
-                            <a class="btn btn-primary" href="/client/lockedContract?contractId=${contract.id}" role="button">Lock</a>
-                            <a class="btn btn-danger" href="#" role="button">Show options</a>
+                            <c:choose>
+                                <c:when test="${!contract.locked}">
+                                    <a class="btn btn-danger" href="#" role="button">Show details</a>
+                                </c:when>
+                                <c:otherwise>
+                                    <a href="#" role="button"class="btn btn-danger disabled" tabindex="-1"  aria-disabled="true">
+                                        Show details
+                                    </a>
+                                </c:otherwise>
+                            </c:choose>
+                            <c:choose>
+                                <c:when test="${!contract.locked}">
+                                    <a class="btn btn-primary" href="/client/lockedContract?contractId=${contract.id}" role="button">
+                                        Lock
+                                    </a>
+                                </c:when>
+                                <c:otherwise>
+                                    <a  href="/client/lockedContract?contractId=${contract.id}" role="button" class="btn btn-danger disabled" tabindex="-1"  aria-disabled="true">
+                                        Lock
+                                    </a>
+                                </c:otherwise>
+                            </c:choose>
                         </td>
                     </tr>
                 </c:forEach>

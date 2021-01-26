@@ -13,7 +13,9 @@
             </div>
             <div class="col-lg-3 pt-4 pr-5 offset-lg-7">
                 <input type="search" class="form-control" path="name"
-                            placeholder="Enter name"/>
+                            placeholder="Enter name" style="padding: 5px 2px 5px 25px;
+                            background: url('http://3.bp.blogspot.com/-4w14hQHr5yQ/Tgm6u7KwUkI/AAAAAAAACAI/Hu2poBOPx3g/s25/search.png')
+                            no-repeat scroll 0 50%;"/>
             </div>
         </div>
         <div class="row pt-3 pl-5">

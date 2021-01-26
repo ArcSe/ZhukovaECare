@@ -1,3 +1,5 @@
+<%@ page import="com.javaschool.model.Contract" %>
+<%@ page import="com.javaschool.dto.ContractDto" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
          pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -42,13 +44,26 @@
                         </ul>
                     </td>
                     <td class="text-center">${contract.clientId}</td>
-                    <td class="text-center">
-                        <a class="btn btn-light" href="/managers/contracts/addClient?id=${contract.id}" role="button">Add Client</a>
+                    <td>
                         <a class="btn btn-light" href="/managers/contracts/getById?id=${contract.id}" role="button">Show Details</a>
-                        <a class="btn btn-primary" href="/managers/contracts/edit?id=${contract.id}" role="button">Edit</a>
-                        <a class="btn btn-danger" href="/admin/lockedContract?contractId=${contract.id}" method ="post" role="button">
-                            Delete
-                        </a>
+                        <c:choose>
+                            <c:when test="${!contract.locked}">
+                                <a class="btn btn-light" href="/managers/contracts/addClient?id=${contract.id}" role="button">Change Client</a>
+                                <a class="btn btn-primary" href="/managers/contracts/edit?id=${contract.id}" role="button">Edit</a>
+                            </c:when>
+                            <c:otherwise>
+                                <a class="btn btn-light disabled" href="/managers/contracts/addClient?id=${contract.id}" tabindex="-1" aria-disabled="true" role="button">Change Client</a>
+                                <a class="btn btn-primary disabled" href="/managers/contracts/edit?id=${contract.id}" tabindex="-1"  aria-disabled="true" role="button">Edit</a>
+                            </c:otherwise>
+                        </c:choose>
+                        <c:choose>
+                            <c:when test="${contract.locked}">
+                                <a class="btn btn-danger" href="/admin/lockedContract?contractId=${contract.id}" method ="post" role="button"> Unlock </a>
+                            </c:when>
+                            <c:otherwise>
+                                <a class="btn btn-danger" href="/admin/lockedContract?contractId=${contract.id}" method ="post" role="button"> Lock </a>
+                            </c:otherwise>
+                        </c:choose>
                     </td>
                 </tr>
             </c:forEach>

@@ -14,7 +14,7 @@
     </div>
     <dl class="row">
         <dt class="col-sm-1">Birthday:</dt>
-        <dd class="col-sm-11"> 10 мая 1234</dd>
+        <dd class="col-sm-11">${client.birthday}</dd>
 
         <dt class="col-sm-1">Passport:</dt>
         <dd class="col-sm-11">${client.passport}</dd>
@@ -25,8 +25,11 @@
         <dt class="col-sm-1">Email:</dt>
         <dd class="col-sm-11">${client.email}</dd>
     </dl>
-    <div>
-        <a class="btn btn-info" href="${pageContext.request.contextPath}/managers/contracts" role="button">Back to Clients</a>
+    <div class="row">
+        <div>
+                <a  class=" btn btn-primary" href="${pageContext.request.contextPath}/managers/client" role="button">Back to Clients</a>
+                <a class="btn btn-info" href="${pageContext.request.contextPath}/managers/client/addContract?id=${client.id}" role="button">Add Contracts</a>
+        </div>
     </div>
     <h3 class="text-center"> Contract Table</h3>
     <table class="table pt-5">
@@ -57,12 +60,7 @@
                 <td class="text-center">${contract.locked}</td>
                 <td class="text-center">${contract.lockedByAdmin}</td>
                 <td class="text-center">
-                    <a class="btn btn-light" href="${pageContext.request.contextPath}/managers/contracts/getById?id=${contract.id}" role="button">Show details</a>
-                    <form action="${pageContext.request.contextPath}/managers/client/deleteContract" method="post">
-                        <input type="hidden" name="contractId" value="${contract.id}"/>
-                        <input type="hidden" name="clientId" value="${client.id}"/>
-                        <button type="submit" class="btn btn-warning">Delete</button>
-                    </form>
+                    <a class="btn btn-primary" href="${pageContext.request.contextPath}/managers/contracts/getById?id=${contract.id}" role="button">Show details</a>
                 </td>
             </tr>
         </c:forEach>

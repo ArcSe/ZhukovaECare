@@ -36,7 +36,7 @@
         </div>
             <br/>
             <div>
-                <a class="btn btn-light" href="/managers/tariff/editOptions?id=${tariff.id}" role="button">Change options</a>
+                <a class="btn btn-light" href="${pageContext.request.contextPath}/managers/tariffs/addOption?id=${tariff.id}" role="button">Change options</a>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>
         </div>

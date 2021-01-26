@@ -23,7 +23,7 @@
                         <a class="nav-link" href="/managers/contracts"> Contracts </a>
                     </li>
                 </security:authorize>
-                <security:authorize access="hasRole('ADMIN')">
+                <security:authorize access="hasAnyRole('ADMIN','MANAGER')">
                     <li class="nav-item ">
                         <a class="nav-link" href="/admin/users"> Users </a>
                     </li>

@@ -27,6 +27,26 @@
             <dd class="col-sm-11">${contract.clientId}</dd>
         </dl>
     </div>
+    <h3 class="text-center"> Option table</h3>
+    <div class="row">
+        <div>
+            <a  class=" btn btn-primary" href="${pageContext.request.contextPath}/managers/contracts" role="button">Back to Contracts</a>
+            <c:choose>
+                <c:when test="${!contract.locked}">
+                    <a class="btn btn-info" href="${pageContext.request.contextPath}/managers/contracts/addOption?id=${contract.id}"
+                       role="button">Change Options
+                    </a>
+                </c:when>
+                <c:otherwise>
+                    <a  href="${pageContext.request.contextPath}/managers/contracts/addOption?id=${contract.id}" role="button"
+                        class="btn btn-danger disabled" tabindex="-1"  aria-disabled="true">
+                        Change Options
+                    </a>
+                </c:otherwise>
+            </c:choose>
+        </div>
+    </div>
+    <br>
     <div class="container">
         <table class="table">
             <thead>
@@ -35,7 +55,8 @@
                 <th scope="col" class="text-center">Name</th>
                 <th scope="col" class="text-center">Price</th>
                 <th scope="col" class="text-center">Service Cost</th>
-                <th scope="col" class="text-center">Actions</th>
+                <th scope="col" class="text-center">Mandatory Options</th>
+                <th scope="col" class="text-center">Banned Options</th>
             </tr>
             </thead>
             <tbody>
@@ -46,9 +67,18 @@
                     <td class="text-center">${option.price}</td>
                     <td class="text-center">${option.serviceCost}</td>
                     <td class="text-center">
-                        <a class="btn btn-light" href="/options/edit?id=${option.id}" role="button">Edit</a>
-
-                        <a class="btn btn-danger" href="/options/delete?id=${option.id}" method = "DELETE" role="button">Delete</a>
+                        <ul>
+                            <c:forEach items="${option.mandatoryOptions}" var="mandatoryOption">
+                                <li>${mandatoryOption}</li>
+                            </c:forEach>
+                        </ul>
+                    </td>
+                    <td class="text-center">
+                        <ul>
+                            <c:forEach items="${option.bannedOptions}" var="bannedOption">
+                                <li>${bannedOption}</li>
+                            </c:forEach>
+                        </ul>
                     </td>
                 </tr>
             </c:forEach>

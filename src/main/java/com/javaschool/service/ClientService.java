@@ -24,5 +24,5 @@ public interface ClientService {
 
     void addContract(long clientId, long contractId);
 
-    boolean deleteContracts(long clientId, long contractId);
+    void deleteContracts(long clientId, long contractId);
 }

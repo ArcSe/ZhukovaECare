@@ -21,15 +21,7 @@
                 <form:input type="text" class="form-control" path="number" placeholder="new number"/>
             </div>
             <div class="form-group col-md-4">
-                <label >State</label>
-                <select  name="option.id" class="form-control">
-                    <c:forEach items="${options}" var="option">
-                        <option value="${option.id}">${option.name}</option>
-                    </c:forEach>
-                </select>
-            </div>
-            <div class="form-group col-md-4">
-                <label >State</label>
+                <label >Tariff</label>
                 <select  name="tariff.id" class="form-control">
                     <c:forEach items="${tariffs}" var="tariff">
                         <option value="${tariff.id}">${tariff.name}</option>

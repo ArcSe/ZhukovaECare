@@ -53,7 +53,7 @@ public class ClientController {
     }
 
     @RequestMapping(value = "/addContract", method = RequestMethod.POST)
-    private String addMandatoryOption(@RequestParam("clientId") long clientId,
+    private String addContract(@RequestParam("clientId") long clientId,
                                       @RequestParam("contractId") long contractId){
         clientService.addContract(clientId, contractId);
         editContract(clientId);
@@ -61,7 +61,7 @@ public class ClientController {
     }
 
     @RequestMapping(value ="/deleteContract", method = RequestMethod.POST)
-    public String  deleteMandatoryOption(@RequestParam("clientId") long clientId,
+    public String  deleteContract(@RequestParam("clientId") long clientId,
                                          @RequestParam("contractId") long contractId){
         clientService.deleteContracts(clientId, contractId);
         return "redirect:/managers/client/addContract?id="+ clientId;

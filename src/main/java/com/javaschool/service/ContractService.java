@@ -19,4 +19,8 @@ public interface ContractService {
     void lockedContract(long id);
 
     void lockedContractByAdmin(long id);
+
+    void addOption(long optionId, long contractId);
+
+    void deleteOptions(long optionId, long contractId);
 }

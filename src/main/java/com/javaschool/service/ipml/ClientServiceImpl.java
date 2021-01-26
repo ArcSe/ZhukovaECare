@@ -6,7 +6,6 @@ import com.javaschool.dto.ClientDto;
 import com.javaschool.mapper.ClientMapper;
 import com.javaschool.model.Client;
 import com.javaschool.model.Contract;
-import com.javaschool.model.Option;
 import com.javaschool.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -85,15 +84,14 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public boolean deleteContracts(long clientId, long contractId) {
+    public void deleteContracts(long clientId, long contractId) {
         Client client = clientDao.getById(clientId);
         Contract contract = contractDao.getById(contractId);
         Set<Contract> contracts = client.getContracts();
         if (!contracts.contains(contract)) {
-            return false;
+            //todo: Exception EntityNotFound
         }
         client.setContracts(contracts);
         clientDao.update(client);
-        return true;
     }
 }

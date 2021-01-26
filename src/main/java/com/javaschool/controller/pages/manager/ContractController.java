@@ -19,7 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.*;
 
 @Controller
-@RequestMapping("/managers")
+@RequestMapping("/managers/contracts")
 public class ContractController {
 
     private final ContractService contractService;
@@ -35,7 +35,7 @@ public class ContractController {
         this.clientService = clientService;
     }
 
-    @RequestMapping("/contracts")
+    @RequestMapping()
     public ModelAndView home(){
         List<ContractDto> contracts = contractService.getAll();
         ModelAndView mav = new ModelAndView("jsp/managers/contracts/contractList");
@@ -43,88 +43,39 @@ public class ContractController {
         return mav;
     }
 
-    @RequestMapping("/contracts/getById")
+    @RequestMapping("/getById")
     public ModelAndView getById(@RequestParam long id) {
         ModelAndView mav = new ModelAndView("jsp/managers/contracts/contractInfoPage");
         mav.addObject("contract", contractService.getById(id));
         return mav;
     }
 
-    @RequestMapping(value = "contracts/update", method = RequestMethod.POST)
-    public String updateOption(@RequestParam("option.id") long optionId,
-                               @RequestParam("tariff.id") long tariffsId,
-                               @ModelAttribute("contract") ContractDto contract) {
-        OptionDto optionDto = optionService.getById(optionId);
-        if(null==contract.getOptions()){
-            Set<OptionDto> set = new HashSet<>();
-            set.add(optionDto);
-            contract.setOptions(set);
-        }
-        else {
-            contract.getOptions().add(optionDto);
-        }
-        contract.setTariff(tariffService.getById(tariffsId));
-        System.out.println(contract.getTariff().getOptions());
-        if(!Objects.isNull(contract.getTariff().getOptions())){
-            contract.getOptions().addAll(contract.getTariff().getOptions());
-        }
-        contractService.update(contract);
-        return "redirect:/managers/contracts";
-    }
-
-
-
-    @RequestMapping("contracts/edit")
-    public ModelAndView editOption(@RequestParam long id) {
-        ModelAndView mav = new ModelAndView("jsp/managers/contracts/edit_contract");
-        ContractDto contractDto = contractService.getById(id);
-        List<OptionDto> options = optionService.getAll();
-        List<TariffDto> tariffs = tariffService.getAll();
-        mav.addObject("tariff", tariffs);
-        mav.addObject("options", options);
-        mav.addObject("contract", contractDto);
-        return mav;
-    }
-
-    @RequestMapping("contracts/new")
+    @RequestMapping("/new")
     public String newContract(Map<String, Object> model) {
         ContractDto contractDto = new ContractDto();
-        List<OptionDto> options = optionService.getAll();
+        List<ClientDto> clients = clientService.getAll();
         List<TariffDto> tariffs = tariffService.getAll();
         model.put("tariffs", tariffs);
-        model.put("options", options);
+        model.put("clients", clients);
         model.put("contract", contractDto);
         return "jsp/managers/contracts/new_contract";
     }
 
-    @RequestMapping(value = "contracts/save", method = RequestMethod.POST)
-    public String saveContract(@RequestParam("option.id") long optionId,
-                               @RequestParam("tariff.id") long tariffsId,
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    public String saveContract(@RequestParam("tariff.id") long tariffsId,
                                @ModelAttribute("contract") ContractDto contract) {
-        OptionDto optionDto = optionService.getById(optionId);
-        if(null==contract.getOptions()){
-            Set<OptionDto> set = new HashSet<>();
-            set.add(optionDto);
-            contract.setOptions(set);
-        }
-        else {
-            contract.getOptions().add(optionDto);
-        }
         contract.setTariff(tariffService.getById(tariffsId));
-        if(!Objects.isNull(contract.getTariff().getOptions())){
-            contract.getOptions().addAll(contract.getTariff().getOptions());
-        }
         contractService.add(contract);
         return "redirect:/managers/contracts";
     }
 
-    @RequestMapping(value ="contracts/delete", method = RequestMethod.POST)
+    @RequestMapping(value ="/delete", method = RequestMethod.POST)
     public String deleteContractById(@RequestParam long id) {
         contractService.delete(id);
         return "redirect:/managers/contracts";
     }
 
-    @RequestMapping(value ="contracts/addClient")
+    @RequestMapping(value ="/addClient")
     public ModelAndView addClient(@RequestParam long id) {
         ModelAndView mav = new ModelAndView("jsp/managers/contracts/add_client");
         ContractDto contractDto = contractService.getById(id);
@@ -134,7 +85,7 @@ public class ContractController {
         return mav;
     }
 
-    @RequestMapping(value = "contracts/updateClient", method = RequestMethod.POST)
+    @RequestMapping(value = "/updateClient", method = RequestMethod.POST)
     public String updateClients(@RequestParam("contract.id") long contractId,
                                 @RequestParam("client.id") long clientId) {
         ContractDto contractDto = contractService.getById(contractId);
@@ -142,5 +93,48 @@ public class ContractController {
         contractService.update(contractDto);
         return "redirect:/managers/contracts";
     }
+
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public String updateTariff(@RequestParam("tariff.id") long tariffsId,
+                               @ModelAttribute("contract") ContractDto contract) {
+
+        contract.setTariff(tariffService.getById(tariffsId));
+        contractService.update(contract);
+        return "redirect:/managers/contracts";
+    }
+
+    @RequestMapping("/edit")
+    public ModelAndView editTariff(@RequestParam long id) {
+        ModelAndView mav = new ModelAndView("jsp/managers/contracts/edit_contract");
+        ContractDto contractDto = contractService.getById(id);
+        List<TariffDto> tariffs = tariffService.getAll();
+        mav.addObject("tariff", tariffs);
+        mav.addObject("contract", contractDto);
+        return mav;
+    }
+
+    @RequestMapping("/addOption")
+    public ModelAndView editOption(@RequestParam long id) {
+        ModelAndView mav = new ModelAndView("jsp/managers/contracts/addOptions");
+        mav.addObject("contract", contractService.getById(id));
+        mav.addObject("options", optionService.getAll());
+        return mav;
+    }
+
+    @RequestMapping(value = "/addOption", method = RequestMethod.POST)
+    private String addOption(@RequestParam("optionId") long optionId,
+                               @RequestParam("contractId") long contractId){
+        contractService.addOption(optionId, contractId);
+        //editOption(optionId);
+        return "redirect:/managers/contracts/addOption?id="+ contractId;
+    }
+
+    @RequestMapping(value ="/deleteOption", method = RequestMethod.POST)
+    public String  deleteOption(@RequestParam("optionId") long optionId,
+                                @RequestParam("contractId") long contractId){
+        contractService.deleteOptions(optionId, contractId);
+        return "redirect:/managers/contracts/addOption?id="+ contractId;
+    }
+
 
 }

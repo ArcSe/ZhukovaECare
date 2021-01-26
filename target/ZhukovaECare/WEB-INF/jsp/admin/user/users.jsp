@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
          pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -18,7 +19,9 @@
                 <th scope="col">#</th>
                 <th scope="col">Email</th>
                 <th scope="col">Client ID</th>
-                <th scope="col">Roles</th>
+                <security:authorize access="hasRole('ADMIN')">
+                    <th scope="col">Roles</th>
+                </security:authorize>
                 <th scope="col">Actions</th>
             </tr>
             </thead>
@@ -28,17 +31,24 @@
                     <td scope="row">${user.id}</td>
                     <td>${user.email}</td>
                     <td>${user.clientId}</td>
-                    <td>${user.roles}</td>
+                    <security:authorize access="hasRole('ADMIN')">
+                        <td>${user.roles}</td>
+                    </security:authorize>
                     <td>
                         <div class="row">
-                            <a class="btn btn-light" href="${pageContext.request.contextPath}/admin/users/edit?id=${user.id}" role="button">Edit</a>
-                            <a class="btn btn-light" href="${pageContext.request.contextPath}/admin/users/addClientId?id=${user.id}" role="button">Add Client Id</a>
-                            <form action="${pageContext.request.contextPath}/admin/users/delete" method="post">
-                                <input type="hidden" name="userId" value="${user.id}"/>
-                                <input type="hidden" name="action" value="delete"/>
-                                <button type="submit" class="btn btn-danger">Delete</button>
-                            </form>
-                            </div>
+                            <a class="btn btn-light" href="${pageContext.request.contextPath}/admin/users/addClientId?id=${user.id}" role="button">
+                                Add Client Id
+                            </a>
+                            <security:authorize access="hasRole('ADMIN')">
+                                <form action="${pageContext.request.contextPath}/admin/users/delete" method="post">
+                                    <a class="btn btn-light" href="${pageContext.request.contextPath}/admin/users/edit?id=${user.id}" role="button">
+                                        Edit
+                                    </a>
+                                    <input type="hidden" name="userId" value="${user.id}"/>
+                                    <input type="hidden" name="action" value="delete"/>
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                            </security:authorize>
                         </div>
                     </td>
                 </tr>
