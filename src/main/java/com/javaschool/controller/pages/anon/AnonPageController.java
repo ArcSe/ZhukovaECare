@@ -21,16 +21,19 @@ public class AnonPageController {
         this.tariffService = tariffService;
     }
 
-    /*
+
     @RequestMapping(value = "/")
-    public ModelAndView getHomePage(){
+    public String getHomePage(){
+        /*
         List<TariffDto> listTariff = tariffService.getAll();
         ModelAndView mav = new ModelAndView("jsp/client/index");
         mav.addObject("tariffs", listTariff);
         return mav;
+         */
+        return "jsp/index";
     }
 
-     */
+
 
     @RequestMapping(value = "/404")
     public String get404(){

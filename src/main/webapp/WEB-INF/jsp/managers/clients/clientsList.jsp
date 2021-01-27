@@ -10,17 +10,17 @@
 </head>
 <body>
 <div>
-    <div class="container">
-        <h2 align="center">Client Manager</h2>
+    <div class="container" >
+        <h2 >Client Manager</h2>
         <br>
         <a class="btn btn-info" style="align-self: center" href="${pageContext.request.contextPath}/managers/client/new" role="button">New Client</a>
-        <div class="col-lg-3 pt-4 pr-5 offset-lg-7">
+        <div class="row">
             <form action="${pageContext.request.contextPath}/managers/client" method="post">
-            <input type="search" class="form-control" name="name"
-                   placeholder="Enter name" style="padding: 5px 2px 5px 25px;
-                            background: url('http://3.bp.blogspot.com/-4w14hQHr5yQ/Tgm6u7KwUkI/AAAAAAAACAI/Hu2poBOPx3g/s25/search.png')
-                            no-repeat scroll 0 50%;"/>
-            <input type="submit" value="Find">
+                <a class="btn btn-info offset-lg-6" style="align-self: center" href="${pageContext.request.contextPath}/managers/client" role="button">Reset search</a>
+                <input type="search" class="form-control-lg-3 offset-lg-8" name="name"
+                       placeholder="Enter name" style="padding: 5px 2px 5px 25px;
+                                background: url('http://3.bp.blogspot.com/-4w14hQHr5yQ/Tgm6u7KwUkI/AAAAAAAACAI/Hu2poBOPx3g/s25/search.png')
+                                no-repeat scroll 0 50%;"/>
             </form>
         </div>
         <br>
