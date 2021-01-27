@@ -1,6 +1,8 @@
 package com.javaschool.service;
 
 import com.javaschool.dto.UserDto;
+import com.javaschool.exception.notFound.ExamplesNotFoundException;
+import com.javaschool.exception.notFound.NotDataFoundException;
 import com.javaschool.model.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
@@ -10,9 +12,9 @@ import java.util.List;
 
 @Service
 public interface UserService extends UserDetailsService {
-    List<UserDto> getAll();
+    List<UserDto> getAll() throws NotDataFoundException;
 
-    List<User> getAllEntity();
+    List<User> getAllEntity() throws NotDataFoundException;
 
     void add(UserDto user);
 
@@ -20,10 +22,10 @@ public interface UserService extends UserDetailsService {
 
     void update(UserDto user);
 
-    UserDto getById(long id);
+    UserDto getById(long id) throws ExamplesNotFoundException;
 
-    User getByUserEmail(String email);
+    User getByUserEmail(String email) throws ExamplesNotFoundException;
 
     @Transactional
-    boolean save(UserDto user);
+    boolean save(UserDto user) throws ExamplesNotFoundException;
 }

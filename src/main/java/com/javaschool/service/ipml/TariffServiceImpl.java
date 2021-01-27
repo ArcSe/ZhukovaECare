@@ -5,7 +5,7 @@ import com.javaschool.dao.TariffDao;
 import com.javaschool.dto.TariffDto;
 import com.javaschool.exception.notFound.BadValueException;
 import com.javaschool.exception.notFound.NotDataFoundException;
-import com.javaschool.exception.notFound.TariffNotFoundException;
+import com.javaschool.exception.notFound.ExamplesNotFoundException;
 import com.javaschool.mapper.TariffMapper;
 import com.javaschool.model.Option;
 import com.javaschool.model.Tariff;
@@ -49,44 +49,44 @@ public class TariffServiceImpl implements TariffService {
     }
 
     @Override
-    public void delete(long id) throws TariffNotFoundException {
+    public void delete(long id) throws ExamplesNotFoundException {
         if(Objects.isNull(tariffDao.getById(id))){
-            throw new TariffNotFoundException(id);
+            throw new ExamplesNotFoundException(id);
         }
         tariffDao.delete(id);
     }
 
     @Override
-    public void update( TariffDto tariffDto) throws TariffNotFoundException {
+    public void update( TariffDto tariffDto) throws ExamplesNotFoundException {
         if(Objects.isNull(tariffDto)){
-            throw new TariffNotFoundException(tariffDto.getId());
+            throw new ExamplesNotFoundException(tariffDto.getId());
         }
         Tariff tariff = tariffMapper.toEntity(tariffDto);
         tariffDao.update(tariff);
     }
 
     @Override
-    public TariffDto getById(long id) throws TariffNotFoundException {
+    public TariffDto getById(long id) throws ExamplesNotFoundException {
         if(Objects.isNull(tariffDao.getById(id))){
-            throw new TariffNotFoundException(id);
+            throw new ExamplesNotFoundException(id);
         }
         TariffDto dto = tariffMapper.toDto(tariffDao.getById(id));
         return dto;
     }
 
     @Override
-    public TariffDto getByName(String name) throws TariffNotFoundException {
+    public TariffDto getByName(String name) throws ExamplesNotFoundException {
         if(Objects.isNull(tariffDao.getByName(name))){
-            throw new TariffNotFoundException(name);
+            throw new ExamplesNotFoundException(name);
         }
         TariffDto dto = tariffMapper.toDto(tariffDao.getByName(name));
         return dto;
     }
 
     @Override
-    public void removeOption(long optionId, long tariffId) throws TariffNotFoundException {
+    public void removeOption(long optionId, long tariffId) throws ExamplesNotFoundException {
         if(Objects.isNull(tariffDao.getById(tariffId))){
-            throw new TariffNotFoundException(tariffId);
+            throw new ExamplesNotFoundException(tariffId);
         }
         Tariff tariff = tariffDao.getById(tariffId);
         Set<Option> options = tariff.getOptions().stream()
@@ -98,13 +98,14 @@ public class TariffServiceImpl implements TariffService {
 
     //todo message about banned options
     @Override
-    public void addOption(Long optionId, Long tariffId) throws BadValueException, TariffNotFoundException {
+    public void addOption(Long optionId, Long tariffId) throws Exception {
         if(Objects.isNull(tariffDao.getById(tariffId))){
-            throw new TariffNotFoundException(tariffId);
+            throw new ExamplesNotFoundException(tariffId);
         }
         Tariff tariff = tariffDao.getById(tariffId);
         Set<Option> options = tariff.getOptions();
         Option option = optionDao.getById(optionId);
+        /*
         options.forEach(option1 -> {if(option1.getBannedOptions().contains(option)){
             try {
                 throw new BadValueException();
@@ -112,6 +113,13 @@ public class TariffServiceImpl implements TariffService {
                 e.printStackTrace();
             }
         }});
+
+         */
+        Set<Option> optionCheck = options.stream().filter(option1 -> !option1.getBannedOptions().contains(option))
+                .collect(Collectors.toSet());
+        if(optionCheck.size() != options.size()){
+            throw new BadValueException();
+        }
         Set<Option> mandatoryOptions = option.getMandatoryOptions();
         options.addAll(mandatoryOptions);
         options.add(option);

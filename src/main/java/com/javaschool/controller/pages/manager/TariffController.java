@@ -2,8 +2,6 @@ package com.javaschool.controller.pages.manager;
 
 import com.javaschool.dto.OptionDto;
 import com.javaschool.dto.TariffDto;
-import com.javaschool.exception.notFound.BadValueException;
-import com.javaschool.exception.notFound.TariffNotFoundException;
 import com.javaschool.service.OptionService;
 import com.javaschool.service.TariffService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +60,7 @@ public class TariffController {
     }
 
     @RequestMapping("/new")
-    public String newTariff(Map<String, Object> model) {
+    public String newTariff(Map<String, Object> model) throws Exception {
         List<OptionDto> options = optionService.getAll();
         model.put("tariff", new TariffDto());
         model.put("options", options);

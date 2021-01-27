@@ -18,7 +18,7 @@ public class ContractClientController {
     }
 
     @RequestMapping("/lockedContract")
-    public String lockedContract(@RequestParam long contractId){
+    public String lockedContract(@RequestParam long contractId) throws Exception{
         contractService.lockedContract(contractId);
         return "redirect:/client/userProfile";
     }

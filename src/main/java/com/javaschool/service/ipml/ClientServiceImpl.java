@@ -3,9 +3,12 @@ package com.javaschool.service.ipml;
 import com.javaschool.dao.ClientDao;
 import com.javaschool.dao.ContractDao;
 import com.javaschool.dto.ClientDto;
+import com.javaschool.exception.notFound.ExamplesNotFoundException;
+import com.javaschool.exception.notFound.NotDataFoundException;
 import com.javaschool.mapper.ClientMapper;
 import com.javaschool.model.Client;
 import com.javaschool.model.Contract;
+import com.javaschool.model.Tariff;
 import com.javaschool.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,14 +57,20 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public ClientDto getById(long id) {
+    public ClientDto getById(long id) throws ExamplesNotFoundException {
+        if(Objects.isNull(clientDao.getById(id))){
+            throw new ExamplesNotFoundException(id);
+        }
         return clientMapper.toDto(clientDao.getById(id));
     }
 
+    /*
     @Override
     public Client getByClientEmail(String email) {
         return clientDao.getByEmail(email);
     }
+
+     */
 
     @Override
     public void save(Client client) {
@@ -69,7 +78,13 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public void addContract(long clientId, long contractId) {
+    public void addContract(long clientId, long contractId) throws ExamplesNotFoundException, NotDataFoundException {
+        if(Objects.isNull(clientDao.getById(clientId))){
+            throw new ExamplesNotFoundException(clientId);
+        }
+        if(Objects.isNull(contractDao.getAll())){
+            throw new NotDataFoundException(Contract.class.getName());
+        }
         Client client = clientDao.getById(clientId);
         Set<Contract> contracts;
         if(!Objects.isNull(client.getContracts())) {
@@ -84,8 +99,14 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public void deleteContracts(long clientId, long contractId) {
+    public void deleteContracts(long clientId, long contractId) throws ExamplesNotFoundException {
+        if(Objects.isNull(clientDao.getById(clientId))){
+            throw new ExamplesNotFoundException(clientId);
+        }
         Client client = clientDao.getById(clientId);
+        if(Objects.isNull(contractDao.getById(contractId))){
+            throw new ExamplesNotFoundException(clientId);
+        }
         Contract contract = contractDao.getById(contractId);
         Set<Contract> contracts = client.getContracts();
         if (!contracts.contains(contract)) {

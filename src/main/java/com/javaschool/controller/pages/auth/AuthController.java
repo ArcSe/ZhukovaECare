@@ -38,7 +38,7 @@ public class AuthController {
     @PostMapping("/auth/registration")
     public String addUser(@ModelAttribute("user") @Valid UserDto user,
                           BindingResult bindingResult,
-                          Model model) {
+                          Model model) throws Exception{
         if (bindingResult.hasErrors()) {
             return "jsp/auth/registration";
         }

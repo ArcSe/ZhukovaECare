@@ -1,6 +1,8 @@
 package com.javaschool.controller.pages.manager;
 
 import com.javaschool.dto.ClientDto;
+import com.javaschool.exception.notFound.ExamplesNotFoundException;
+import com.javaschool.exception.notFound.NotDataFoundException;
 import com.javaschool.service.ClientService;
 import com.javaschool.service.ContractService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,34 +27,34 @@ public class ClientController {
     }
 
     @RequestMapping()
-    public ModelAndView getAll() {
+    public ModelAndView getAll() throws Exception{
         ModelAndView mav = new ModelAndView("jsp/managers/clients/clientsList");
         mav.addObject("listClient", clientService.getAll());
         return mav;
     }
 
     @RequestMapping( method = RequestMethod.POST)
-    public ModelAndView getAllByQuery(@RequestParam String name) {
+    public ModelAndView getAllByQuery(@RequestParam String name) throws Exception{
         ModelAndView mav = new ModelAndView("jsp/managers/clients/clientsList");
         mav.addObject("listClient", clientService.getAllByQuery(name));
         return mav;
     }
 
     @RequestMapping("/getById")
-    public ModelAndView getById(@RequestParam long id) {
+    public ModelAndView getById(@RequestParam long id) throws Exception {
         ModelAndView mav = new ModelAndView("jsp/managers/clients/clientInfoPage");
         mav.addObject("client", clientService.getById(id));
         return mav;
     }
 
     @RequestMapping("new")
-    public String newClient(Map<String, Object> model) {
+    public String newClient(Map<String, Object> model) throws Exception{
         model.put("client", new ClientDto());
         return "jsp/managers/clients/new_client";
     }
 
     @RequestMapping("/addContract")
-    public ModelAndView editContract(@RequestParam long id) {
+    public ModelAndView editContract(@RequestParam long id) throws Exception {
         ModelAndView mav = new ModelAndView("jsp/managers/clients/addContract");
         mav.addObject("client", clientService.getById(id));
         mav.addObject("contracts", contractService.getAll());
@@ -61,7 +63,7 @@ public class ClientController {
 
     @RequestMapping(value = "/addContract", method = RequestMethod.POST)
     private String addContract(@RequestParam("clientId") long clientId,
-                                      @RequestParam("contractId") long contractId){
+                                      @RequestParam("contractId") long contractId) throws Exception{
         clientService.addContract(clientId, contractId);
         editContract(clientId);
         return "redirect:/managers/client/addContract?id="+ clientId;
@@ -69,14 +71,14 @@ public class ClientController {
 
     @RequestMapping(value ="/deleteContract", method = RequestMethod.POST)
     public String  deleteContract(@RequestParam("clientId") long clientId,
-                                         @RequestParam("contractId") long contractId){
+                                         @RequestParam("contractId") long contractId) throws Exception {
         clientService.deleteContracts(clientId, contractId);
         return "redirect:/managers/client/addContract?id="+ clientId;
     }
 
     @RequestMapping(value = "save", method = RequestMethod.POST)
     public String saveClient(@RequestParam("calendar") String calendar,
-                             @ModelAttribute("client") ClientDto client) {
+                             @ModelAttribute("client") ClientDto client) throws Exception{
         client.setBirthday(calendar);
         clientService.add(client);
         return "redirect:/managers/client";
@@ -84,14 +86,14 @@ public class ClientController {
 
     @RequestMapping(value = "update", method = RequestMethod.POST)
     public String updateClient(@RequestParam("calendar") String calendar,
-                               @ModelAttribute("client") ClientDto clientDto) {
+                               @ModelAttribute("client") ClientDto clientDto) throws Exception{
         clientDto.setBirthday(calendar);
         clientService.update(clientDto);
         return "redirect:/managers/client";
     }
 
     @RequestMapping("edit")
-    public ModelAndView editClient(@RequestParam long id) {
+    public ModelAndView editClient(@RequestParam long id) throws Exception {
         ModelAndView mav = new ModelAndView("jsp/managers/clients/edit_client");
         ClientDto client = clientService.getById(id);
         mav.addObject("client", client);
@@ -99,7 +101,7 @@ public class ClientController {
     }
 
     @RequestMapping(value = "delete")
-    public String deleteClientById(@RequestParam long id) {
+    public String deleteClientById(@RequestParam long id) throws Exception{
         clientService.delete(id);
         return "redirect:/managers/client";
     }

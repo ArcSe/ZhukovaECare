@@ -3,7 +3,7 @@ package com.javaschool.controller.pages.manager;
 import com.javaschool.dto.ClientDto;
 import com.javaschool.dto.ContractDto;
 import com.javaschool.dto.TariffDto;
-import com.javaschool.exception.notFound.TariffNotFoundException;
+import com.javaschool.exception.notFound.ExamplesNotFoundException;
 import com.javaschool.service.ClientService;
 import com.javaschool.service.ContractService;
 import com.javaschool.service.OptionService;
@@ -36,7 +36,7 @@ public class ContractController {
     }
 
     @RequestMapping()
-    public ModelAndView home(){
+    public ModelAndView home() throws Exception{
         List<ContractDto> contracts = contractService.getAll();
         ModelAndView mav = new ModelAndView("jsp/managers/contracts/contractList");
         mav.addObject("contracts", contracts);
@@ -44,7 +44,7 @@ public class ContractController {
     }
 
     @RequestMapping("/getById")
-    public ModelAndView getById(@RequestParam long id) {
+    public ModelAndView getById(@RequestParam long id) throws Exception{
         ModelAndView mav = new ModelAndView("jsp/managers/contracts/contractInfoPage");
         mav.addObject("contract", contractService.getById(id));
         return mav;
@@ -63,20 +63,20 @@ public class ContractController {
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public String saveContract(@RequestParam("tariff.id") long tariffsId,
-                               @ModelAttribute("contract") ContractDto contract) throws TariffNotFoundException {
+                               @ModelAttribute("contract") ContractDto contract) throws Exception {
         contract.setTariff(tariffService.getById(tariffsId));
         contractService.add(contract);
         return "redirect:/managers/contracts";
     }
 
     @RequestMapping(value ="/delete", method = RequestMethod.POST)
-    public String deleteContractById(@RequestParam long id) {
+    public String deleteContractById(@RequestParam long id) throws Exception{
         contractService.delete(id);
         return "redirect:/managers/contracts";
     }
 
     @RequestMapping(value ="/addClient")
-    public ModelAndView addClient(@RequestParam long id) {
+    public ModelAndView addClient(@RequestParam long id) throws Exception{
         ModelAndView mav = new ModelAndView("jsp/managers/contracts/add_client");
         ContractDto contractDto = contractService.getById(id);
         List<ClientDto> clientDtos = clientService.getAll();
@@ -87,7 +87,7 @@ public class ContractController {
 
     @RequestMapping(value = "/updateClient", method = RequestMethod.POST)
     public String updateClients(@RequestParam("contract.id") long contractId,
-                                @RequestParam("client.id") long clientId) {
+                                @RequestParam("client.id") long clientId) throws Exception{
         ContractDto contractDto = contractService.getById(contractId);
         contractDto.setClientId(clientId);
         contractService.update(contractDto);
@@ -96,7 +96,7 @@ public class ContractController {
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String updateTariff(@RequestParam("tariff.id") long tariffsId,
-                               @ModelAttribute("contract") ContractDto contract) throws TariffNotFoundException {
+                               @ModelAttribute("contract") ContractDto contract) throws Exception {
         ContractDto contractDB = contractService.getById(contract.getId());
         contractDB.setTariff(tariffService.getById(tariffsId));
         contractDB.setClientId(contract.getClientId());

@@ -28,14 +28,14 @@ public class AdminUserController {
     }
 
     @RequestMapping()
-    public ModelAndView getAllUsers() {
+    public ModelAndView getAllUsers() throws Exception{
         ModelAndView mav = new ModelAndView("jsp/admin/user/users");
         mav.addObject("listUsers", userService.getAll());
         return mav;
     }
 
     @RequestMapping(value ="/addClientId")
-    public ModelAndView addClient(@RequestParam long id) {
+    public ModelAndView addClient(@RequestParam long id) throws Exception{
         ModelAndView mav = new ModelAndView("jsp/admin/user/addClient");
         UserDto userDto = userService.getById(id);
         List<ClientDto> clientDtos = clientService.getAll();
@@ -46,7 +46,7 @@ public class AdminUserController {
 
     @RequestMapping(value = "/addClientId", method = RequestMethod.POST)
     public String updateClients(@RequestParam("user.id") long userId,
-                                @RequestParam("client.id") long clientId) {
+                                @RequestParam("client.id") long clientId) throws Exception{
         UserDto userDto = userService.getById(userId);
         userDto.setClientId(clientId);
         userService.update(userDto);
@@ -54,7 +54,7 @@ public class AdminUserController {
     }
 
     @RequestMapping("/edit")
-    public ModelAndView editUser(@RequestParam long id) {
+    public ModelAndView editUser(@RequestParam long id) throws Exception{
         ModelAndView mav = new ModelAndView("jsp/admin/user/edit_users");
         mav.addObject("user", userService.getById(id));
         mav.addObject("roles", Role.values());
@@ -62,7 +62,7 @@ public class AdminUserController {
     }
 
     @RequestMapping(value = "/updateUser", method = RequestMethod.POST)
-    public String updateUser(@ModelAttribute("user") UserDto user) {
+    public String updateUser(@ModelAttribute("user") UserDto user) throws Exception{
         userService.update(user);
         return "redirect:/";
     }
@@ -70,7 +70,7 @@ public class AdminUserController {
     @PostMapping("/delete")
     public String  deleteUser(@RequestParam(required = true, defaultValue = "" ) Long userId,
                               @RequestParam(required = true, defaultValue = "" ) String action,
-                              Model model) {
+                              Model model) throws Exception{
         if (action.equals("delete")){
             userService.delete(userId);
         }
@@ -78,7 +78,7 @@ public class AdminUserController {
     }
 
     @GetMapping("/admin/gt/{userId}")
-    public String  gtUser(@PathVariable("userId") Long userId, Model model) {
+    public String  gtUser(@PathVariable("userId") Long userId, Model model) throws Exception{
         model.addAttribute("allUsers", userService.getById(userId));
         return "redirect:/admin/users";
     }

@@ -3,7 +3,7 @@ package com.javaschool.controller.pages.client;
 import com.javaschool.dto.ClientDto;
 import com.javaschool.dto.ContractDto;
 import com.javaschool.dto.TariffDto;
-import com.javaschool.exception.notFound.TariffNotFoundException;
+import com.javaschool.exception.notFound.ExamplesNotFoundException;
 import com.javaschool.model.User;
 import com.javaschool.service.ClientService;
 import com.javaschool.service.ContractService;
@@ -33,7 +33,7 @@ public class ClientPageController {
     }
 
     @RequestMapping("/userProfile")
-    public ModelAndView getPersonalPage(@AuthenticationPrincipal User user){
+    public ModelAndView getPersonalPage(@AuthenticationPrincipal User user) throws Exception{
         ModelAndView mav = new ModelAndView("jsp/client/userProfile/userProfile");
         long clientId = user.getClient().getId();
         ClientDto client = clientService.getById(clientId);
@@ -42,7 +42,7 @@ public class ClientPageController {
     }
 
     @RequestMapping("/contractInfo")
-    public ModelAndView getContractById(@RequestParam long id){
+    public ModelAndView getContractById(@RequestParam long id) throws Exception{
         ModelAndView mav = new ModelAndView("jsp/managers/contracts/contractInfoPage");
         mav.addObject("contract", contractService.getById(id));
         return mav;
@@ -57,7 +57,7 @@ public class ClientPageController {
     }
     @RequestMapping(value = "/addTariff", method = RequestMethod.POST)
     private String addOption(@RequestParam("tariffId") long tariffId,
-                             @RequestParam("contractId") long contractId) throws TariffNotFoundException {
+                             @RequestParam("contractId") long contractId) throws Exception {
         ContractDto contractDto = contractService.getById(contractId);
         TariffDto tariffDto = tariffService.getById(tariffId);
         contractDto.setTariff(tariffDto);

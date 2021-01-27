@@ -19,7 +19,7 @@ public class AdminContractsController {
     }
 
     @RequestMapping("/lockedContract")
-    public String lockedContract(@RequestParam long contractId){
+    public String lockedContract(@RequestParam long contractId) throws Exception{
         contractService.lockedContractByAdmin(contractId);
         return "redirect:/managers/contracts";
     }

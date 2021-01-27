@@ -23,7 +23,7 @@ public class ClientManagerContractController {
     }
 
     @RequestMapping("/addOption")
-    public ModelAndView editOption(@RequestParam long id) {
+    public ModelAndView editOption(@RequestParam long id) throws Exception{
         ModelAndView mav = new ModelAndView("jsp/managers/contracts/addOptions");
         mav.addObject("contract", contractService.getById(id));
         mav.addObject("options", optionService.getAll());
@@ -32,7 +32,7 @@ public class ClientManagerContractController {
 
     @RequestMapping(value = "/addOption", method = RequestMethod.POST)
     private String addOption(@RequestParam("optionId") long optionId,
-                             @RequestParam("contractId") long contractId){
+                             @RequestParam("contractId") long contractId) throws Exception{
         contractService.addOption(optionId, contractId);
         //editOption(optionId);
         return "redirect:/contracts/addOption?id="+ contractId;
@@ -40,7 +40,7 @@ public class ClientManagerContractController {
 
     @RequestMapping(value ="/deleteOption", method = RequestMethod.POST)
     public String  deleteOption(@RequestParam("optionId") long optionId,
-                                @RequestParam("contractId") long contractId){
+                                @RequestParam("contractId") long contractId) throws Exception{
         try {
             contractService.deleteOptions(optionId, contractId);
         }

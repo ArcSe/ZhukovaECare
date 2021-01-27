@@ -3,10 +3,13 @@ package com.javaschool.service.ipml;
 import com.javaschool.dao.ContractDao;
 import com.javaschool.dao.OptionDao;
 import com.javaschool.dto.ContractDto;
+import com.javaschool.exception.notFound.ExamplesNotFoundException;
+import com.javaschool.exception.notFound.NotDataFoundException;
 import com.javaschool.mapper.ContractMapper;
 import com.javaschool.model.Client;
 import com.javaschool.model.Contract;
 import com.javaschool.model.Option;
+import com.javaschool.model.Tariff;
 import com.javaschool.service.ContractService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,7 +36,10 @@ public class ContractServiceImpl implements ContractService {
 
 
     @Override
-    public List<ContractDto> getAll() {
+    public List<ContractDto> getAll() throws NotDataFoundException {
+        if(Objects.isNull(contractDao.getAll())){
+            throw new NotDataFoundException(Contract.class.getName());
+        }
         return contractDao.getAll().stream().map(contractMapper::toDto).collect(Collectors.toList());
     }
 
@@ -43,7 +49,10 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
-    public void delete(long id) {
+    public void delete(long id) throws ExamplesNotFoundException {
+        if(Objects.isNull(contractDao.getById(id))){
+            throw new ExamplesNotFoundException(id);
+        }
         contractDao.delete(id);
     }
 
@@ -53,12 +62,18 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
-    public ContractDto getById(long id) {
+    public ContractDto getById(long id) throws ExamplesNotFoundException {
+        if(Objects.isNull(contractDao.getById(id))){
+            throw new ExamplesNotFoundException(id);
+        }
         return contractMapper.toDto(contractDao.getById(id));
     }
 
     @Override
-    public void lockedContract(long id) {
+    public void lockedContract(long id) throws ExamplesNotFoundException {
+        if(Objects.isNull(contractDao.getById(id))){
+            throw new ExamplesNotFoundException(id);
+        }
         Contract contract = contractDao.getById(id);
         if(!contract.isLockedByAdmin()) {
             contract.setLocked(!contract.isLocked());
@@ -67,7 +82,10 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
-    public void lockedContractByAdmin(long id) {
+    public void lockedContractByAdmin(long id) throws ExamplesNotFoundException {
+        if(Objects.isNull(contractDao.getById(id))){
+            throw new ExamplesNotFoundException(id);
+        }
         Contract contract = contractDao.getById(id);
         contract.setLockedByAdmin(!contract.isLockedByAdmin());
         contract.setLocked(!contract.isLocked());
@@ -75,7 +93,10 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
-    public void addOption(long optionId, long contractId) {
+    public void addOption(long optionId, long contractId) throws ExamplesNotFoundException {
+        if(Objects.isNull(contractDao.getById(contractId))){
+            throw new ExamplesNotFoundException(contractId);
+        }
         Contract contract = contractDao.getById(contractId);
         Set<Option> options;
         if(!Objects.isNull(contract.getOptions())) {
@@ -91,12 +112,17 @@ public class ContractServiceImpl implements ContractService {
 
     @Override
     public void deleteOptions(long optionId, long contractId) throws Exception {
+        if(Objects.isNull(contractDao.getById(contractId))){
+            throw new ExamplesNotFoundException(contractId);
+        }
+        if(Objects.isNull(optionDao.getById(optionId))){
+            throw new ExamplesNotFoundException(optionId);
+        }
         Contract contract = contractDao.getById(contractId);
         Option option = optionDao.getById(optionId);
         Set<Option> options = contract.getOptions();
         if (!options.contains(option)) {
-            //todo: Exception EntityNotFound
-            throw new Exception();
+            throw new NotDataFoundException(Option.class.getName());
         }
         Set<Option> resultOptions = options.stream()
                 .filter(option1 -> option1.getId()!=optionId)

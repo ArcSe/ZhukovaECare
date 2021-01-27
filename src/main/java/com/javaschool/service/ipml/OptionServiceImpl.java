@@ -2,8 +2,11 @@ package com.javaschool.service.ipml;
 
 import com.javaschool.dao.OptionDao;
 import com.javaschool.dto.OptionDto;
+import com.javaschool.exception.notFound.ExamplesNotFoundException;
+import com.javaschool.exception.notFound.NotDataFoundException;
 import com.javaschool.mapper.OptionMapper;
 import com.javaschool.model.Option;
+import com.javaschool.model.Tariff;
 import com.javaschool.service.OptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,7 +35,10 @@ public class OptionServiceImpl implements OptionService {
 
     @Override
 
-    public List<OptionDto> getAll() {
+    public List<OptionDto> getAll() throws NotDataFoundException {
+        if(Objects.isNull(optionDao.getAll())){
+            throw new NotDataFoundException(Option.class.getName());
+        }
         return optionDao.getAll().stream().map(optionMapper::toDto).collect(Collectors.toList());
     }
 
@@ -42,7 +48,10 @@ public class OptionServiceImpl implements OptionService {
     }
 
     @Override
-    public void delete(long id) {
+    public void delete(long id) throws ExamplesNotFoundException {
+        if(Objects.isNull(optionDao.getById(id))){
+            throw new ExamplesNotFoundException(id);
+        }
         optionDao.delete(id);
     }
 
@@ -52,13 +61,22 @@ public class OptionServiceImpl implements OptionService {
     }
 
     @Override
-    public OptionDto getById(long id) {
+    public OptionDto getById(long id) throws ExamplesNotFoundException {
+        if(Objects.isNull(optionDao.getById(id))){
+            throw new ExamplesNotFoundException(id);
+        }
         return optionMapper.toDto(optionDao.getById(id));
     }
 
     @Transactional
     @Override
-    public void addMandatory(long optionId, long idMandatoryOption) {
+    public void addMandatory(long optionId, long idMandatoryOption) throws ExamplesNotFoundException {
+        if(Objects.isNull(optionDao.getById(optionId))){
+            throw new ExamplesNotFoundException(optionId);
+        }
+        if(Objects.isNull(optionDao.getById(idMandatoryOption))){
+            throw new ExamplesNotFoundException(idMandatoryOption);
+        }
         Option option = optionDao.getById(optionId);
         Option mandatoryOption = optionDao.getById(idMandatoryOption);
         Set<Option> mandatoryOptions;
@@ -117,7 +135,13 @@ public class OptionServiceImpl implements OptionService {
     }
 
     @Override
-    public boolean deleteMandatoryOption(long idOption, long mandatoryOption) {
+    public boolean deleteMandatoryOption(long idOption, long mandatoryOption) throws ExamplesNotFoundException {
+        if(Objects.isNull(optionDao.getById(idOption))){
+            throw new ExamplesNotFoundException(idOption);
+        }
+        if(Objects.isNull(optionDao.getById(mandatoryOption))){
+            throw new ExamplesNotFoundException(mandatoryOption);
+        }
         Option optionDB = optionDao.getById(idOption);
         Option optionMandatoryDB = optionDao.getById(mandatoryOption);
         Set<Option> setMandatoryOptions = optionDB.getMandatoryOptions();

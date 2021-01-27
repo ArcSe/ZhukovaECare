@@ -32,7 +32,7 @@ public class OptionController {
     }
 
     @RequestMapping()
-    public ModelAndView home(@AuthenticationPrincipal User user) {
+    public ModelAndView home(@AuthenticationPrincipal User user) throws Exception{
         List<OptionDto> listOption = optionService.getAll();
         ModelAndView mav = new ModelAndView("jsp/managers/options/home");
         mav.addObject("listOption", listOption);
@@ -40,20 +40,20 @@ public class OptionController {
     }
 
     @RequestMapping("/new")
-    public String newOption(Map<String, Object> model) {
+    public String newOption(Map<String, Object> model) throws Exception{
         OptionDto option = new OptionDto();
         model.put("option", option);
         return "jsp/managers/options/new_option";
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public String saveOption(@ModelAttribute("option") OptionDto option) {
+    public String saveOption(@ModelAttribute("option") OptionDto option) throws Exception{
         optionService.add(option);
         return "redirect:/managers/options";
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String updateOption(@ModelAttribute("option") OptionDto option) {
+    public String updateOption(@ModelAttribute("option") OptionDto option) throws Exception{
         OptionDto optionDB = optionService.getById(option.getId());
         optionDB.setName(option.getName());
         optionDB.setPrice(option.getPrice());
@@ -63,7 +63,7 @@ public class OptionController {
     }
 
     @RequestMapping("/edit")
-    public ModelAndView editOption(@RequestParam long id) {
+    public ModelAndView editOption(@RequestParam long id) throws Exception{
         ModelAndView mav = new ModelAndView("jsp/managers/options/edit_option");
         OptionDto option = optionService.getById(id);
         mav.addObject("option", option);
@@ -71,7 +71,7 @@ public class OptionController {
     }
 
     @RequestMapping("/editMandatoryOptions")
-    public ModelAndView editMandatoryOptions(@RequestParam long id) {
+    public ModelAndView editMandatoryOptions(@RequestParam long id) throws Exception{
         ModelAndView mav = new ModelAndView("jsp/managers/options/addMandatoryOptions");
         OptionDto optionDB = optionService.getById(id);
         mav.addObject("option", optionDB);
@@ -88,14 +88,14 @@ public class OptionController {
  */
 
     @RequestMapping(value = "/delete")
-    public String deleteOptionById(@RequestParam long id) {
+    public String deleteOptionById(@RequestParam long id) throws Exception{
         optionService.delete(id);
         return "redirect:/managers/options";
     }
 
     @PostMapping("/addMandatoryOption")
     private String addMandatoryOption(@RequestParam("optionId") long optionId,
-                             @RequestParam("mandatoryOptionId") long mandatoryOptionId){
+                             @RequestParam("mandatoryOptionId") long mandatoryOptionId) throws Exception{
         optionService.addMandatory(optionId, mandatoryOptionId);
         editMandatoryOptions(optionId);
         return "redirect:/managers/options/editMandatoryOptions?id="+ optionId;
@@ -104,13 +104,13 @@ public class OptionController {
     @PostMapping("/deleteMandatoryOption")
     public String  deleteMandatoryOption(@RequestParam("optionId") Long optionId,
                               @RequestParam("mandatoryOptionId") Long optionMandatoryId,
-                              Model model) {
+                              Model model) throws Exception{
         optionService.deleteMandatoryOption(optionId, optionMandatoryId);
         return "redirect:/managers/options/editMandatoryOptions?id="+ optionId;
     }
 
     @RequestMapping("/editBannedOptions")
-    public ModelAndView editBannedOptions(@RequestParam long id) {
+    public ModelAndView editBannedOptions(@RequestParam long id) throws Exception{
         ModelAndView mav = new ModelAndView("jsp/managers/options/addBannedOptions");
         Set<OptionDto> options = optionService.getAll().stream().filter(o->o.getId()!=id).collect(Collectors.toSet());
         mav.addObject("option", optionService.getById(id));
@@ -120,7 +120,7 @@ public class OptionController {
 
     @PostMapping("/addBannedOption")
     private String addBannedOption(@RequestParam("optionId") long optionId,
-                             @RequestParam("bannedOptionId") long bannedOptionId){
+                             @RequestParam("bannedOptionId") long bannedOptionId) throws Exception {
         optionService.addBannedOptionToDB(optionId, bannedOptionId);
         editBannedOptions(optionId);
         return "redirect:/managers/options/editBannedOptions?id="+ optionId;
@@ -129,7 +129,7 @@ public class OptionController {
     @PostMapping("/deleteBannedOption")
     public String  deleteBannedOption(@RequestParam("optionId") Long optionId,
                                          @RequestParam("bannedOptionId") Long optionBannedId,
-                                         Model model) {
+                                         Model model) throws Exception{
         optionService.deleteBannedOption(optionId, optionBannedId);
         return "redirect:/managers/options/editBannedOptions?id="+ optionId;
     }
