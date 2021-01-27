@@ -2,8 +2,8 @@ package com.javaschool.controller.pages.manager;
 
 import com.javaschool.dto.ClientDto;
 import com.javaschool.dto.ContractDto;
-import com.javaschool.dto.OptionDto;
 import com.javaschool.dto.TariffDto;
+import com.javaschool.exception.notFound.TariffNotFoundException;
 import com.javaschool.service.ClientService;
 import com.javaschool.service.ContractService;
 import com.javaschool.service.OptionService;
@@ -51,7 +51,7 @@ public class ContractController {
     }
 
     @RequestMapping("/new")
-    public String newContract(Map<String, Object> model) {
+    public String newContract(Map<String, Object> model) throws Exception{
         ContractDto contractDto = new ContractDto();
         List<ClientDto> clients = clientService.getAll();
         List<TariffDto> tariffs = tariffService.getAll();
@@ -63,7 +63,7 @@ public class ContractController {
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public String saveContract(@RequestParam("tariff.id") long tariffsId,
-                               @ModelAttribute("contract") ContractDto contract) {
+                               @ModelAttribute("contract") ContractDto contract) throws TariffNotFoundException {
         contract.setTariff(tariffService.getById(tariffsId));
         contractService.add(contract);
         return "redirect:/managers/contracts";
@@ -96,7 +96,7 @@ public class ContractController {
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String updateTariff(@RequestParam("tariff.id") long tariffsId,
-                               @ModelAttribute("contract") ContractDto contract) {
+                               @ModelAttribute("contract") ContractDto contract) throws TariffNotFoundException {
         ContractDto contractDB = contractService.getById(contract.getId());
         contractDB.setTariff(tariffService.getById(tariffsId));
         contractDB.setClientId(contract.getClientId());
@@ -106,7 +106,7 @@ public class ContractController {
     }
 
     @RequestMapping("/edit")
-    public ModelAndView editTariff(@RequestParam long id) {
+    public ModelAndView editTariff(@RequestParam long id) throws Exception {
         ModelAndView mav = new ModelAndView("jsp/managers/contracts/edit_contract");
         ContractDto contractDto = contractService.getById(id);
         List<TariffDto> tariffs = tariffService.getAll();

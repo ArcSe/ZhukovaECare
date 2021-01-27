@@ -2,6 +2,8 @@ package com.javaschool.controller.pages.manager;
 
 import com.javaschool.dto.OptionDto;
 import com.javaschool.dto.TariffDto;
+import com.javaschool.exception.notFound.BadValueException;
+import com.javaschool.exception.notFound.TariffNotFoundException;
 import com.javaschool.service.OptionService;
 import com.javaschool.service.TariffService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +29,7 @@ public class TariffController {
     }
     
     @RequestMapping()
-    public ModelAndView home() {
+    public ModelAndView home() throws Exception{
         List<TariffDto> listTariff = tariffService.getAll();
         ModelAndView mav = new ModelAndView("jsp/managers/tariffs/tariffList");
         mav.addObject("listTariff", listTariff);
@@ -35,7 +37,7 @@ public class TariffController {
     }
 
     @RequestMapping("/getById")
-    public ModelAndView getById(@RequestParam long id) {
+    public ModelAndView getById(@RequestParam long id) throws Exception {
         TariffDto tariff = tariffService.getById(id);
         ModelAndView mav = new ModelAndView("jsp/managers/tariffs/tariffgetById");
         mav.addObject("tariff", tariff);
@@ -43,7 +45,7 @@ public class TariffController {
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String updateTariff(@ModelAttribute("tariff") TariffDto tariff) {
+    public String updateTariff(@ModelAttribute("tariff") TariffDto tariff) throws Exception {
         TariffDto tariffDB = tariffService.getById(tariff.getId());
         tariffDB.setName(tariff.getName());
         tariffDB.setPrice(tariff.getPrice());
@@ -52,7 +54,7 @@ public class TariffController {
     }
 
     @RequestMapping("/edit")
-    public ModelAndView editTariff(@RequestParam long id) {
+    public ModelAndView editTariff(@RequestParam long id) throws Exception {
         ModelAndView mav = new ModelAndView("jsp/managers/tariffs/edit_tariff");
         TariffDto tariffDto = tariffService.getById(id);
         mav.addObject("tariff", tariffDto);
@@ -70,7 +72,7 @@ public class TariffController {
     @RequestMapping(value = "/removeOption", method = RequestMethod.POST)
     public String removeOptionFromTariff(@RequestParam("optionId") Long optionId,
                                          @RequestParam("tariffId") Long tariffId,
-                                         @RequestParam("isFromAddForm") boolean isForm){
+                                         @RequestParam("isFromAddForm") boolean isForm) throws Exception {
 
         tariffService.removeOption(optionId, tariffId);
         if(!isForm) {
@@ -83,13 +85,13 @@ public class TariffController {
 
     @RequestMapping(value = "/addOption", method = RequestMethod.POST)
     public String addOptionToDB(@RequestParam("optionId") Long optionId,
-                                         @RequestParam("tariffId") Long tariffId){
+                                         @RequestParam("tariffId") Long tariffId) throws Exception {
         tariffService.addOption(optionId, tariffId);
         return "redirect:/managers/tariffs/addOption?id="+tariffId;
     }
 
     @RequestMapping(value = "/addOption")
-    public ModelAndView addOptionToTariff(@RequestParam Long id){
+    public ModelAndView addOptionToTariff(@RequestParam Long id) throws Exception {
         ModelAndView mav = new ModelAndView("jsp/managers/tariffs/addOptions");
         mav.addObject("tariff", tariffService.getById(id));
         mav.addObject("options", optionService.getAll());
@@ -126,7 +128,7 @@ public class TariffController {
     }
 */
     @RequestMapping(value ="/delete", method = RequestMethod.POST)
-    public String deleteTariffById(@RequestParam("tariffId") long id) {
+    public String deleteTariffById(@RequestParam("tariffId") long id) throws Exception {
         tariffService.delete(id);
         return "redirect:/managers/tariffs";
     }

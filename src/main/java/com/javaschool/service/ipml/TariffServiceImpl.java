@@ -2,9 +2,10 @@ package com.javaschool.service.ipml;
 
 import com.javaschool.dao.OptionDao;
 import com.javaschool.dao.TariffDao;
-import com.javaschool.dto.OptionDto;
 import com.javaschool.dto.TariffDto;
-import com.javaschool.exception.BadValueException;
+import com.javaschool.exception.notFound.BadValueException;
+import com.javaschool.exception.notFound.NotDataFoundException;
+import com.javaschool.exception.notFound.TariffNotFoundException;
 import com.javaschool.mapper.TariffMapper;
 import com.javaschool.model.Option;
 import com.javaschool.model.Tariff;
@@ -13,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -35,7 +35,10 @@ public class TariffServiceImpl implements TariffService {
     }
 
     @Override
-    public List<TariffDto> getAll() {
+    public List<TariffDto> getAll() throws NotDataFoundException {
+        if(Objects.isNull(tariffDao.getAll())){
+            throw new NotDataFoundException(Tariff.class.getName());
+        }
         return tariffDao.getAll().stream().map(tariffMapper::toDto).collect(Collectors.toList());
     }
 
@@ -46,30 +49,45 @@ public class TariffServiceImpl implements TariffService {
     }
 
     @Override
-    public void delete(long id) {
+    public void delete(long id) throws TariffNotFoundException {
+        if(Objects.isNull(tariffDao.getById(id))){
+            throw new TariffNotFoundException(id);
+        }
         tariffDao.delete(id);
     }
 
     @Override
-    public void update( TariffDto tariffDto) {
+    public void update( TariffDto tariffDto) throws TariffNotFoundException {
+        if(Objects.isNull(tariffDto)){
+            throw new TariffNotFoundException(tariffDto.getId());
+        }
         Tariff tariff = tariffMapper.toEntity(tariffDto);
         tariffDao.update(tariff);
     }
 
     @Override
-    public TariffDto getById(long id) {
+    public TariffDto getById(long id) throws TariffNotFoundException {
+        if(Objects.isNull(tariffDao.getById(id))){
+            throw new TariffNotFoundException(id);
+        }
         TariffDto dto = tariffMapper.toDto(tariffDao.getById(id));
         return dto;
     }
 
     @Override
-    public TariffDto getByName(String name) {
+    public TariffDto getByName(String name) throws TariffNotFoundException {
+        if(Objects.isNull(tariffDao.getByName(name))){
+            throw new TariffNotFoundException(name);
+        }
         TariffDto dto = tariffMapper.toDto(tariffDao.getByName(name));
         return dto;
     }
 
     @Override
-    public void removeOption(long optionId, long tariffId) {
+    public void removeOption(long optionId, long tariffId) throws TariffNotFoundException {
+        if(Objects.isNull(tariffDao.getById(tariffId))){
+            throw new TariffNotFoundException(tariffId);
+        }
         Tariff tariff = tariffDao.getById(tariffId);
         Set<Option> options = tariff.getOptions().stream()
                 .filter(option -> option.getId()!=optionId)
@@ -80,7 +98,10 @@ public class TariffServiceImpl implements TariffService {
 
     //todo message about banned options
     @Override
-    public void addOption(Long optionId, Long tariffId){
+    public void addOption(Long optionId, Long tariffId) throws BadValueException, TariffNotFoundException {
+        if(Objects.isNull(tariffDao.getById(tariffId))){
+            throw new TariffNotFoundException(tariffId);
+        }
         Tariff tariff = tariffDao.getById(tariffId);
         Set<Option> options = tariff.getOptions();
         Option option = optionDao.getById(optionId);

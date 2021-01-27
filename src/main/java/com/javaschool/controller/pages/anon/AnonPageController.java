@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AnonPageController {
 
     private final TariffService tariffService;
-    private static final Logger logger = Logger.getLogger(AnonPageController.class);
+
 
     @Autowired
     public AnonPageController(TariffService tariffService) {
@@ -21,13 +21,6 @@ public class AnonPageController {
 
     @RequestMapping(value = "/")
     public String getHomePage(){
-        //logs debug message
-        if(logger.isDebugEnabled()){
-            logger.debug("getWelcome is executed!");
-        }
-
-        //logs exception
-        logger.error("This is Error message", new Exception("Testing"));
         /*
         List<TariffDto> listTariff = tariffService.getAll();
         ModelAndView mav = new ModelAndView("jsp/client/index");

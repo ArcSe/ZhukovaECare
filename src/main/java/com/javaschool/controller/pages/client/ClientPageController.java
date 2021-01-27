@@ -3,7 +3,7 @@ package com.javaschool.controller.pages.client;
 import com.javaschool.dto.ClientDto;
 import com.javaschool.dto.ContractDto;
 import com.javaschool.dto.TariffDto;
-import com.javaschool.dto.UserDto;
+import com.javaschool.exception.notFound.TariffNotFoundException;
 import com.javaschool.model.User;
 import com.javaschool.service.ClientService;
 import com.javaschool.service.ContractService;
@@ -49,7 +49,7 @@ public class ClientPageController {
     }
 
     @RequestMapping("/addTariff")
-    public ModelAndView chooseTariff(@RequestParam long id){
+    public ModelAndView chooseTariff(@RequestParam long id) throws Exception{
         ModelAndView mav = new ModelAndView("jsp/client/userProfile/addTariff");
         mav.addObject("contract", contractService.getById(id));
         mav.addObject("listTariff", tariffService.getAll());
@@ -57,7 +57,7 @@ public class ClientPageController {
     }
     @RequestMapping(value = "/addTariff", method = RequestMethod.POST)
     private String addOption(@RequestParam("tariffId") long tariffId,
-                             @RequestParam("contractId") long contractId){
+                             @RequestParam("contractId") long contractId) throws TariffNotFoundException {
         ContractDto contractDto = contractService.getById(contractId);
         TariffDto tariffDto = tariffService.getById(tariffId);
         contractDto.setTariff(tariffDto);

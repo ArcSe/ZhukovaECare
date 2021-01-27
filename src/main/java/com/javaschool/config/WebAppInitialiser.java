@@ -7,6 +7,7 @@ import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import javax.servlet.Filter;
+import javax.servlet.ServletRegistration;
 
 @Configuration
 public class WebAppInitialiser extends AbstractAnnotationConfigDispatcherServletInitializer {
@@ -23,9 +24,16 @@ public class WebAppInitialiser extends AbstractAnnotationConfigDispatcherServlet
     protected String[] getServletMappings() {
         return new String[]{"/"};
     }
+/*
+    @Override
+    public void customizeRegistration(ServletRegistration.Dynamic registration) {
+        registration.setInitParameter("throwExceptionIfNoHandlerFound", "true");
+    }
 
     @Override
     protected Filter[] getServletFilters() {
         return new Filter[] { new HiddenHttpMethodFilter() };
     }
+
+ */
 }
