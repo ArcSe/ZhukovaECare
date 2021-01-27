@@ -1,20 +1,17 @@
 package com.javaschool.controller.pages.anon;
 
-import com.javaschool.dto.TariffDto;
-import com.javaschool.model.User;
 import com.javaschool.service.TariffService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
 
 @Controller
 public class AnonPageController {
 
     private final TariffService tariffService;
+    private static final Logger logger = Logger.getLogger(AnonPageController.class);
 
     @Autowired
     public AnonPageController(TariffService tariffService) {
@@ -24,6 +21,13 @@ public class AnonPageController {
 
     @RequestMapping(value = "/")
     public String getHomePage(){
+        //logs debug message
+        if(logger.isDebugEnabled()){
+            logger.debug("getWelcome is executed!");
+        }
+
+        //logs exception
+        logger.error("This is Error message", new Exception("Testing"));
         /*
         List<TariffDto> listTariff = tariffService.getAll();
         ModelAndView mav = new ModelAndView("jsp/client/index");

@@ -98,7 +98,7 @@ public class TariffController {
 
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public String saveTariff(@ModelAttribute("tariff") TariffDto tariff) {
+    public String saveTariff(@ModelAttribute("tariff") TariffDto tariff) throws Exception {
         tariffService.add(tariff);
         return "redirect:/managers/tariffs";
     }
