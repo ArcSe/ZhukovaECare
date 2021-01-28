@@ -8,6 +8,7 @@ import com.javaschool.mapper.OptionMapper;
 import com.javaschool.model.Option;
 import com.javaschool.model.Tariff;
 import com.javaschool.service.OptionService;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -39,7 +40,7 @@ public class OptionServiceImpl implements OptionService {
         if(Objects.isNull(optionDao.getAll())){
             throw new NotDataFoundException(Option.class.getName());
         }
-        return optionDao.getAll().stream().map(optionMapper::toDto).collect(Collectors.toList());
+        return optionDao.getAllNotDeleted().stream().map(optionMapper::toDto).collect(Collectors.toList());
     }
 
     @Override
@@ -157,13 +158,13 @@ public class OptionServiceImpl implements OptionService {
     }
 
     @Override
-    public void addBannedOptionToDB(long idOption, long bannedOptionId) {
+    public void addBannedOptionToDB(long idOption, long bannedOptionId) throws ExamplesNotFoundException {
         Option option = addBannedOption(idOption,bannedOptionId);
         optionDao.update(option);
     }
 
 
-    public Option addBannedOption(long idOption, long bannedOptionId) {
+    public Option addBannedOption(long idOption, long bannedOptionId) throws ExamplesNotFoundException {
         Option option = optionDao.getById(idOption);
         Option bannedOption = optionDao.getById(bannedOptionId);
         Set<Option> bannedOptions;

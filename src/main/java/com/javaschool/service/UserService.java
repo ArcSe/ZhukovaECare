@@ -27,5 +27,5 @@ public interface UserService extends UserDetailsService {
     User getByUserEmail(String email) throws ExamplesNotFoundException;
 
     @Transactional
-    boolean save(UserDto user) throws ExamplesNotFoundException;
+    boolean save(UserDto user) ;
 }

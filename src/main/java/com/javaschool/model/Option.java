@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -13,6 +16,8 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@SQLDelete(sql = "UPDATE options SET deleted=true WHERE id=?")
+//@Where(clause = "deleted = false")
 @Table(name = "options", uniqueConstraints={@UniqueConstraint(columnNames={"name"})})
 public class Option extends AbstractModel{
 
@@ -24,6 +29,9 @@ public class Option extends AbstractModel{
 
     @Column(name = "serviceCost")
     private int serviceCost;
+
+    @Column(name = "deleted")
+    private boolean deleted = false;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(

@@ -24,7 +24,7 @@ public interface OptionService {
 
     boolean deleteMandatoryOption(long idOption, long mandatoryOption) throws ExamplesNotFoundException;
 
-    void addBannedOptionToDB(long idOption, long bannedOption);
+    void addBannedOptionToDB(long idOption, long bannedOption) throws ExamplesNotFoundException;
 
     boolean deleteBannedOption(long idOption, long bannedOption);
 

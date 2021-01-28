@@ -78,15 +78,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getByUserEmail(String email) throws ExamplesNotFoundException {
-        if(Objects.isNull(userDao.getByEmail(email))){
-            throw new ExamplesNotFoundException(email);
-        }
+    public User getByUserEmail(String email)  {
         return userDao.getByEmail(email);
     }
 
     @Override
-    public boolean save(UserDto user) throws ExamplesNotFoundException {
+    public boolean save(UserDto user)  {
         User userFromDb = getByUserEmail(user.getEmail());
 
         if (userFromDb != null) {
