@@ -7,20 +7,44 @@
     <title>Spring Security Example </title>
 </head>
 <body>
-<form:form action="/auth/registration" method="post" modelAttribute="user">
-    <div><label> Email : <form:input type="email" path="email"/> </label>
-        <form:errors path="email"/>
-        ${emailError}
+    <div class="container">
+        <div class="row">
+            <div class="col align-self-center">
+                <h2>Registration</h2>
+                <div class="mt-2">
+                    <form:form action="/auth/registration" method="post" modelAttribute="user">
+                            <div class="form-group row">
+                                <label for="email" class="col-sm-2 col-form-label">Email: </label>
+                                <div class="col-sm-5">
+                                    <form:input type="email" path="email" placeholder="Email"/>
+                                    <form:errors path="email"/>
+                                        ${emailError}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="password" class="col-sm-2 col-form-label">Password: </label>
+                                <div class="col-sm-5">
+                                     <form:input type="password" path="password" placeholder="Password"/>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="password" class="col-sm-2 col-form-label">Confirm Password: </label>
+                                <div class="col-sm-5">
+                                    <form:input type="password" path="passwordConfirm" placeholder="Confirm password"/>
+                                    <form:errors path="password"/>
+                                        ${passwordError}
+                                </div>
+                            </div>
+                            <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
+                            <div class="row ">
+                                <button type="submit" class="btn btn-primary"> Sign In</button>
+                                <a class="btn btn-light" role="button" href="/login"> Login</a>
+                            </div>
+                        </div>
+                    </form:form>
+                </div>
+            </div>
+        </div>
     </div>
-    <div><label> Password: <form:input type="password" path="password"/> </label></div>
-    <div>
-        <form:input type="password" path="passwordConfirm"
-                    placeholder="Confirm your password"/>
-        <form:errors path="password"/>
-            ${passwordError}
-    </div>
-    <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
-    <div><input type="submit" value="Sign In"/></div>
-</form:form>
 </body>
 </html>
