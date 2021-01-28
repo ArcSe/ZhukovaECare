@@ -202,7 +202,7 @@ public class OptionServiceImpl implements OptionService {
     @Override
     public Set<OptionDto> splitSetMandatoryOptions(long optionId) {
         Option optionDB = optionDao.getById(optionId);
-        Set<Option> options = optionDao.getAll().stream().filter(o->o.getId()!=optionId).collect(Collectors.toSet());
+        Set<Option> options = optionDao.getAllNotDeleted().stream().filter(o->o.getId()!=optionId).collect(Collectors.toSet());
         Set<Option> bannedOption = optionDB.getBannedOptions();
         options.removeAll(bannedOption);
         return options.stream().map(optionMapper::toDto).collect(Collectors.toSet());
@@ -211,7 +211,7 @@ public class OptionServiceImpl implements OptionService {
     @Override
     public Set<OptionDto> splitSetBannedOptions(long optionId) {
         Option optionDB = optionDao.getById(optionId);
-        Set<Option> options = optionDao.getAll().stream().filter(o->o.getId()!=optionId).collect(Collectors.toSet());
+        Set<Option> options = optionDao.getAllNotDeleted().stream().filter(o->o.getId()!=optionId).collect(Collectors.toSet());
         Set<Option> mandatoryOption = optionDB.getMandatoryOptions();
         options.removeAll(mandatoryOption);
         return options.stream().map(optionMapper::toDto).collect(Collectors.toSet());

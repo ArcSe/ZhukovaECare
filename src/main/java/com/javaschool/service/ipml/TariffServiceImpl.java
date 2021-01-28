@@ -36,10 +36,10 @@ public class TariffServiceImpl implements TariffService {
 
     @Override
     public List<TariffDto> getAll() throws NotDataFoundException {
-        if(Objects.isNull(tariffDao.getAll())){
+        if(Objects.isNull(tariffDao.getAllNotDeleted())){
             throw new NotDataFoundException(Tariff.class.getName());
         }
-        return tariffDao.getAll().stream().map(tariffMapper::toDto).collect(Collectors.toList());
+        return tariffDao.getAllNotDeleted().stream().map(tariffMapper::toDto).collect(Collectors.toList());
     }
 
     @Transactional

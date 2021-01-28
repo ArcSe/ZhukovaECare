@@ -8,5 +8,7 @@ import java.util.List;
 
 public interface TariffDao extends AbstractDao<Tariff>{
 
+    List<Tariff> getAllNotDeleted();
+
     Tariff getByName(String name);
 }

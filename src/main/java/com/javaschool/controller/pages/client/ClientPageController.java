@@ -3,7 +3,6 @@ package com.javaschool.controller.pages.client;
 import com.javaschool.dto.ClientDto;
 import com.javaschool.dto.ContractDto;
 import com.javaschool.dto.TariffDto;
-import com.javaschool.exception.notFound.ExamplesNotFoundException;
 import com.javaschool.model.User;
 import com.javaschool.service.ClientService;
 import com.javaschool.service.ContractService;
@@ -15,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/client")
@@ -34,10 +35,18 @@ public class ClientPageController {
 
     @RequestMapping("/userProfile")
     public ModelAndView getPersonalPage(@AuthenticationPrincipal User user) throws Exception{
-        ModelAndView mav = new ModelAndView("jsp/client/userProfile/userProfile");
-        long clientId = user.getClient().getId();
-        ClientDto client = clientService.getById(clientId);
-        mav.addObject("client", client);
+        ModelAndView mav = new ModelAndView();
+        if(Objects.isNull(user.getClient())) {
+            mav = new ModelAndView("jsp/client/userProfile/userProfile");
+            mav.addObject("email", user.getEmail());
+        }
+        else {
+            mav = new ModelAndView("jsp/client/userProfile/clientProfile");
+
+            long clientId = user.getClient().getId();
+            ClientDto client = clientService.getById(clientId);
+            mav.addObject("client", client);
+        }
         return mav;
     }
 

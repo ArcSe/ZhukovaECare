@@ -6,11 +6,13 @@
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <title>Option Manager</title>
+    <title>User Manager</title>
     <c:import url="../../general/template.jsp"/>
 </head>
 <body>
-    <h2 align="centre">User Manager</h2>
+    <div align="center">
+        <h2>User Manager</h2>
+    </div>
     <br/>
     <div class="container">
         <table class="table">

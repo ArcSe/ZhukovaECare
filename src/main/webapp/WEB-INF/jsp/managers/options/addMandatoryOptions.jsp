@@ -18,7 +18,7 @@
     <div class="col-sm-7">
         <input type="hidden" name="option.id" value="${option.id}"/>
     </div>
-    <div class="form-group col-md-4">
+    <div class="container">
         <label >Mandatory Options</label>
             <table class="table">
                 <thead>
@@ -27,6 +27,8 @@
                     <th scope="col" class="text-center">Name</th>
                     <th scope="col" class="text-center">Price</th>
                     <th scope="col" class="text-center">Service Cost</th>
+                    <th scope="col" class="text-center">Mandatory Options</th>
+                    <th scope="col" class="text-center">Banned Options</th>
                     <th scope="col" class="text-center">Actions</th>
                 </tr>
                 </thead>
@@ -37,6 +39,20 @@
                         <td class="text-center">${optionMad.name}</td>
                         <td class="text-center">${optionMad.price}</td>
                         <td class="text-center">${optionMad.serviceCost}</td>
+                        <td class="text-center">
+                            <ul>
+                                <c:forEach items="${option.mandatoryOptions}" var="mandatoryOption">
+                                    <li>${mandatoryOption}</li>
+                                </c:forEach>
+                            </ul>
+                        </td>
+                        <td class="text-center">
+                            <ul>
+                                <c:forEach items="${option.bannedOptions}" var="bannedOption">
+                                    <li>${bannedOption}</li>
+                                </c:forEach>
+                            </ul>
+                        </td>
                         <td class="text-center">
                             <c:choose>
                                 <c:when test="${option.mandatoryOptions.contains(optionMad.id)}">

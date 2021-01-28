@@ -15,7 +15,7 @@
 <body>
 <div align="center">
     <h2>Add Option to Tariff ${tariff.name}</h2>
-    <div class="form-group col-md-4">
+    <div class="container">
         <table class="table">
             <thead>
             <tr>
@@ -23,6 +23,8 @@
                 <th scope="col" class="text-center">Name</th>
                 <th scope="col" class="text-center">Price</th>
                 <th scope="col" class="text-center">Service Cost</th>
+                <th scope="col" class="text-center">Mandatory Options</th>
+                <th scope="col" class="text-center">Banned Options</th>
                 <th scope="col" class="text-center">Actions</th>
             </tr>
             </thead>
@@ -33,6 +35,20 @@
                     <td class="text-center">${option.name}</td>
                     <td class="text-center">${option.price}</td>
                     <td class="text-center">${option.serviceCost}</td>
+                    <td class="text-center">
+                        <ul>
+                            <c:forEach items="${option.mandatoryOptions}" var="mandatoryOption">
+                                <li>${mandatoryOption}</li>
+                            </c:forEach>
+                        </ul>
+                    </td>
+                    <td class="text-center">
+                        <ul>
+                            <c:forEach items="${option.bannedOptions}" var="bannedOption">
+                                <li>${bannedOption}</li>
+                            </c:forEach>
+                        </ul>
+                    </td>
                     <td class="text-center">
                         <c:choose>
                             <c:when test="${tariff.options.contains(option)}">
