@@ -91,8 +91,18 @@ public class TariffController {
     @RequestMapping(value = "/addOption")
     public ModelAndView addOptionToTariff(@RequestParam Long id) throws Exception {
         ModelAndView mav = new ModelAndView("jsp/managers/tariffs/addOptions");
-        mav.addObject("tariff", tariffService.getById(id));
-        mav.addObject("options", optionService.getAll());
+        TariffDto tariffDto = tariffService.getById(id);
+        mav.addObject("tariff", tariffDto);
+        if (!tariffDto.getOptions().isEmpty()) {
+            Set<OptionDto> tariffOption = tariffDto.getOptions();
+            Set<OptionDto> checkedOptions = new HashSet<>();
+            tariffOption.forEach(o -> checkedOptions.addAll(optionService.splitSetMandatoryOptions(o.getId())));
+            checkedOptions.addAll(tariffOption);
+            mav.addObject("options", checkedOptions);
+        }
+        else {
+            mav.addObject("options", optionService.getAll());
+        }
         return mav;
     }
 

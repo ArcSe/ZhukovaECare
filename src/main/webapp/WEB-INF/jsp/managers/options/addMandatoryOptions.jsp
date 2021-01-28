@@ -41,14 +41,14 @@
                         <td class="text-center">${optionMad.serviceCost}</td>
                         <td class="text-center">
                             <ul>
-                                <c:forEach items="${option.mandatoryOptions}" var="mandatoryOption">
+                                <c:forEach items="${optionMad.mandatoryOptions}" var="mandatoryOption">
                                     <li>${mandatoryOption}</li>
                                 </c:forEach>
                             </ul>
                         </td>
                         <td class="text-center">
                             <ul>
-                                <c:forEach items="${option.bannedOptions}" var="bannedOption">
+                                <c:forEach items="${optionMad.bannedOptions}" var="bannedOption">
                                     <li>${bannedOption}</li>
                                 </c:forEach>
                             </ul>
