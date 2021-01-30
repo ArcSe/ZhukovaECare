@@ -23,6 +23,17 @@
                                     no-repeat scroll 0 50%;"/>
                 </form>
             </div>
+            <div>
+                <label for="exampleDataList" class="form-label">Datalist example</label>
+                <input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Type to search...">
+                <datalist id="datalistOptions">
+                    <option value="San Francisco">
+                    <option value="New York">
+                    <option value="Seattle">
+                    <option value="Los Angeles">
+                    <option value="Chicago">
+                </datalist>
+            </div>
             <div class="col-lg-2">
                 <a class="btn btn-info" href="${pageContext.request.contextPath}/managers/client" role="button">Reset search</a>
             </div>

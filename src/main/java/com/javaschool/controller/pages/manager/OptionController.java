@@ -1,5 +1,6 @@
 package com.javaschool.controller.pages.manager;
 
+import com.javaschool.controller.pages.ControllerUtils;
 import com.javaschool.dto.ContractDto;
 import com.javaschool.dto.OptionDto;
 import com.javaschool.dto.UserDto;
@@ -11,9 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -47,9 +50,20 @@ public class OptionController {
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public String saveOption(@ModelAttribute("option") OptionDto option) throws Exception{
-        optionService.add(option);
-        return "redirect:/managers/options";
+    public String saveOption(@ModelAttribute("option") @Valid  OptionDto option,
+                             BindingResult bindingResult, Model model) throws Exception{
+        if(bindingResult.hasErrors()){
+            Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
+
+            model.mergeAttributes(errorsMap);
+            model.addAttribute("option", option);
+
+            return "jsp/managers/options/new_option";
+        }
+        else {
+            optionService.add(option);
+            return "redirect:/managers/options";
+        }
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)

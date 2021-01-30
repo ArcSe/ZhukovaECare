@@ -16,23 +16,28 @@
     <br>
         <form:form action="save" method="post" modelAttribute="option">
             <div class="form-group row">
-                <label for="name" class="col-sm-2 col-form-label">Name: </label>
-                <div class="col-sm-4">
-                    <form:input type="text" class="form-control" path="name"
-                           placeholder="Enter name"/>
+                <div class="input-group has-validation">
+                    <label for="name" class="col-sm-2 col-form-label">Name: </label>
+                    <div class="col-sm-4">
+                        <form:input type="text" class="form-control" path="name"
+                               placeholder="Enter name"/>
+                            <div class="invalid-feedback">
+                                Please choose a username.
+                            </div>
+                    </div>
                 </div>
             </div>
             <div class="form-group row">
                 <label for="price" class="col-sm-2 col-form-label">Price: </label>
                 <div class="col-sm-4">
-                    <form:input type="text" class="form-control" path="price"
+                    <form:input type="number" class="form-control" path="price"
                                 placeholder="Enter name"/>
                 </div>
             </div>
             <div class="form-group row">
                 <label for="serviceCost" class="col-sm-2 col-form-label">Service Cost: </label>
                 <div class="col-sm-4">
-                    <form:input type="text" class="form-control" path="serviceCost"
+                    <form:input type="number" class="form-control" path="serviceCost"
                                 placeholder="Enter name"/>
                 </div>
             </div>

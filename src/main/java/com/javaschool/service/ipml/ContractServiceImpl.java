@@ -3,6 +3,7 @@ package com.javaschool.service.ipml;
 import com.javaschool.dao.ContractDao;
 import com.javaschool.dao.OptionDao;
 import com.javaschool.dto.ContractDto;
+import com.javaschool.dto.OptionDto;
 import com.javaschool.dto.TariffDto;
 import com.javaschool.exception.notFound.ExamplesNotFoundException;
 import com.javaschool.exception.notFound.NotDataFoundException;
@@ -61,6 +62,13 @@ public class ContractServiceImpl implements ContractService {
 
     @Override
     public void update(ContractDto contract) {
+        if(!Objects.isNull(contract.getTariff())) {
+            TariffDto tariffDto = contract.getTariff();
+            if(!Objects.isNull(tariffDto.getOptions())) {
+                Set<OptionDto> optionDtos = tariffDto.getOptions();
+                contract.setOptions(optionDtos);
+            }
+        }
         contractDao.update(contractMapper.toEntity(contract));
     }
 

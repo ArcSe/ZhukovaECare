@@ -19,11 +19,6 @@
                 <label for="name">Name</label>
                 <form:input type="text" class="form-control" path="name" placeholder="new name"/>
             </div>
-            <div class="form-group col-md-4">
-                <label for="name">Price</label>
-                <form:input type="text" class="form-control" path="price" placeholder="tariff price"/>
-            </div>
-
             <button type="submit" class="btn btn-primary">Submit</button>
         </div>
     </form:form>

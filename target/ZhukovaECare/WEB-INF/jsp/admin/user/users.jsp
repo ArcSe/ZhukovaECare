@@ -1,3 +1,5 @@
+<%@ page import="com.javaschool.model.Role" %>
+<%@ page import="java.util.Set" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
          pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -38,9 +40,24 @@
                     </security:authorize>
                     <td>
                         <div class="row">
-                            <a class="btn btn-light" href="${pageContext.request.contextPath}/admin/users/addClientId?id=${user.id}" role="button">
-                                Add Client Id
-                            </a>
+                            <%
+                                Role role = Role.ROLE_USER;
+                                request.setAttribute("roleUser", role);
+                            %>
+                            <c:choose>
+                                <c:when test="${user.roles.contains(roleUser)}">
+                                    <a class="btn btn-light" href="${pageContext.request.contextPath}/admin/users/addClientId?id=${user.id}" role="button">
+                                        Add Client Id
+                                    </a>
+                                </c:when>
+                                <c:otherwise>
+                                    <a  href="${pageContext.request.contextPath}/admin/users/addClientId?id=${user.id}" role="button"
+                                       class="btn btn-light disabled" tabindex="-1"  aria-disabled="true">
+                                        Add Client Id
+                                    </a>
+                                </c:otherwise>
+                            </c:choose>
+
                             <security:authorize access="hasRole('ADMIN')">
                                 <form action="${pageContext.request.contextPath}/admin/users/delete" method="post">
                                     <a class="btn btn-light" href="${pageContext.request.contextPath}/admin/users/edit?id=${user.id}" role="button">

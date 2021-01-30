@@ -2,6 +2,7 @@ package com.javaschool.service.ipml;
 
 import com.javaschool.dao.OptionDao;
 import com.javaschool.dao.TariffDao;
+import com.javaschool.dto.OptionDto;
 import com.javaschool.dto.TariffDto;
 import com.javaschool.exception.notFound.BadValueException;
 import com.javaschool.exception.notFound.NotDataFoundException;
@@ -124,6 +125,16 @@ public class TariffServiceImpl implements TariffService {
         options.addAll(mandatoryOptions);
         options.add(option);
         tariff.setOptions(options);
-        tariffDao.update(tariff);
+        tariffDao.update(changeTariffPrice(tariff));
+    }
+
+    private Tariff changeTariffPrice(Tariff tariff){
+        Set<Option> options = tariff.getOptions();
+        int tariffPrice = 0;
+        for (Option option: options) {
+            tariffPrice+=option.getPrice();
+        }
+        tariff.setPrice(tariffPrice);
+        return tariff;
     }
 }
