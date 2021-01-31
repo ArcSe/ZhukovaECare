@@ -5,6 +5,7 @@ import com.javaschool.exception.notFound.ExamplesNotFoundException;
 import com.javaschool.exception.notFound.NotDataFoundException;
 
 import java.util.List;
+import java.util.zip.DataFormatException;
 
 public interface ContractService {
 
@@ -25,4 +26,6 @@ public interface ContractService {
     void addOption(long optionId, long contractId) throws ExamplesNotFoundException;
 
     void deleteOptions(long optionId, long contractId) throws Exception;
+
+    String generatePhoneNumber() throws DataFormatException;
 }

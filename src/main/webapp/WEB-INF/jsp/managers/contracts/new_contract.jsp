@@ -18,7 +18,9 @@
         <div>
             <div class="form-group col-md-4">
                 <label for="number">Number</label>
-                <form:input type="text" class="form-control" path="number" placeholder="new number"/>
+                ${contract.number}
+                <form:hidden class="form-control"  path="number" />
+
             </div>
             <div class="form-group col-md-4">
                 <label >Tariff</label>

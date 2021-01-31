@@ -23,15 +23,9 @@
             </div>
         </div>
         <div class="form-group row">
-            <label for="name" class="col-sm-2 col-form-label">Price: </label>
+            <label for="name" class="col-sm-2 col-form-label">Name: </label>
             <div class="col-sm-4">
                 <form:input type="text" class="form-control" path="name"/>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label for="price" class="col-sm-2 col-form-label">Price: </label>
-            <div class="col-sm-4">
-                <form:input type="text" class="form-control" path="price"/>
             </div>
         </div>
             <br/>

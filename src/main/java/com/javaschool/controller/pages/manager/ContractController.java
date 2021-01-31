@@ -4,6 +4,7 @@ import com.javaschool.dto.ClientDto;
 import com.javaschool.dto.ContractDto;
 import com.javaschool.dto.TariffDto;
 import com.javaschool.exception.notFound.ExamplesNotFoundException;
+import com.javaschool.model.Contract;
 import com.javaschool.service.ClientService;
 import com.javaschool.service.ContractService;
 import com.javaschool.service.OptionService;
@@ -53,10 +54,9 @@ public class ContractController {
     @RequestMapping("/new")
     public String newContract(Map<String, Object> model) throws Exception{
         ContractDto contractDto = new ContractDto();
-        List<ClientDto> clients = clientService.getAll();
+        contractDto.setNumber(contractService.generatePhoneNumber());
         List<TariffDto> tariffs = tariffService.getAll();
         model.put("tariffs", tariffs);
-        model.put("clients", clients);
         model.put("contract", contractDto);
         return "jsp/managers/contracts/new_contract";
     }

@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
@@ -16,8 +19,8 @@ import java.util.Set;
 public class Contract extends AbstractModel{
 
 
-    @Column(name = "number", nullable=false, unique = true)
-    private int number;
+    @Column(name = "number",  unique = true)
+    private String number;
 
     @Column(name = "isLocked")
     private boolean isLocked = false;
@@ -43,3 +46,4 @@ public class Contract extends AbstractModel{
     private Set<Option> options;
 
 }
+
