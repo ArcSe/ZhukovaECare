@@ -35,7 +35,7 @@ public class OptionController {
     }
 
     @RequestMapping()
-    public ModelAndView home(@AuthenticationPrincipal User user) throws Exception{
+    public ModelAndView home() throws Exception{
         List<OptionDto> listOption = optionService.getAll();
         ModelAndView mav = new ModelAndView("jsp/managers/options/home");
         mav.addObject("listOption", listOption);
@@ -50,13 +50,14 @@ public class OptionController {
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public String saveOption(@ModelAttribute("option") @Valid  OptionDto option,
+    public String saveOption( @Valid @ModelAttribute("option") OptionDto option,
                              BindingResult bindingResult, Model model) throws Exception{
         if(bindingResult.hasErrors()){
             Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
 
             model.mergeAttributes(errorsMap);
             model.addAttribute("option", option);
+            System.out.println(errorsMap);
 
             return "jsp/managers/options/new_option";
         }

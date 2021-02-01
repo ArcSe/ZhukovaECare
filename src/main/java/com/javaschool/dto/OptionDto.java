@@ -3,6 +3,7 @@ package com.javaschool.dto;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)

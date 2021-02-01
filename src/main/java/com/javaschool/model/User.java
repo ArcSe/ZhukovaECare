@@ -6,6 +6,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.Set;
@@ -18,9 +20,9 @@ import java.util.Set;
 @Table(name = "usr", uniqueConstraints={@UniqueConstraint(columnNames={"email"})})
 public class User extends AbstractModel implements UserDetails {
     @Column(name = "email")
+    @Email
     private String email;
 
-    @Size(min=2, message = "Не меньше 5 знаков")
     @Column(name = "password")
     private String password;
 

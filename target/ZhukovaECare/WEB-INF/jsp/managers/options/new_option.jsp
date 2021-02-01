@@ -1,3 +1,4 @@
+<%@ page import="java.util.Map" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
          pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
@@ -16,14 +17,12 @@
     <br>
         <form:form action="save" method="post" modelAttribute="option">
             <div class="form-group row">
-                <div class="input-group has-validation">
+                <div class="input-group">
                     <label for="name" class="col-sm-2 col-form-label">Name: </label>
                     <div class="col-sm-4">
                         <form:input type="text" class="form-control" path="name"
                                placeholder="Enter name"/>
-                            <div class="invalid-feedback">
-                                Please choose a username.
-                            </div>
+
                     </div>
                 </div>
             </div>

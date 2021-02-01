@@ -9,6 +9,7 @@ import org.hibernate.annotations.Where;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Set;
 
 @Entity
@@ -22,6 +23,7 @@ import java.util.Set;
 public class Option extends AbstractModel{
 
     @Column(name = "name", nullable=false)
+    @NotBlank(message = "Please fill the name")
     private String name;
 
     @Column(name = "price", nullable=false)
