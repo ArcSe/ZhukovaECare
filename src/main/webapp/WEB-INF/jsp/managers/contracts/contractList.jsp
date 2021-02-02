@@ -22,7 +22,6 @@
         <table class="table">
             <thead>
             <tr>
-                <th scope="col" class="text-center">#</th>
                 <th scope="col" class="text-center">Number</th>
                 <th scope="col" class="text-center">Tariff</th>
                 <th scope="col" class="text-center">Option</th>
@@ -33,7 +32,6 @@
             <tbody>
             <c:forEach items="${contracts}" var="contract">
                 <tr>
-                    <td scope="row" class="text-center">${contract.id}</td>
                     <td class="text-center">${contract.number}</td>
                     <td class="text-center">${contract.tariff.name}</td>
                     <td class="text-center">

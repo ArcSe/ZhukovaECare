@@ -20,7 +20,6 @@
         <table class="table">
             <thead>
             <tr>
-                <th scope="col-lg-2" class="text-center">#</th>
                 <th scope="col-lg-2" class="text-center">Name</th>
                 <th scope="col-lg-2" class="text-center">Price</th>
                 <th scope="col-lg-2" class="text-center">Option</th>
@@ -30,7 +29,6 @@
             <tbody>
             <c:forEach items="${listTariff}" var="tariff">
                     <tr>
-                        <td class="text-center">${tariff.id}</td>
                         <td class="text-center">${tariff.name}</td>
                         <td class="text-center">${tariff.price}</td>
                         <td class="text-center">

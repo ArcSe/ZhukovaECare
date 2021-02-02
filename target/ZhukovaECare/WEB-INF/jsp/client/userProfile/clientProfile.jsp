@@ -31,7 +31,6 @@
         <table class="table pt-5">
             <thead>
             <tr>
-                <th scope="col">#</th>
                 <th scope="col">Number</th>
                 <th scope="col">Tariff</th>
                 <th scope="col">Options</th>
@@ -43,7 +42,6 @@
             <tbody>
                 <c:forEach items="${client.contracts}" var="contract">
                     <tr>
-                        <td>${contract.id}</td>
                         <td>${contract.number}</td>
                         <td>${contract.tariff.name}</td>
                         <td>

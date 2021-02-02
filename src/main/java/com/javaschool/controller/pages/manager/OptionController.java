@@ -76,14 +76,6 @@ public class OptionController {
 
             return "jsp/managers/options/new_option";
         }
-        /*
-        OptionDto optionDB = optionService.getById(option.getId());
-        optionDB.setName(option.getName());
-        optionDB.setPrice(option.getPrice());
-        optionDB.setServiceCost(option.getServiceCost());
-        optionService.update(optionDB);
-
-         */
         optionService.update(option);
         return "redirect:/managers/options";
     }

@@ -20,7 +20,6 @@
         <table class="table">
             <thead>
             <tr>
-                <th scope="col">#</th>
                 <th scope="col">Email</th>
                 <th scope="col">Client ID</th>
                 <security:authorize access="hasRole('ADMIN')">
@@ -32,7 +31,6 @@
             <tbody>
             <c:forEach items="${listUsers}" var="user">
                 <tr>
-                    <td scope="row">${user.id}</td>
                     <td>${user.email}</td>
                     <td>${user.clientId}</td>
                     <security:authorize access="hasRole('ADMIN')">
