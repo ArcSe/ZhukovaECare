@@ -58,7 +58,7 @@
                                 </c:otherwise>
                             </c:choose>
 
-                            <security:authorize access="hasRole('ADMIN')">
+
                                 <form action="${pageContext.request.contextPath}/admin/users/delete" method="post">
                                     <a class="btn btn-light" href="${pageContext.request.contextPath}/admin/users/edit?id=${user.id}" role="button">
                                         Edit
@@ -67,7 +67,7 @@
                                     <input type="hidden" name="action" value="delete"/>
                                     <button type="submit" class="btn btn-danger">Delete</button>
                                 </form>
-                            </security:authorize>
+
                         </div>
                     </td>
                 </tr>

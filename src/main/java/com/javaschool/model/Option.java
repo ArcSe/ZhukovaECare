@@ -23,7 +23,6 @@ import java.util.Set;
 public class Option extends AbstractModel{
 
     @Column(name = "name", nullable=false)
-    @NotBlank(message = "Please fill the name")
     private String name;
 
     @Column(name = "price", nullable=false)

@@ -14,7 +14,7 @@
 <div class="container">
     <h2>Edit Option</h2>
     <br>
-    <form:form action="update" method="post" modelAttribute="option">
+    <form:form action="edit" method="post" modelAttribute="option">
     <div class="form-group row">
         <label for="name" class="col-sm-2 col-form-label">ID: </label>
         <div class="col-sm-7">
@@ -23,23 +23,59 @@
         </div>
     </div>
     <div class="form-group row">
-        <label for="name" class="col-sm-2 col-form-label">Price: </label>
+        <label for="name" class="col-sm-2 col-form-label">Name: </label>
         <div class="col-sm-4">
-            <form:input type="text" class="form-control" path="name"/>
+            <c:choose>
+                <c:when test="${nameError==null}">
+                    <form:input  class="form-control" type="text" path="name" placeholder="Name"/>
+                </c:when>
+                <c:otherwise>
+                    <form:input  class="form-control is-invalid " type="text" path="name" placeholder="Name"/>
+                </c:otherwise>
+            </c:choose>
+            <c:if test="${nameError!=null}">
+                <div class="invalid-feedback">
+                        ${nameError}
+                </div>
+            </c:if>
         </div>
     </div>
-        <div class="form-group row">
-            <label for="price" class="col-sm-2 col-form-label">Price: </label>
-            <div class="col-sm-4">
-                <form:input type="text" class="form-control" path="price"/>
-            </div>
+    <div class="form-group row">
+    <label for="price" class="col-sm-2 col-form-label">Price: </label>
+        <div class="col-sm-4">
+            <c:choose>
+                <c:when test="${priceError==null}">
+                    <form:input  class="form-control" type="number" path="price" placeholder="Price"/>
+                </c:when>
+                <c:otherwise>
+                    <form:input  class="form-control is-invalid " type="number" path="price" placeholder="Price"/>
+                </c:otherwise>
+            </c:choose>
+            <c:if test="${priceError!=null}">
+                <div class="invalid-feedback">
+                        ${priceError}
+                </div>
+            </c:if>
         </div>
-        <div class="form-group row">
-            <label for="serviceCost" class="col-sm-2 col-form-label">Service Cost: </label>
-            <div class="col-sm-4">
-                <form:input type="text" class="form-control" path="serviceCost"/>
-            </div>
+    </div>
+    <div class="form-group row">
+    <label for="serviceCost" class="col-sm-2 col-form-label">Service Cost: </label>
+        <div class="col-sm-4">
+            <c:choose>
+                <c:when test="${serviceCostError==null}">
+                    <form:input  class="form-control" type="number" path="serviceCost" placeholder="Service Cost"/>
+                </c:when>
+                <c:otherwise>
+                    <form:input  class="form-control is-invalid " type="number" path="serviceCost" placeholder="Service Cost"/>
+                </c:otherwise>
+            </c:choose>
+            <c:if test="${serviceCostError!=null}">
+                <div class="invalid-feedback">
+                        ${serviceCostError}
+                </div>
+            </c:if>
         </div>
+    </div>
         <a class="btn btn-light" href="${pageContext.request.contextPath}/managers/options/editMandatoryOptions?id=${option.id}" role="button">Edit Mandatory Options</a>
         <a class="btn btn-light" href="${pageContext.request.contextPath}/managers/options/editBannedOptions?id=${option.id}" role="button">Edit Banned Options</a>
         <button type="submit" class="btn btn-primary">Submit</button>

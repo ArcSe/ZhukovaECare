@@ -17,35 +17,95 @@
 <body>
 <div align="center">
     <h2>New Client</h2>
-    <form:form action="save" method="post" modelAttribute="client">
+    <form:form action="new" method="post" modelAttribute="client">
         <div>
             <div class="form-group col-md-4">
                 <label for="name">Name</label>
-                <form:input type="text" class="form-control" path="name" placeholder="new number"/>
+                <c:choose>
+                    <c:when test="${nameError==null}">
+                        <form:input  class="form-control" type="text" path="name" placeholder="Name"/>
+                    </c:when>
+                    <c:otherwise>
+                        <form:input  class="form-control is-invalid " type="text" path="name" placeholder="Name"/>
+                    </c:otherwise>
+                </c:choose>
+                <c:if test="${nameError!=null}">
+                    <div class="invalid-feedback">
+                            ${nameError}
+                    </div>
+                </c:if>
             </div>
             <div class="form-group col-md-4">
                 <label for="surname">Surname</label>
-                <form:input type="text" class="form-control" path="surname" placeholder="new number"/>
+                <c:choose>
+                    <c:when test="${surnameError==null}">
+                        <form:input  class="form-control" type="text" path="surname" placeholder="Surname"/>
+                    </c:when>
+                    <c:otherwise>
+                        <form:input  class="form-control is-invalid " type="text" path="surname" placeholder="Surname"/>
+                    </c:otherwise>
+                </c:choose>
+                <c:if test="${surnameError!=null}">
+                    <div class="invalid-feedback">
+                            ${surnameError}
+                    </div>
+                </c:if>
             </div>
             <div class="form-group col-md-4">
                 <label for="passport">Passport</label>
-                <form:input type="text" class="form-control" path="passport" placeholder="new number"/>
+                <c:choose>
+                    <c:when test="${passportError==null}">
+                        <form:input  class="form-control" type="text" path="passport" placeholder="Passport"/>
+                    </c:when>
+                    <c:otherwise>
+                        <form:input  class="form-control is-invalid " type="text" path="passport" placeholder="Passport"/>
+                    </c:otherwise>
+                </c:choose>
+                <c:if test="${passportError!=null}">
+                    <div class="invalid-feedback">
+                            ${passportError}
+                    </div>
+                </c:if>
             </div>
             <div class="form-group col-md-4">
                 <label for="address">Address</label>
-                <form:input type="text" class="form-control" path="address" placeholder="new number"/>
+                <c:choose>
+                    <c:when test="${addressError==null}">
+                        <form:input  class="form-control" type="text" path="address" placeholder="Address"/>
+                    </c:when>
+                    <c:otherwise>
+                        <form:input  class="form-control is-invalid " type="text" path="address" placeholder="Address"/>
+                    </c:otherwise>
+                </c:choose>
+                <c:if test="${addressError!=null}">
+                    <div class="invalid-feedback">
+                            ${addressError}
+                    </div>
+                </c:if>
             </div
                 <%
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                     LocalDate currentDate = LocalDate.now();
-                    request.setAttribute("currentDate", currentDate);
+                    request.setAttribute("currentDate", currentDate.minusYears(18));
                 %>
             <div class="form-group col-md-7 mt-1">
                 <div>
                 <label for="address">Birthday</label>
                 </div>
-                <div>
-                <input type="date" name="calendar" max=${currentDate} min="1900-01-01"/>
+                <div class="form-group col-md-4">
+                    <c:choose>
+                        <c:when test="${birthdayError==null}">
+                            <input type="date" name="calendar" class="form-control" max=${currentDate} min="1900-01-01"/>
+                        </c:when>
+                        <c:otherwise>
+                            <input type="date" name="calendar" class="form-control is-invalid" max=${currentDate} min="1900-01-01"/>
+                        </c:otherwise>
+                    </c:choose>
+                    <c:if test="${birthdayError!=null}">
+                        <div class="invalid-feedback">
+                                ${birthdayError}
+                        </div>
+                    </c:if>
                 </div>
             </div>
             <button type="submit" class="btn btn-primary mt-3">Submit</button>

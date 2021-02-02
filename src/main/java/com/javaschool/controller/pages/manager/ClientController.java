@@ -1,6 +1,8 @@
 package com.javaschool.controller.pages.manager;
 
+import com.javaschool.controller.pages.ControllerUtils;
 import com.javaschool.dto.ClientDto;
+import com.javaschool.dto.UserDto;
 import com.javaschool.exception.notFound.ExamplesNotFoundException;
 import com.javaschool.exception.notFound.NotDataFoundException;
 import com.javaschool.service.ClientService;
@@ -8,10 +10,13 @@ import com.javaschool.service.ContractService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.util.Map;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/managers/client")
@@ -76,17 +81,51 @@ public class ClientController {
         return "redirect:/managers/client/addContract?id="+ clientId;
     }
 
-    @RequestMapping(value = "save", method = RequestMethod.POST)
-    public String saveClient(@RequestParam("calendar") String calendar,
-                             @ModelAttribute("client") ClientDto client) throws Exception{
+    @RequestMapping(value = "new", method = RequestMethod.POST)
+    public String saveClient(@Valid @ModelAttribute("client") ClientDto client,
+                             BindingResult bindingResult, Model model,
+                             @RequestParam("calendar") String calendar) throws Exception{
+        if(bindingResult.hasErrors()) {
+            Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
+
+            model.mergeAttributes(errorsMap);
+            client.setBirthday(calendar);
+            model.addAttribute("client", client);
+
+            return "jsp/managers/clients/new_client";
+        }
+
+        if(calendar.equals("")){
+            model.addAttribute("birthdayError", "Birthday shouldn't be empty");
+            model.addAttribute("client", client);
+            return "jsp/managers/clients/new_client";
+        }
         client.setBirthday(calendar);
         clientService.add(client);
         return "redirect:/managers/client";
     }
 
-    @RequestMapping(value = "update", method = RequestMethod.POST)
-    public String updateClient(@RequestParam("calendar") String calendar,
-                               @ModelAttribute("client") ClientDto clientDto) throws Exception{
+
+    @RequestMapping(value = "edit", method = RequestMethod.POST)
+    public String updateClient(@Valid @ModelAttribute("client") ClientDto client,
+                               BindingResult bindingResult, Model model,
+                               @ModelAttribute("client") ClientDto clientDto,
+                               @RequestParam("calendar") String calendar) throws Exception{
+        if(bindingResult.hasErrors()) {
+            Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
+
+            model.mergeAttributes(errorsMap);
+            client.setBirthday(calendar);
+            model.addAttribute("client", client);
+
+            return "jsp/managers/clients/edit_client";
+        }
+
+        if(calendar.equals("")){
+            model.addAttribute("birthdayError", "Birthday shouldn't be empty");
+            model.addAttribute("client", client);
+            return "jsp/managers/clients/edit_client";
+        }
         clientDto.setBirthday(calendar);
         clientService.update(clientDto);
         return "redirect:/managers/client";

@@ -13,11 +13,23 @@
 <body>
 <div align="center">
     <h2>New Tariff</h2>
-    <form:form action="save" method="post" modelAttribute="tariff">
+    <form:form action="new" method="post" modelAttribute="tariff">
         <div>
             <div class="form-group col-md-4">
                 <label for="name">Name</label>
-                <form:input type="text" class="form-control" path="name" placeholder="new name"/>
+                <c:choose>
+                    <c:when test="${nameError==null}">
+                        <form:input  class="form-control" type="text" path="name" placeholder="Name"/>
+                    </c:when>
+                    <c:otherwise>
+                        <form:input  class="form-control is-invalid " type="text" path="name" placeholder="Name"/>
+                    </c:otherwise>
+                </c:choose>
+                <c:if test="${nameError!=null}">
+                    <div class="invalid-feedback">
+                            ${nameError}
+                    </div>
+                </c:if>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </div>

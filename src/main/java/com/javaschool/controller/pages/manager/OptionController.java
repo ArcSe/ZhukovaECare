@@ -17,10 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -49,7 +46,7 @@ public class OptionController {
         return "jsp/managers/options/new_option";
     }
 
-    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    @RequestMapping(value = "/new", method = RequestMethod.POST)
     public String saveOption( @Valid @ModelAttribute("option") OptionDto option,
                              BindingResult bindingResult, Model model) throws Exception{
         if(bindingResult.hasErrors()){
@@ -61,19 +58,33 @@ public class OptionController {
 
             return "jsp/managers/options/new_option";
         }
-        else {
+
             optionService.add(option);
             return "redirect:/managers/options";
-        }
+
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String updateOption(@ModelAttribute("option") OptionDto option) throws Exception{
+    @RequestMapping(value = "/edit", method = RequestMethod.POST)
+    public String updateOption(@Valid @ModelAttribute("option") OptionDto option,
+                               BindingResult bindingResult, Model model) throws Exception{
+        if(bindingResult.hasErrors()){
+            Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
+
+            model.mergeAttributes(errorsMap);
+            model.addAttribute("option", option);
+            System.out.println(errorsMap);
+
+            return "jsp/managers/options/new_option";
+        }
+        /*
         OptionDto optionDB = optionService.getById(option.getId());
         optionDB.setName(option.getName());
         optionDB.setPrice(option.getPrice());
         optionDB.setServiceCost(option.getServiceCost());
         optionService.update(optionDB);
+
+         */
+        optionService.update(option);
         return "redirect:/managers/options";
     }
 

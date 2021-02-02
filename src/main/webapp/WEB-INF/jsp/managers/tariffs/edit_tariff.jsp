@@ -14,7 +14,7 @@
 <div class="container">
     <h2>Edit Tariff</h2>
     <br>
-    <form:form action="update" method="post" modelAttribute="tariff">
+    <form:form action="edit" method="post" modelAttribute="tariff">
         <div class="form-group row">
             <label for="name" class="col-sm-2 col-form-label">ID: </label>
             <div class="col-sm-7">
@@ -25,7 +25,19 @@
         <div class="form-group row">
             <label for="name" class="col-sm-2 col-form-label">Name: </label>
             <div class="col-sm-4">
-                <form:input type="text" class="form-control" path="name"/>
+                <c:choose>
+                    <c:when test="${nameError==null}">
+                        <form:input  class="form-control" type="text" path="name" placeholder="Name"/>
+                    </c:when>
+                    <c:otherwise>
+                        <form:input  class="form-control is-invalid " type="text" path="name" placeholder="Name"/>
+                    </c:otherwise>
+                </c:choose>
+                <c:if test="${nameError!=null}">
+                    <div class="invalid-feedback">
+                            ${nameError}
+                    </div>
+                </c:if>
             </div>
         </div>
             <br/>

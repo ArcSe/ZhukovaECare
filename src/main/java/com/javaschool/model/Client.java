@@ -27,7 +27,7 @@ public class Client extends AbstractModel {
     private LocalDate birthday;
 
     @Column(name = "passport")
-    private int passport;
+    private String passport;
 
     @Column(name = "address")
     private String address;

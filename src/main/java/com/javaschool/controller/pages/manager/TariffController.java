@@ -1,17 +1,22 @@
 package com.javaschool.controller.pages.manager;
 
+import com.javaschool.controller.pages.ControllerUtils;
+import com.javaschool.dto.ClientDto;
 import com.javaschool.dto.OptionDto;
 import com.javaschool.dto.TariffDto;
 import com.javaschool.service.OptionService;
 import com.javaschool.service.TariffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.util.*;
 
 @Controller
@@ -42,8 +47,17 @@ public class TariffController {
         return mav;
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String updateTariff(@ModelAttribute("tariff") TariffDto tariff) throws Exception {
+    @RequestMapping(value = "/edit", method = RequestMethod.POST)
+    public String updateTariff(@Valid @ModelAttribute("tariff") TariffDto tariff,
+                               BindingResult bindingResult, Model model) throws Exception {
+        if(bindingResult.hasErrors()) {
+            Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
+
+            model.mergeAttributes(errorsMap);
+            model.addAttribute("tariff", tariff);
+
+            return "jsp/managers/tariffs/edit_tariff";
+        }
         TariffDto tariffDB = tariffService.getById(tariff.getId());
         tariffDB.setName(tariff.getName());
         tariffDB.setPrice(tariff.getPrice());
@@ -107,8 +121,17 @@ public class TariffController {
     }
 
 
-    @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public String saveTariff(@ModelAttribute("tariff") TariffDto tariff) throws Exception {
+    @RequestMapping(value = "/new", method = RequestMethod.POST)
+    public String saveTariff(@Valid @ModelAttribute("tariff") TariffDto tariff,
+                             BindingResult bindingResult, Model model) throws Exception {
+        if(bindingResult.hasErrors()) {
+            Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
+
+            model.mergeAttributes(errorsMap);
+            model.addAttribute("tariff", tariff);
+
+            return "jsp/managers/tariffs/new_tariff";
+        }
         tariffService.add(tariff);
         return "redirect:/managers/tariffs";
     }

@@ -45,8 +45,15 @@ public class AuthController {
             Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
 
             model.mergeAttributes(errorsMap);
-            model.addAttribute("user", user);
+            UserDto userDto = new UserDto();
+            userDto.setEmail(user.getEmail());
+            model.addAttribute("user", userDto);
 
+            return "jsp/auth/registration";
+        }
+
+        if (!user.getPassword().equals(user.getPasswordConfirm())) {
+            model.addAttribute("passwordConfirmError", "Password don't match!");
             return "jsp/auth/registration";
         }
 
@@ -55,10 +62,6 @@ public class AuthController {
             return "jsp/auth/registration";
         }
 
-        if (!user.getPassword().equals(user.getPasswordConfirm())) {
-            model.addAttribute("passwordError", "Password don't match!");
-            return "jsp/auth/registration";
-        }
 
         userService.save(user);
         return "redirect:/login";
