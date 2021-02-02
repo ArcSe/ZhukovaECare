@@ -132,6 +132,10 @@ public class TariffController {
 
             return "jsp/managers/tariffs/new_tariff";
         }
+        if(!tariffService.add(tariff)){
+            model.addAttribute("nameError", "Tariff already exist");
+            return "jsp/managers/tariffs/new_tariff";
+        }
         tariffService.add(tariff);
         return "redirect:/managers/tariffs";
     }

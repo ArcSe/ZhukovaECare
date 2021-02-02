@@ -45,8 +45,14 @@ public class TariffServiceImpl implements TariffService {
 
     @Transactional
     @Override
-    public void add(TariffDto tariff) {
+    public boolean add(TariffDto tariff) throws ExamplesNotFoundException {
+        Tariff tariffFromDb = tariffDao.getByName(tariff.getName());
+
+        if (tariffFromDb != null) {
+            return false;
+        }
         tariffDao.add(tariffMapper.toEntity(tariff));
+        return true;
     }
 
     @Override

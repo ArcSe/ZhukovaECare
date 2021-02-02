@@ -15,7 +15,7 @@ import java.util.Set;
 public class OptionDto extends AbstractDto{
 
     @Pattern(message = "Bad formed name, should be only words and numbers",
-            regexp = "[0-9a-zA-Z]*")
+            regexp = "[0-9a-zA-Z-\\s]*")
     @NotBlank(message = "Name shouldn't be empty")
     private String name;
     @DecimalMax(message = "Option price shouldn't be more than 5000",

@@ -58,7 +58,10 @@ public class OptionController {
 
             return "jsp/managers/options/new_option";
         }
-
+        if(!optionService.add(option)){
+            model.addAttribute("nameError", "Option already exist");
+            return "jsp/managers/options/new_option";
+        }
             optionService.add(option);
             return "redirect:/managers/options";
 
@@ -76,6 +79,7 @@ public class OptionController {
 
             return "jsp/managers/options/new_option";
         }
+
         optionService.update(option);
         return "redirect:/managers/options";
     }

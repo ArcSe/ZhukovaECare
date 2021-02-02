@@ -6,9 +6,7 @@ import com.javaschool.exception.notFound.ExamplesNotFoundException;
 import com.javaschool.exception.notFound.NotDataFoundException;
 import com.javaschool.mapper.OptionMapper;
 import com.javaschool.model.Option;
-import com.javaschool.model.Tariff;
 import com.javaschool.service.OptionService;
-import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -44,8 +42,15 @@ public class OptionServiceImpl implements OptionService {
     }
 
     @Override
-    public void add(OptionDto option) {
+    public boolean add(OptionDto option) throws ExamplesNotFoundException {
+        OptionDto optionFromDb = getByName(option.getName());
+
+        if (optionFromDb != null) {
+            return false;
+        }
         optionDao.add(optionMapper.toEntity(option));
+
+        return true;
     }
 
     @Override
@@ -57,8 +62,14 @@ public class OptionServiceImpl implements OptionService {
     }
 
     @Override
-    public void update(OptionDto option) {
+    public boolean update(OptionDto option) throws ExamplesNotFoundException {
+        OptionDto optionFromDb = getByName(option.getName());
+
+        if (optionFromDb != null) {
+            return false;
+        }
         optionDao.update(optionMapper.toEntity(option));
+        return true;
     }
 
     @Override
@@ -67,6 +78,11 @@ public class OptionServiceImpl implements OptionService {
             throw new ExamplesNotFoundException(id);
         }
         return optionMapper.toDto(optionDao.getById(id));
+    }
+
+    @Override
+    public OptionDto getByName(String name) throws ExamplesNotFoundException {
+        return optionMapper.toDto(optionDao.getByName(name));
     }
 
     @Transactional

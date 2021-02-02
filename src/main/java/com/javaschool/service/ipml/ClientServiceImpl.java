@@ -64,14 +64,6 @@ public class ClientServiceImpl implements ClientService {
         return clientMapper.toDto(clientDao.getById(id));
     }
 
-    /*
-    @Override
-    public Client getByClientEmail(String email) {
-        return clientDao.getByEmail(email);
-    }
-
-     */
-
     @Override
     public void save(Client client) {
         clientDao.save(client);

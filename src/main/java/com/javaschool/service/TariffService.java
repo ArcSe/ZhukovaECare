@@ -11,7 +11,7 @@ public interface TariffService {
 
     List<TariffDto> getAll() throws NotDataFoundException;
 
-    void add(TariffDto tariff);
+    boolean add(TariffDto tariff) throws ExamplesNotFoundException;
 
     void delete(long id) throws ExamplesNotFoundException;
 
