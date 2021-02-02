@@ -15,7 +15,7 @@ public interface OptionService {
 
     void delete(long id) throws ExamplesNotFoundException;
 
-    boolean update(OptionDto option) throws ExamplesNotFoundException;
+    void update(OptionDto option) throws ExamplesNotFoundException;
 
     OptionDto getById(long id) throws ExamplesNotFoundException;
 

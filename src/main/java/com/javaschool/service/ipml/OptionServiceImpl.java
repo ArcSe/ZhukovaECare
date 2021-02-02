@@ -62,14 +62,8 @@ public class OptionServiceImpl implements OptionService {
     }
 
     @Override
-    public boolean update(OptionDto option) throws ExamplesNotFoundException {
-        OptionDto optionFromDb = getByName(option.getName());
-
-        if (optionFromDb != null) {
-            return false;
-        }
+    public void update(OptionDto option) throws ExamplesNotFoundException {
         optionDao.update(optionMapper.toEntity(option));
-        return true;
     }
 
     @Override

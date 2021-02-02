@@ -109,7 +109,6 @@ public class ClientController {
     @RequestMapping(value = "edit", method = RequestMethod.POST)
     public String updateClient(@Valid @ModelAttribute("client") ClientDto client,
                                BindingResult bindingResult, Model model,
-                               @ModelAttribute("client") ClientDto clientDto,
                                @RequestParam("calendar") String calendar) throws Exception{
         if(bindingResult.hasErrors()) {
             Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
@@ -126,8 +125,9 @@ public class ClientController {
             model.addAttribute("client", client);
             return "jsp/managers/clients/edit_client";
         }
-        clientDto.setBirthday(calendar);
-        clientService.update(clientDto);
+        System.out.println(client);
+        client.setBirthday(calendar);
+        clientService.update(client);
         return "redirect:/managers/client";
     }
 

@@ -17,6 +17,13 @@
     <h2>Edit Client</h2>
     <br>
     <form:form action="edit" method="post" modelAttribute="client">
+        <div class="form-group row">
+            <label for="name" class="col-sm-2 col-form-label">ID: </label>
+            <div class="col-sm-7">
+                <div>${client.id}</div>
+                <form:hidden class="form-control" path="id" />
+            </div>
+        </div>
         <div>
             <div class="form-group col-md-4">
                 <label for="name">Name</label>
