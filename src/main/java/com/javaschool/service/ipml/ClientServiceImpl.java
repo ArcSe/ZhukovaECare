@@ -8,7 +8,6 @@ import com.javaschool.exception.notFound.NotDataFoundException;
 import com.javaschool.mapper.ClientMapper;
 import com.javaschool.model.Client;
 import com.javaschool.model.Contract;
-import com.javaschool.model.Tariff;
 import com.javaschool.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,8 +41,13 @@ public class ClientServiceImpl implements ClientService {
 
     @Transactional
     @Override
-    public void add(ClientDto client) {
+    public boolean add(ClientDto client) {
+        Client client1 = clientDao.getByPassport(client.getPassport());
+        if(client1 != null){
+          return false;
+        }
         clientDao.add(clientMapper.toEntity(client));
+        return true;
     }
 
     @Override

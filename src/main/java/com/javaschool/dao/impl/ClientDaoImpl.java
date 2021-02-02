@@ -35,6 +35,13 @@ public class ClientDaoImpl extends AbstractJpaDaoImpl<Client> implements ClientD
     }
 
     @Override
+    public Client getByPassport(String passport) {
+        TypedQuery<Client> query = em.createQuery("Select u from Client u where u.passport = ?1", Client.class);
+        query.setParameter(1, passport);
+        return (Client) query.getSingleResult();
+    }
+
+    @Override
     public Client getByEmail(String email) {
         return em.find(Client.class, email);
     }

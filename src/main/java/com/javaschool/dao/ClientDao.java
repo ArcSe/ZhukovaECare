@@ -13,4 +13,6 @@ public interface ClientDao extends AbstractDao<Client>{
     void save(Client client);
 
     List<Client> getByName(String name);
+
+    Client getByPassport(String passport);
 }

@@ -79,7 +79,7 @@ public class OptionController {
 
             return "jsp/managers/options/new_option";
         }
-        
+
         optionService.update(option);
         return "redirect:/managers/options";
     }

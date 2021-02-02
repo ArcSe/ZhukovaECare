@@ -7,12 +7,11 @@ import com.javaschool.model.Client;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Set;
 
 public interface ClientService {
     List<ClientDto> getAll();
 
-    void add(ClientDto option);
+    boolean add(ClientDto option);
 
     void delete(long id);
 

@@ -100,6 +100,11 @@ public class ClientController {
             model.addAttribute("client", client);
             return "jsp/managers/clients/new_client";
         }
+        if(!clientService.add(client)){
+            model.addAttribute("passportError", "Client's passport already exist");
+            model.addAttribute("client", client);
+            return "jsp/managers/clients/new_client";
+        }
         client.setBirthday(calendar);
         clientService.add(client);
         return "redirect:/managers/client";
