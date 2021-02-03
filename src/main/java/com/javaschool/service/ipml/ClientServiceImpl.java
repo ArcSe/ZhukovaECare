@@ -118,7 +118,7 @@ public class ClientServiceImpl implements ClientService {
             return getAll();
         }
         else {
-            return clientDao.getByName(name).stream().map(clientMapper::toDto).collect(Collectors.toList());
+            return clientDao.getByPhone(name).stream().map(clientMapper::toDto).collect(Collectors.toList());
         }
     }
 }

@@ -39,9 +39,9 @@ public class ClientController {
     }
 
     @RequestMapping( method = RequestMethod.POST)
-    public ModelAndView getAllByQuery(@RequestParam String name) throws Exception{
+    public ModelAndView getAllByQuery(@RequestParam String phone) throws Exception{
         ModelAndView mav = new ModelAndView("jsp/managers/clients/clientsList");
-        mav.addObject("listClient", clientService.getAllByQuery(name));
+        mav.addObject("listClient", clientService.getAllByQuery(phone));
         return mav;
     }
 
