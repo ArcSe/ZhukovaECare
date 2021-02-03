@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class TariffDaoImpl extends AbstractJpaDaoImpl<Tariff> implements TariffDao {
@@ -30,5 +31,21 @@ public class TariffDaoImpl extends AbstractJpaDaoImpl<Tariff> implements TariffD
             System.out.println(e.getCause());
         }
         return foundtariff;
+    }
+
+    @Override
+    public void delete(long id) {
+        Tariff tariff = getById(id);
+        System.out.println(tariff);
+        if(tariff.getContract().isEmpty()){
+            System.out.println("До удаления 1");
+            super.delete(id);
+            System.out.println("после удаления 1");
+        }
+        else {
+            System.out.println("До удаления 2");
+            em.createQuery("update Tariff t set t.deleted=true where t.id=?1").setParameter(1,id).executeUpdate();
+            System.out.println("после удаления 2");
+        }
     }
 }

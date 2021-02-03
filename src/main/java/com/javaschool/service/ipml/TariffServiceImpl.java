@@ -100,7 +100,7 @@ public class TariffServiceImpl implements TariffService {
                 .filter(option -> option.getId()!=optionId)
                 .collect(Collectors.toSet());
         tariff.setOptions(options);
-        tariffDao.update(tariff);
+        tariffDao.update(changeTariffPrice(tariff));
     }
 
     //todo message about banned options
@@ -112,16 +112,6 @@ public class TariffServiceImpl implements TariffService {
         Tariff tariff = tariffDao.getById(tariffId);
         Set<Option> options = tariff.getOptions();
         Option option = optionDao.getById(optionId);
-        /*
-        options.forEach(option1 -> {if(option1.getBannedOptions().contains(option)){
-            try {
-                throw new BadValueException();
-            } catch (BadValueException e) {
-                e.printStackTrace();
-            }
-        }});
-
-         */
         Set<Option> optionCheck = options.stream().filter(option1 -> !option1.getBannedOptions().contains(option))
                 .collect(Collectors.toSet());
         if(optionCheck.size() != options.size()){

@@ -13,7 +13,7 @@ import java.util.Set;
 @Entity
 @Getter @Setter @NoArgsConstructor
 @AllArgsConstructor
-@SQLDelete(sql = "UPDATE tariff SET deleted=true WHERE id=?")
+//@SQLDelete(sql = "UPDATE tariff SET deleted=true WHERE id=?")
 @Table(name = "tariff")
 public class Tariff extends AbstractModel{
 
@@ -25,6 +25,9 @@ public class Tariff extends AbstractModel{
 
     @Column(name = "deleted")
     private boolean deleted = false;
+
+    @OneToMany(mappedBy = "tariff", cascade = CascadeType.ALL)
+    private Set<Contract> contract;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
