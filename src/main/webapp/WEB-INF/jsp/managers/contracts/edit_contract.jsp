@@ -21,12 +21,13 @@
                 <div>${contract.id}</div>
                 <form:hidden class="form-control" path="id" />
                 <form:hidden class="form-control" path="clientId" />
+                <form:hidden class="form-control" path="number" />
             </div>
         </div>
         <div class="form-group row">
-            <label for="number" class="col-sm-2 col-form-label">Name: </label>
+            <label for="number" class="col-sm-2 col-form-label">Number: </label>
             <div class="col-sm-4">
-                <form:input type="text" class="form-control" path="number"/>
+                ${contract.number}
             </div>
         </div>
         <div class="form-group row">

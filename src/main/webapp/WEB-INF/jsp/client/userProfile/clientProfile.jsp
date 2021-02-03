@@ -25,7 +25,7 @@
             <dd class="col-sm-11">${client.email}</dd>
         </dl>
         <div class="pt-4">
-            <a class="btn btn-light" href="#" role="button">New contract</a>
+            <a class="btn btn-light" href="/client/contract?id=${client.id}" role="button">New contract</a>
         </div>
         <br>
         <table class="table pt-5">

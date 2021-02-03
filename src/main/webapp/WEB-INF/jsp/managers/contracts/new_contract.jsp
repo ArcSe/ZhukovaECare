@@ -20,7 +20,7 @@
                 <label for="number">Number</label>
                 ${contract.number}
                 <form:hidden class="form-control"  path="number" />
-
+                <form:hidden class="form-control" path="clientId" />
             </div>
             <div class="form-group col-md-4">
                 <label >Tariff</label>
