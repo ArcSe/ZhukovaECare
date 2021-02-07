@@ -1,11 +1,14 @@
 package com.javaschool.controller.pages;
 
+import com.javaschool.controller.pages.client.ClientPageController;
 import com.javaschool.dto.ContractDto;
 import com.javaschool.dto.OptionDto;
+import com.javaschool.dto.ShoppingCartDto;
 import com.javaschool.service.ContractService;
 import com.javaschool.service.OptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,9 +30,12 @@ public class ClientManagerContractController {
         this.optionService = optionService;
     }
 
+    //todo перенести в сервис
     @RequestMapping("/addOption")
-    public ModelAndView editOption(@RequestParam long id) throws Exception{
+    public ModelAndView editOption(@ModelAttribute("shoppingCart") ShoppingCartDto shoppingCart,
+                                   @RequestParam long id) throws Exception{
         ModelAndView mav = new ModelAndView("jsp/managers/contracts/addOptions");
+        ClientPageController.createShoppingCartDtoSession(mav, shoppingCart);
         ContractDto contractDto = contractService.getById(id);
         mav.addObject("contract", contractDto);
         if (!contractDto.getOptions().isEmpty()) {
@@ -45,8 +51,9 @@ public class ClientManagerContractController {
         return mav;
     }
 
-    @RequestMapping(value = "/addOption", method = RequestMethod.POST)
-    private String addOption(@RequestParam("optionId") long optionId,
+
+    @RequestMapping(value = "/addOptionToDb", method = RequestMethod.POST)
+    private String addOptionToContractToDB(@RequestParam("optionId") long optionId,
                              @RequestParam("contractId") long contractId) throws Exception{
         contractService.addOption(optionId, contractId);
         //editOption(optionId);
@@ -56,12 +63,7 @@ public class ClientManagerContractController {
     @RequestMapping(value ="/deleteOption", method = RequestMethod.POST)
     public String  deleteOption(@RequestParam("optionId") long optionId,
                                 @RequestParam("contractId") long contractId) throws Exception{
-        try {
-            contractService.deleteOptions(optionId, contractId);
-        }
-        catch (Exception e){
-            //todo log
-        }
+        contractService.deleteOptions(optionId, contractId);
         return "redirect:/contracts/addOption?id="+ contractId;
     }
 

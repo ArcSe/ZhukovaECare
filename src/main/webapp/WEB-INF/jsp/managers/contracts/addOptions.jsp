@@ -59,7 +59,7 @@
                                 </form>
                             </c:when>
                             <c:otherwise>
-                                <form action="${pageContext.request.contextPath}/contracts/addOption" method="post">
+                                <form action="${pageContext.request.contextPath}/client/addOption" method="post">
                                     <input type="hidden" name="contractId" value="${contract.id}"/>
                                     <input type="hidden" name="optionId" value="${option.id}"/>
                                     <button type="submit" class="btn btn-danger">Add</button>

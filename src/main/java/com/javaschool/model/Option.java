@@ -17,7 +17,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@SQLDelete(sql = "UPDATE options SET deleted=true WHERE id=?")
+//@SQLDelete(sql = "UPDATE options SET deleted=true WHERE id=?")
 //@Where(clause = "deleted = false")
 @Table(name = "options", uniqueConstraints={@UniqueConstraint(columnNames={"name"})})
 public class Option extends AbstractModel{
@@ -33,6 +33,12 @@ public class Option extends AbstractModel{
 
     @Column(name = "deleted")
     private boolean deleted = false;
+
+    @ManyToMany(mappedBy = "options", cascade = CascadeType.ALL)
+    private Set<Tariff> tariff;
+
+    @ManyToMany(mappedBy = "options", cascade = CascadeType.ALL)
+    private Set<Contract> contracts;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(

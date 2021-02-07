@@ -36,16 +36,11 @@ public class TariffDaoImpl extends AbstractJpaDaoImpl<Tariff> implements TariffD
     @Override
     public void delete(long id) {
         Tariff tariff = getById(id);
-        System.out.println(tariff);
         if(tariff.getContract().isEmpty()){
-            System.out.println("До удаления 1");
             super.delete(id);
-            System.out.println("после удаления 1");
         }
         else {
-            System.out.println("До удаления 2");
             em.createQuery("update Tariff t set t.deleted=true where t.id=?1").setParameter(1,id).executeUpdate();
-            System.out.println("после удаления 2");
         }
     }
 }

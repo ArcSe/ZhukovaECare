@@ -22,6 +22,7 @@
             <tr>
                 <th scope="col-lg-2" class="text-center">Name</th>
                 <th scope="col-lg-2" class="text-center">Price</th>
+                <th scope="col-lg-2" class="text-center">Service Cost</th>
                 <th scope="col-lg-2" class="text-center">Option</th>
                 <th scope="col-lg-4" class="text-center">Actions</th>
             </tr>
@@ -31,6 +32,7 @@
                     <tr>
                         <td class="text-center">${tariff.name}</td>
                         <td class="text-center">${tariff.price}</td>
+                        <td class="text-center">${tariff.serviceCost}</td>
                         <td class="text-center">
                             <ul>
                                 <c:forEach items="${tariff.options}" var="option">

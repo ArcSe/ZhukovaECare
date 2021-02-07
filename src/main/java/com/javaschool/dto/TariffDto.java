@@ -21,6 +21,7 @@ public class TariffDto extends AbstractDto{
             regexp = "[0-9a-zA-Z]*")
     @NotBlank(message = "Name shouldn't be empty")
     private String name;
-    private int price=0;
+    private int price = 0;
+    private int serviceCost = 0;
     private Set<OptionDto> options;
 }

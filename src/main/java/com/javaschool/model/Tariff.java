@@ -23,6 +23,9 @@ public class Tariff extends AbstractModel{
     @Column(name = "price")
     private int price;
 
+    @Column(name = "serviceCost")
+    private int serviceCost;
+
     @Column(name = "deleted")
     private boolean deleted = false;
 

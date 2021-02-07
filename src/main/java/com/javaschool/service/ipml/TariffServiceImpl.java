@@ -100,7 +100,9 @@ public class TariffServiceImpl implements TariffService {
                 .filter(option -> option.getId()!=optionId)
                 .collect(Collectors.toSet());
         tariff.setOptions(options);
-        tariffDao.update(changeTariffPrice(tariff));
+        changeTariffPrice(tariff);
+        changeTariffServiceCost(tariff);
+        tariffDao.update(tariff);
     }
 
     //todo message about banned options
@@ -121,16 +123,26 @@ public class TariffServiceImpl implements TariffService {
         options.addAll(mandatoryOptions);
         options.add(option);
         tariff.setOptions(options);
-        tariffDao.update(changeTariffPrice(tariff));
+        changeTariffPrice(tariff);
+        changeTariffServiceCost(tariff);
+        tariffDao.update(tariff);
     }
 
-    private Tariff changeTariffPrice(Tariff tariff){
+    private void changeTariffPrice(Tariff tariff){
         Set<Option> options = tariff.getOptions();
         int tariffPrice = 0;
         for (Option option: options) {
             tariffPrice+=option.getPrice();
         }
         tariff.setPrice(tariffPrice);
-        return tariff;
+    }
+
+    private void changeTariffServiceCost(Tariff tariff){
+        Set<Option> options = tariff.getOptions();
+        int tariffPrice = 0;
+        for (Option option: options) {
+            tariffPrice+=option.getServiceCost();
+        }
+        tariff.setServiceCost(tariffPrice);
     }
 }
