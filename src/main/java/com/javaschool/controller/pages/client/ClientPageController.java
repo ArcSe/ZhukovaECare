@@ -90,16 +90,51 @@ public class ClientPageController {
     public String removeTariffFromCart(final Model model, @ModelAttribute("shoppingCart") ShoppingCartDto shoppingCart,
                                        @RequestParam("contractId") long contractId,
                                        @RequestParam("tariffId") long tariffId) throws ExamplesNotFoundException {
+        ContractShoppingCartDto contractShoppingCartDto = checkingContractDuplicate(shoppingCart, contractId);
         Set<ContractShoppingCartDto> oldContracts = shoppingCart.getContracts();
         Set<ContractShoppingCartDto> newContracts = oldContracts.stream()
                 .filter(contract -> contract.getContract().getId() != contractId )
                 .collect(Collectors.toSet());
         shoppingCart.setContracts(newContracts);
-        TariffDto tariffDto = tariffService.getById(tariffId);
-        shoppingCart.setPrice(shoppingCart.getPrice()-tariffDto.getPrice());
-        shoppingCart.setServiceCost(shoppingCart.getServiceCost()-tariffDto.getServiceCost());
+        shoppingCart.setPrice(shoppingCart.getPrice()-contractShoppingCartDto.getPrice());
+        shoppingCart.setServiceCost(shoppingCart.getServiceCost()-contractShoppingCartDto.getServiceCost());
         model.addAttribute("shoppingCart", shoppingCart);
         return "redirect:/cart";
+    }
+
+    @PostMapping("/removeOption")
+    public String removeOptionFromCart(final Model model, @ModelAttribute("shoppingCart") ShoppingCartDto shoppingCart,
+                                       @RequestParam("contractId") long contractId,
+                                       @RequestParam("optionId") long optionId) throws ExamplesNotFoundException {
+        ContractShoppingCartDto contract = checkingContractDuplicate(shoppingCart,contractId);
+        Set<OptionDto> options = contract.getOptionsShoppingCart();
+        options = options.stream().filter(optionDto -> optionDto.getId() != optionId).collect(Collectors.toSet());
+        contract.setOptionsShoppingCart(options);
+        Set<ContractShoppingCartDto> oldContracts = shoppingCart.getContracts();
+        Set<ContractShoppingCartDto> newContracts = oldContracts.stream()
+                .filter(contractDto -> contractDto.getContract().getId() != contractId )
+                .collect(Collectors.toSet());
+        increaseContractPrice(contract, optionId);
+        newContracts.add(contract);
+        shoppingCart.setContracts(newContracts);
+        increaseShoppingCartPrice(shoppingCart, optionId);
+        return "redirect:/cart";
+    }
+
+    private void increaseContractPrice(ContractShoppingCartDto contract, long optionId) throws ExamplesNotFoundException {
+        int price = contract.getPrice();
+        int serviceCost = contract.getServiceCost();
+        OptionDto optionDto = optionService.getById(optionId);
+        contract.setPrice(price-optionDto.getPrice());
+        contract.setServiceCost(serviceCost-optionDto.getServiceCost());
+    }
+
+    private void increaseShoppingCartPrice(ShoppingCartDto shoppingCart, long optionId) throws ExamplesNotFoundException {
+        int price = shoppingCart.getPrice();
+        int serviceCost = shoppingCart.getServiceCost();
+        OptionDto optionDto = optionService.getById(optionId);
+        shoppingCart.setPrice(price-optionDto.getPrice());
+        shoppingCart.setServiceCost(serviceCost-optionDto.getServiceCost());
     }
 
     @PostMapping("/addTariff")
@@ -208,10 +243,10 @@ public class ClientPageController {
             ContractShoppingCartDto contract = checkingContractDuplicate(shoppingCart, contractId);
             OptionDto option = addNewContractOptionToShoppingCart(optionId, contract);
             Set<ContractShoppingCartDto> set = shoppingCart.getContracts();
-            changePriceSHoppingCart(shoppingCart, contract, option);
             set = set.stream().filter(contractDto -> contractDto.getContract().getId() != contractId).collect(Collectors.toSet());
             set.add(contract);
             shoppingCart.setContracts(set);
+            changePriceSHoppingCart(shoppingCart, contract, option);
 
         }
          else {
@@ -220,9 +255,9 @@ public class ClientPageController {
             ContractShoppingCartDto contractShoppingCartDto = new ContractShoppingCartDto();
             contractShoppingCartDto.setContract(contract);
             OptionDto option = addNewContractOptionToShoppingCart(optionId, contractShoppingCartDto);
-            changePriceSHoppingCart(shoppingCart, contractShoppingCartDto, option);
             set.add(contractShoppingCartDto);
             shoppingCart.setContracts(set);
+            changePriceSHoppingCart(shoppingCart, contractShoppingCartDto, option);
         }
         model.addAttribute("shoppingCart", shoppingCart);
         return "redirect:/cart";

@@ -55,8 +55,8 @@
                                 <td class="text-center">${option.price}</td>
                                 <td class="text-center">${option.serviceCost}</td>
                                 <td class="text-center">
-                                    <form action="#" method="post">
-                                        <input type="hidden" name="tariffId" value=""/>
+                                    <form action="${pageContext.request.contextPath}/client/removeOption" method="post">
+                                        <input type="hidden" name="contractId" value="${contract.contract.id}"/>
                                         <input type="hidden" name="optionId" value="${option.id}"/>
                                         <button type="submit" class="btn btn-warning">Delete</button>
                                     </form>
@@ -75,10 +75,12 @@
                 <h2>Price: ${shoppingCart.price}</h2>
                 <h2 class="mt-1">ServiceCost: ${shoppingCart.serviceCost}</h2>
             </div>
-            <c:if test="${shoppingCart.contracts != null || shoppingCart.contracts.size()>0}">
-                <div class="col-2 align-self-center">
-                    <a class="btn btn-dark btn-lg" href="#" role="button">Buy</a>
-                </div>
+            <c:if test="${shoppingCart.contracts != null}">
+                <c:if test="${shoppingCart.contracts.size()>0}">
+                    <div class="col-2 align-self-center">
+                        <a class="btn btn-dark btn-lg" href="#" role="button">Buy</a>
+                    </div>
+                </c:if>
             </c:if>
         </div>
     </div>
