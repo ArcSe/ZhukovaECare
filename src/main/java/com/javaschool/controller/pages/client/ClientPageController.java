@@ -83,7 +83,6 @@ public class ClientPageController {
         createShoppingCartDtoSession(mav, shoppingCart);
         mav.addObject("contract", contractService.getById(id));
         mav.addObject("listTariff", tariffService.getAll());
-        System.out.println(shoppingCart);
         return mav;
     }
 
@@ -95,7 +94,6 @@ public class ClientPageController {
                             ) throws Exception{
 
         logger.debug(shoppingCart);
-        System.out.println(shoppingCart.getContracts());
         Set<ContractShoppingCartDto> set = new HashSet<>();
         ContractShoppingCartDto contract;
         if (shoppingCart.getContracts() != null) {
@@ -125,6 +123,7 @@ public class ClientPageController {
         int serviceCost = contract.getServiceCost();
         contract.setPrice(price+ tariff.getPrice());
         contract.setServiceCost(serviceCost+ tariff.getServiceCost());
+        deleteOldTarffOptions(contract, tariff);
         if(!tariff.getOptions().isEmpty()) {
             tariff.getOptions().forEach(o-> {
                 try {
@@ -139,6 +138,16 @@ public class ClientPageController {
         cart.setContracts(set);
         cart.setCustomerEmail(user.getEmail());
         changePriceShoppingCartTariff(cart);
+    }
+
+    private void deleteOldTarffOptions(ContractShoppingCartDto contract, TariffDto tariff) {
+        TariffDto oldTariff = contract.getContract().getTariff();
+        Set<OptionDto> options = new HashSet<>();
+        if(!tariff.getOptions().isEmpty()) {
+            options = contract.getOptionsShoppingCart().stream().filter(optionDto -> !oldTariff.getOptions()
+                    .contains(optionDto)).collect(Collectors.toSet());
+        }
+        contract.setOptionsShoppingCart(options);
     }
 
     private void changePriceShoppingCartTariff(ShoppingCartDto cart){

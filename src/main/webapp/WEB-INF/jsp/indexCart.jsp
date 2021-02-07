@@ -29,7 +29,7 @@
                     </div>
                     <div class="col-lg-2">
                         <h3>Price: ${contract.price}</h3>
-                        <h3 class="mt-1">Service Cost: ${contract.serviceCost}</h3>
+                        <h3 class="mt-2">Service Cost: ${contract.serviceCost}</h3>
                         <form class="mt-1" action="#" method="post">
                             <input type="hidden" name="tariffId" value=""/>
                             <input type="hidden" name="optionId" value=""/>
