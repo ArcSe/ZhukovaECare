@@ -86,6 +86,22 @@ public class ClientPageController {
         return mav;
     }
 
+    @PostMapping("/removeTariff")
+    public String removeTariffFromCart(final Model model, @ModelAttribute("shoppingCart") ShoppingCartDto shoppingCart,
+                                       @RequestParam("contractId") long contractId,
+                                       @RequestParam("tariffId") long tariffId) throws ExamplesNotFoundException {
+        Set<ContractShoppingCartDto> oldContracts = shoppingCart.getContracts();
+        Set<ContractShoppingCartDto> newContracts = oldContracts.stream()
+                .filter(contract -> contract.getContract().getId() != contractId )
+                .collect(Collectors.toSet());
+        shoppingCart.setContracts(newContracts);
+        TariffDto tariffDto = tariffService.getById(tariffId);
+        shoppingCart.setPrice(shoppingCart.getPrice()-tariffDto.getPrice());
+        shoppingCart.setServiceCost(shoppingCart.getServiceCost()-tariffDto.getServiceCost());
+        model.addAttribute("shoppingCart", shoppingCart);
+        return "redirect:/cart";
+    }
+
     @PostMapping("/addTariff")
     public String addTariffToCart(@AuthenticationPrincipal User user,
                             final Model model, @ModelAttribute("shoppingCart") ShoppingCartDto shoppingCart,
@@ -123,7 +139,7 @@ public class ClientPageController {
         int serviceCost = contract.getServiceCost();
         contract.setPrice(price+ tariff.getPrice());
         contract.setServiceCost(serviceCost+ tariff.getServiceCost());
-        deleteOldTarffOptions(contract, tariff);
+        deleteOldTariffOptions(contract, tariff);
         if(!tariff.getOptions().isEmpty()) {
             tariff.getOptions().forEach(o-> {
                 try {
@@ -140,7 +156,7 @@ public class ClientPageController {
         changePriceShoppingCartTariff(cart);
     }
 
-    private void deleteOldTarffOptions(ContractShoppingCartDto contract, TariffDto tariff) {
+    private void deleteOldTariffOptions(ContractShoppingCartDto contract, TariffDto tariff) {
         TariffDto oldTariff = contract.getContract().getTariff();
         Set<OptionDto> options = new HashSet<>();
         if(!tariff.getOptions().isEmpty()) {

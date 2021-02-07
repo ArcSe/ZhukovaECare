@@ -29,10 +29,10 @@
                     </div>
                     <div class="col-lg-2">
                         <h3>Price: ${contract.price}</h3>
-                        <h3 class="mt-2">Service Cost: ${contract.serviceCost}</h3>
-                        <form class="mt-1" action="#" method="post">
-                            <input type="hidden" name="tariffId" value=""/>
-                            <input type="hidden" name="optionId" value=""/>
+                        <h3 class="mt-3">Service Cost: ${contract.serviceCost}</h3>
+                        <form class="mt-1" action="${pageContext.request.contextPath}/client/removeTariff" method="post">
+                            <input type="hidden" name="contractId" value="${contract.contract.id}"/>
+                            <input type="hidden" name="tariffId" value="${contract.contract.tariff.id}"/>
                             <button type="submit" class="btn btn-warning">Delete</button>
                         </form>
                     </div>
@@ -75,9 +75,11 @@
                 <h2>Price: ${shoppingCart.price}</h2>
                 <h2 class="mt-1">ServiceCost: ${shoppingCart.serviceCost}</h2>
             </div>
-            <div class="col-2 align-self-center">
-                <a class="btn btn-dark btn-lg" href="#" role="button">Buy</a>
-            </div>
+            <c:if test="${shoppingCart.contracts != null || shoppingCart.contracts.size()>0}">
+                <div class="col-2 align-self-center">
+                    <a class="btn btn-dark btn-lg" href="#" role="button">Buy</a>
+                </div>
+            </c:if>
         </div>
     </div>
 </body>
