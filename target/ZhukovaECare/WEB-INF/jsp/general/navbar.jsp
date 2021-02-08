@@ -33,11 +33,17 @@
             <security:authorize access="!isAuthenticated()">
             <a class="nav-link" href="/login"> Login </a>
             </security:authorize>
-            <security:authorize access="isAuthenticated()">
-            <a class="nav-link" href="/logout"> Logout </a>
-            </security:authorize>
             <security:authorize access="hasRole('USER')">
-                <a class="nav-link" href="/client/userProfile"> Client Profile </a>
+                <div class="dropdown">
+                    <button class="btn dropdown-toggle " type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
+                        Dropdown button
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <li><a class="nav-link" href="${pageContext.request.contextPath}/client/userProfile"> Client Profile </a></li>
+                        <li><a class="nav-link" href="${pageContext.request.contextPath}/cart"> Cart </a></li>
+                        <li><a class="nav-link" href="${pageContext.request.contextPath}/logout"> Logout </a></li>
+                    </ul>
+                </div>
             </security:authorize>
         </div>
 </nav>

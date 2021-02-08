@@ -87,9 +87,8 @@ public class ClientPageController {
     }
 
     @PostMapping("/removeTariff")
-    public String removeTariffFromCart(final Model model, @ModelAttribute("shoppingCart") ShoppingCartDto shoppingCart,
-                                       @RequestParam("contractId") long contractId,
-                                       @RequestParam("tariffId") long tariffId) throws ExamplesNotFoundException {
+    public String removeContractFromCart(final Model model, @ModelAttribute("shoppingCart") ShoppingCartDto shoppingCart,
+                                       @RequestParam("contractId") long contractId) throws ExamplesNotFoundException {
         ContractShoppingCartDto contractShoppingCartDto = checkingContractDuplicate(shoppingCart, contractId);
         Set<ContractShoppingCartDto> oldContracts = shoppingCart.getContracts();
         Set<ContractShoppingCartDto> newContracts = oldContracts.stream()
@@ -114,14 +113,14 @@ public class ClientPageController {
         Set<ContractShoppingCartDto> newContracts = oldContracts.stream()
                 .filter(contractDto -> contractDto.getContract().getId() != contractId )
                 .collect(Collectors.toSet());
-        increaseContractPrice(contract, optionId);
+        decreaseContractPrice(contract, optionId);
         newContracts.add(contract);
         shoppingCart.setContracts(newContracts);
-        increaseShoppingCartPrice(shoppingCart, optionId);
+        decreaseShoppingCartPrice(shoppingCart, optionId);
         return "redirect:/cart";
     }
 
-    private void increaseContractPrice(ContractShoppingCartDto contract, long optionId) throws ExamplesNotFoundException {
+    private void decreaseContractPrice(ContractShoppingCartDto contract, long optionId) throws ExamplesNotFoundException {
         int price = contract.getPrice();
         int serviceCost = contract.getServiceCost();
         OptionDto optionDto = optionService.getById(optionId);
@@ -129,7 +128,7 @@ public class ClientPageController {
         contract.setServiceCost(serviceCost-optionDto.getServiceCost());
     }
 
-    private void increaseShoppingCartPrice(ShoppingCartDto shoppingCart, long optionId) throws ExamplesNotFoundException {
+    private void decreaseShoppingCartPrice(ShoppingCartDto shoppingCart, long optionId) throws ExamplesNotFoundException {
         int price = shoppingCart.getPrice();
         int serviceCost = shoppingCart.getServiceCost();
         OptionDto optionDto = optionService.getById(optionId);
@@ -150,7 +149,20 @@ public class ClientPageController {
         if (shoppingCart.getContracts() != null) {
             set = shoppingCart.getContracts();
             contract = checkingContractDuplicate(shoppingCart,contractId);
-
+            /*
+            TariffDto tariff = tariffService.getById(tariffId);
+            if(contract.getContract().getTariff().equals(tariff)){
+                ShoppingCartDto finalShoppingCart = shoppingCart;
+                tariff.getOptions().forEach(o-> {
+                    try {
+                        decreaseContractPrice(contract,o.getId());
+                        decreaseShoppingCartPrice(finalShoppingCart,o.getId());
+                    } catch (ExamplesNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                });
+            }
+*/
         } else {
             shoppingCart = new ShoppingCartDto();
             contract = new ContractShoppingCartDto();
@@ -170,10 +182,13 @@ public class ClientPageController {
                                           Set<ContractShoppingCartDto> set) throws ExamplesNotFoundException {
         TariffDto tariff = tariffService.getById(tariffId);
         contract.getContract().setTariff(tariff);
+        /*
         int price = contract.getPrice();
         int serviceCost = contract.getServiceCost();
         contract.setPrice(price+ tariff.getPrice());
         contract.setServiceCost(serviceCost+ tariff.getServiceCost());
+
+         */
         deleteOldTariffOptions(contract, tariff);
         if(!tariff.getOptions().isEmpty()) {
             tariff.getOptions().forEach(o-> {
@@ -184,11 +199,12 @@ public class ClientPageController {
                 }
             });
         }
+        increasePriceContract(contract);
         set = set.stream().filter(contractDto -> contractDto.getContract().getId() != contract.getId()).collect(Collectors.toSet());
         set.add(contract);
         cart.setContracts(set);
         cart.setCustomerEmail(user.getEmail());
-        changePriceShoppingCartTariff(cart);
+        increasePriceShoppingCartTariff(cart);
     }
 
     private void deleteOldTariffOptions(ContractShoppingCartDto contract, TariffDto tariff) {
@@ -201,7 +217,7 @@ public class ClientPageController {
         contract.setOptionsShoppingCart(options);
     }
 
-    private void changePriceShoppingCartTariff(ShoppingCartDto cart){
+    private void increasePriceShoppingCartTariff(ShoppingCartDto cart){
         int price = 0;
         int serviceCost = 0;
         for (ContractShoppingCartDto con :cart.getContracts()) {
@@ -225,7 +241,7 @@ public class ClientPageController {
         }
         return check;
     }
-    private OptionDto addNewContractOptionToShoppingCart(long optionId, ContractShoppingCartDto contract) throws ExamplesNotFoundException {
+    private void addNewContractOptionToShoppingCart(long optionId, ContractShoppingCartDto contract) throws ExamplesNotFoundException {
         Set<OptionDto> options = new HashSet<>();
         if(!Objects.isNull(contract.getOptionsShoppingCart())){
             options = contract.getOptionsShoppingCart();
@@ -233,7 +249,6 @@ public class ClientPageController {
         OptionDto option = optionService.getById(optionId);
         options.add(option);
         contract.setOptionsShoppingCart(options);
-        return option;
     }
     @RequestMapping(value = "/addOption", method = RequestMethod.POST)
     private String addOptionToShoppingCartDto(final Model model, @ModelAttribute("shoppingCart") ShoppingCartDto shoppingCart,
@@ -241,12 +256,12 @@ public class ClientPageController {
                                            @RequestParam("contractId") long contractId) throws Exception {
         if (shoppingCart.getContracts() != null) {
             ContractShoppingCartDto contract = checkingContractDuplicate(shoppingCart, contractId);
-            OptionDto option = addNewContractOptionToShoppingCart(optionId, contract);
+            addNewContractOptionToShoppingCart(optionId, contract);
             Set<ContractShoppingCartDto> set = shoppingCart.getContracts();
             set = set.stream().filter(contractDto -> contractDto.getContract().getId() != contractId).collect(Collectors.toSet());
             set.add(contract);
             shoppingCart.setContracts(set);
-            changePriceSHoppingCart(shoppingCart, contract, option);
+            increasePriceShoppingCart(shoppingCart, contract);
 
         }
          else {
@@ -254,22 +269,29 @@ public class ClientPageController {
             ContractDto contract = contractService.getById(contractId);
             ContractShoppingCartDto contractShoppingCartDto = new ContractShoppingCartDto();
             contractShoppingCartDto.setContract(contract);
-            OptionDto option = addNewContractOptionToShoppingCart(optionId, contractShoppingCartDto);
+            addNewContractOptionToShoppingCart(optionId, contractShoppingCartDto);
             set.add(contractShoppingCartDto);
             shoppingCart.setContracts(set);
-            changePriceSHoppingCart(shoppingCart, contractShoppingCartDto, option);
+            increasePriceShoppingCart(shoppingCart, contractShoppingCartDto);
         }
         model.addAttribute("shoppingCart", shoppingCart);
         return "redirect:/cart";
     }
 
-    private void changePriceSHoppingCart(ShoppingCartDto shoppingCart, ContractShoppingCartDto contract,
-                                         OptionDto option) {
-        int price = contract.getPrice() + option.getPrice();
-        int serviceCost = contract.getServiceCost() + option.getServiceCost();
+    private void increasePriceShoppingCart(ShoppingCartDto shoppingCart, ContractShoppingCartDto contract) {
+        increasePriceContract(contract);
+        increasePriceShoppingCartTariff(shoppingCart);
+    }
+
+    private void increasePriceContract(ContractShoppingCartDto contract) {
+        int price = 0;
+        int serviceCost = 0;
+        for (OptionDto con : contract.getOptionsShoppingCart()) {
+            price += con.getPrice();
+            serviceCost += con.getServiceCost();
+        }
         contract.setPrice(price);
         contract.setServiceCost(serviceCost);
-        changePriceShoppingCartTariff(shoppingCart);
     }
 
 
