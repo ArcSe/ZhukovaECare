@@ -295,6 +295,7 @@ public class ClientPageController {
     }
 
 
+/*
     @RequestMapping(value = "/addTariffToDB", method = RequestMethod.POST)
     private String addTariffToDB(@RequestParam("tariffId") long tariffId,
                              @RequestParam("contractId") long contractId) throws Exception {
@@ -304,7 +305,7 @@ public class ClientPageController {
         contractService.update(contractDto);
         return "redirect:/client/addTariff?id="+ contractId;
     }
-
+*/
 
     public static void createShoppingCartDtoSession(ModelAndView model, @ModelAttribute("shoppingCart") ShoppingCartDto shoppingCart){
         if (shoppingCart != null) {

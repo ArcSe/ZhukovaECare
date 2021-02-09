@@ -36,11 +36,19 @@
             <security:authorize access="hasRole('USER')">
                 <div class="dropdown">
                     <button class="btn dropdown-toggle " type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
+                        <c:if test="${shoppingCart.contracts.size()>0}">
+                            <span class="badge rounded-pill bg-danger align-self-center"> </span>
+                        </c:if>
                         Dropdown button
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <li><a class="nav-link" href="${pageContext.request.contextPath}/client/userProfile"> Client Profile </a></li>
-                        <li><a class="nav-link" href="${pageContext.request.contextPath}/cart"> Cart </a></li>
+                        <li><a class="nav-link" href="${pageContext.request.contextPath}/cart">
+                            <c:if test="${shoppingCart.contracts.size()>0}">
+                                <span class="badge rounded-pill bg-danger align-self-center"> </span>
+                            </c:if>
+                            Cart</a></li>
+
                         <li><a class="nav-link" href="${pageContext.request.contextPath}/logout"> Logout </a></li>
                     </ul>
                 </div>

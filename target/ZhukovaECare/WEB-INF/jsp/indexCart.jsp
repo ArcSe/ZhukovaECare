@@ -75,12 +75,12 @@
                 <h2>Price: ${shoppingCart.price}</h2>
                 <h2 class="mt-1">ServiceCost: ${shoppingCart.serviceCost}</h2>
             </div>
-            <c:if test="${shoppingCart.contracts != null}">
-                <c:if test="${shoppingCart.contracts.size()>0}">
-                    <div class="col-2 align-self-center">
-                        <a class="btn btn-dark btn-lg" href="#" role="button">Buy</a>
-                    </div>
-                </c:if>
+            <c:if test="${shoppingCart.contracts.size()>0}">
+                <div class="col-2 align-self-center">
+                    <form action="${pageContext.request.contextPath}/cart" method="post">
+                        <button type="submit" class="btn btn-dark btn-lg">Buy</button>
+                    </form>
+                </div>
             </c:if>
         </div>
     </div>
