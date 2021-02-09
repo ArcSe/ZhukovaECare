@@ -151,28 +151,30 @@ public class ContractServiceImpl implements ContractService {
         int number = contractDao.generateNumber();
         String result = "";
         if(number/10==0){
-            return String.format("+7 000 00 0%d", number);
+            return String.format("+7 (000) 00 0%d", number);
         }
         if(number/100==0){
-            return String.format("+7 000 00 %d", number);
+            return String.format("+7 (000) 00 %d", number);
         }
         if(number/1000==0){
-            return String.format("+7 000 0%d %d", number/100, number%100);
+            return String.format("+7 (000) 0%d %d", number/100, number%100);
         }
         if(number/10000==0){
-            return String.format("+7 000 %d %d", number/100, number%100);
+            return String.format("+7 (000) %d %d", number/100, number%100);
         }
         if(number/100000==0){
-            return String.format("+7 00%d %d %d",number/10000, number/100, number%100);
+            return String.format("+7 (00%d) %d %d",number/10000, number/100, number%100);
         }
         if(number/1000000==0){
-            return String.format("+7 0%d %d %d",number/10000, number/100, number%100);
+            return String.format("+7 (0%d) %d %d",number/10000, number/100, number%100);
         }
         if(number/10000000==0){
-            return String.format("+7 %d %d %d",number/10000, number/100, number%100);
+            return String.format("+7 (%d) %d %d",number/10000, number/100, number%100);
         }
         else {
             throw new DataFormatException();
         }
     }
+
+
 }

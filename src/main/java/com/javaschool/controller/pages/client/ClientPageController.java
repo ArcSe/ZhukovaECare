@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -20,6 +21,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.zip.DataFormatException;
 
 @Controller
 @RequestMapping("/client")
@@ -47,17 +49,32 @@ public class ClientPageController {
         return new ShoppingCartDto();
     }
 
+    private void buyNewContracts(ContractShoppingCartDto contractShoppingCartDto) throws DataFormatException {
+        ContractDto contractDto = contractShoppingCartDto.getContract();
+        contractDto.setNumber(contractService.generatePhoneNumber());
+        contractService.add(contractDto);
+    }
+
     @PostMapping("/cart")
     public String buy(final Model model, @ModelAttribute("shoppingCart") ShoppingCartDto shoppingCart) {
 
         Set<ContractShoppingCartDto> contracts = shoppingCart.getContracts();
-        contracts.forEach(contractShoppingCartDto -> {
-            ContractDto contractDto = contractShoppingCartDto.getContract();
-            Set<OptionDto> options = contractDto.getOptions();
-            options.addAll(contractShoppingCartDto.getOptionsShoppingCart());
-            contractDto.setOptions(options);
-            contractService.update(contractDto);
-        });
+        contracts.stream().filter(contract -> !contract.getContract().getNumber().equals("new"))
+                .forEach(contractShoppingCartDto -> {
+                    ContractDto contractDto = contractShoppingCartDto.getContract();
+                    Set<OptionDto> options = contractDto.getOptions();
+                    options.addAll(contractShoppingCartDto.getOptionsShoppingCart());
+                    contractDto.setOptions(options);
+                    contractService.update(contractDto);
+                });
+        contracts.stream().filter(contract -> contract.getContract().getNumber().equals("new"))
+                .forEach(contract -> {
+                    try {
+                        buyNewContracts(contract);
+                    } catch (DataFormatException e) {
+                        e.printStackTrace();
+                    }
+                });
         model.addAttribute("shoppingCart", new ShoppingCartDto());
         return "redirect:/client/userProfile";
     }
@@ -82,6 +99,54 @@ public class ClientPageController {
             mav.addObject("client", client);
         }
         return mav;
+    }
+    @RequestMapping("/contract")
+    public ModelAndView createContract(@AuthenticationPrincipal User user,
+                                       @ModelAttribute("shoppingCart") ShoppingCartDto shoppingCart,
+                                       Model model) throws Exception{
+        ModelAndView mav = new ModelAndView("jsp/managers/contracts/new_contract");
+        if(!Objects.isNull(shoppingCart.getContracts())) {
+            shoppingCart.getContracts().forEach(contract -> {
+                if (contract.getContract().getNumber().equals("new")) {
+                    model.addAttribute("newContractError", "Please, finish your order with another new contract at first");
+                }
+            });
+        }
+        ContractDto contractDto = new ContractDto();
+        contractDto.setClientId(user.getClient().getId());
+        mav.addObject("contract",contractDto);
+        mav.addObject("tariffs", tariffService.getAll());
+        mav.addObject("clientId",contractDto.getClientId() );
+        return mav;
+    }
+
+    @PostMapping("/save")
+    public String createContractToShoppingCart(final Model model, @ModelAttribute("shoppingCart") ShoppingCartDto shoppingCart,
+                                                @RequestParam("tariff.id") long tariffId,
+                                               @ModelAttribute("contract") ContractDto contract) throws Exception{
+        Set<ContractShoppingCartDto> set = new HashSet<>();
+        ContractShoppingCartDto contractShoppingCartDto = new ContractShoppingCartDto();
+        if (shoppingCart.getContracts() != null) {
+            set = shoppingCart.getContracts();
+            ContractShoppingCartDto contractShoppingCart = shoppingCart.getContracts().stream()
+                    .filter(contractL -> contractL.getContract().getNumber().equals("new")).findFirst().orElse(null);
+            if(contractShoppingCart != null){
+                model.addAttribute("newContractError", "Please, finish your order with another new contract at first");
+                return "redirect:/client/userProfile";
+            }
+            shoppingCart = new ShoppingCartDto();
+        }
+        contract.setNumber("new");
+        TariffDto tariff = tariffService.getById(tariffId);
+        contract.setTariff(tariff);
+        contract.setOptions(tariff.getOptions());
+        contractShoppingCartDto.setContract(contract);
+        contractShoppingCartDto.setOptionsShoppingCart(tariff.getOptions());
+        set.add(contractShoppingCartDto);
+        shoppingCart.setContracts(set);
+        increasePriceShoppingCart(shoppingCart, contractShoppingCartDto);
+        model.addAttribute("shoppingCart", shoppingCart);
+        return "redirect:/client/userProfile";
     }
 
     @RequestMapping("/contractInfo")

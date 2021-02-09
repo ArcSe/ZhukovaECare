@@ -51,17 +51,14 @@ public class AuthController {
 
             return "jsp/auth/registration";
         }
-
         if (!user.getPassword().equals(user.getPasswordConfirm())) {
             model.addAttribute("passwordConfirmError", "Password don't match!");
             return "jsp/auth/registration";
         }
-
         if (!userService.save(user)) {
             model.addAttribute("emailError", "User is already exist!");
             return "jsp/auth/registration";
         }
-
 
         userService.save(user);
         return "redirect:/login";
