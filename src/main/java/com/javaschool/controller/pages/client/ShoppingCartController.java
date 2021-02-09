@@ -2,6 +2,7 @@ package com.javaschool.controller.pages.client;
 
 import com.javaschool.dto.ContractDto;
 import com.javaschool.dto.ContractShoppingCartDto;
+import com.javaschool.dto.OptionDto;
 import com.javaschool.dto.ShoppingCartDto;
 import com.javaschool.service.ClientService;
 import com.javaschool.service.ContractService;
@@ -10,9 +11,7 @@ import com.javaschool.service.TariffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
 
@@ -39,17 +38,5 @@ public class ShoppingCartController {
         return "jsp/indexCart";
     }
 
-    @PostMapping("/cart")
-    public String buy(@SessionAttribute(name = "shoppingCart", required=false) ShoppingCartDto cart,final Model model) {
 
-        Set<ContractShoppingCartDto> contracts = cart.getContracts();
-        contracts.forEach(contractShoppingCartDto -> {
-            ContractDto contractDto = contractShoppingCartDto.getContract();
-            contractDto.setOptions(contractShoppingCartDto.getOptionsShoppingCart());
-            contractService.update(contractDto);
-        });
-        cart = new ShoppingCartDto();
-        model.addAttribute("shoppingCart", cart);
-        return "redirect:/client/userProfile";
-    }
 }

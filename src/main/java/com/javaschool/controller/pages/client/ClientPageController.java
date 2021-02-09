@@ -47,6 +47,21 @@ public class ClientPageController {
         return new ShoppingCartDto();
     }
 
+    @PostMapping("/cart")
+    public String buy(final Model model, @ModelAttribute("shoppingCart") ShoppingCartDto shoppingCart) {
+
+        Set<ContractShoppingCartDto> contracts = shoppingCart.getContracts();
+        contracts.forEach(contractShoppingCartDto -> {
+            ContractDto contractDto = contractShoppingCartDto.getContract();
+            Set<OptionDto> options = contractDto.getOptions();
+            options.addAll(contractShoppingCartDto.getOptionsShoppingCart());
+            contractDto.setOptions(options);
+            contractService.update(contractDto);
+        });
+        model.addAttribute("shoppingCart", new ShoppingCartDto());
+        return "redirect:/client/userProfile";
+    }
+
     @ModelAttribute
     public User createUser(){
         return new User();
@@ -294,8 +309,15 @@ public class ClientPageController {
         contract.setServiceCost(serviceCost);
     }
 
+    public static void createShoppingCartDtoSession(ModelAndView model, @ModelAttribute("shoppingCart") ShoppingCartDto shoppingCart){
+        if (shoppingCart != null) {
+            model.addObject("shoppingCart", shoppingCart);
+        } else {
+            model.addObject("shoppingCart", new ShoppingCartDto());
+        }
+    }
 
-/*
+    /*
     @RequestMapping(value = "/addTariffToDB", method = RequestMethod.POST)
     private String addTariffToDB(@RequestParam("tariffId") long tariffId,
                              @RequestParam("contractId") long contractId) throws Exception {
@@ -306,13 +328,5 @@ public class ClientPageController {
         return "redirect:/client/addTariff?id="+ contractId;
     }
 */
-
-    public static void createShoppingCartDtoSession(ModelAndView model, @ModelAttribute("shoppingCart") ShoppingCartDto shoppingCart){
-        if (shoppingCart != null) {
-            model.addObject("shoppingCart", shoppingCart);
-        } else {
-            model.addObject("shoppingCart", new ShoppingCartDto());
-        }
-    }
 
 }

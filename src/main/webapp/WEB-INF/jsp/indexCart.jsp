@@ -77,7 +77,7 @@
             </div>
             <c:if test="${shoppingCart.contracts.size()>0}">
                 <div class="col-2 align-self-center">
-                    <form action="${pageContext.request.contextPath}/cart" method="post">
+                    <form action="${pageContext.request.contextPath}/client/cart" method="post">
                         <button type="submit" class="btn btn-dark btn-lg">Buy</button>
                     </form>
                 </div>

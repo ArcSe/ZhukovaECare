@@ -68,7 +68,9 @@ public class ContractServiceImpl implements ContractService {
             TariffDto tariffDto = contract.getTariff();
             if(!Objects.isNull(tariffDto.getOptions())) {
                 Set<OptionDto> optionDtos = tariffDto.getOptions();
-                contract.setOptions(optionDtos);
+                Set<OptionDto> optionDtosFromContract = contract.getOptions();
+                optionDtosFromContract.addAll(optionDtos);
+                contract.setOptions(optionDtosFromContract);
             }
         }
         contractDao.update(contractMapper.toEntity(contract));
