@@ -7,6 +7,7 @@ import java.util.List;
 
 @Repository
 public interface OptionDao extends AbstractDao<Option>{
+    public List<Option> getAllNotDeleted();
 
-
+    public Option getByName(String name);
 }

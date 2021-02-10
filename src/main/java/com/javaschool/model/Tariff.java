@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -11,11 +13,24 @@ import java.util.Set;
 @Entity
 @Getter @Setter @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "tariffs")
+//@SQLDelete(sql = "UPDATE tariff SET deleted=true WHERE id=?")
+@Table(name = "tariff")
 public class Tariff extends AbstractModel{
 
     @Column(name = "name", nullable=false)
     private String name;
+
+    @Column(name = "price")
+    private int price;
+
+    @Column(name = "serviceCost")
+    private int serviceCost;
+
+    @Column(name = "deleted")
+    private boolean deleted = false;
+
+    @OneToMany(mappedBy = "tariff", cascade = CascadeType.ALL)
+    private Set<Contract> contract;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
