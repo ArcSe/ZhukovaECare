@@ -169,7 +169,8 @@ public class ClientPageController {
     @PostMapping("/removeTariff")
     public String removeContractFromCart(final Model model, @ModelAttribute("shoppingCart") ShoppingCartDto shoppingCart,
                                        @RequestParam("contractId") long contractId) throws ExamplesNotFoundException {
-        ContractShoppingCartDto contractShoppingCartDto = checkingContractDuplicate(shoppingCart, contractId);
+        ContractShoppingCartDto contractShoppingCartDto = shoppingCart.getContracts().stream()
+                    .filter(contractDto -> contractDto.getContract().getId() == contractId).findFirst().orElse(null);
         Set<ContractShoppingCartDto> oldContracts = shoppingCart.getContracts();
         Set<ContractShoppingCartDto> newContracts = oldContracts.stream()
                 .filter(contract -> contract.getContract().getId() != contractId )
