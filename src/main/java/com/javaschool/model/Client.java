@@ -6,39 +6,37 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Set;
 
 @Entity
 @Getter @Setter @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "clients", uniqueConstraints={@UniqueConstraint(columnNames={"email"})})
+@Table(name = "clients")
 public class Client extends AbstractModel {
 
-
-    @Column(name = "name", nullable=false)
+    @Column(name = "name")
     private String name;
 
-    @Column(name = "surname", nullable=false)
+    @Column(name = "surname")
     private String surname;
 
     @Column(name = "birthday")
-    @Temporal(TemporalType.DATE)
-    private Date birthday;
+    private LocalDate birthday;
 
-    @Column(name = "passport", nullable=false)
-    private int passport;
-
-    @Column(name = "email", nullable=false)
-    private String email;
+    @Column(name = "passport")
+    private String passport;
 
     @Column(name = "address")
     private String address;
 
-    @Column(name = "password", nullable=false)
-    private String password;
+    @OneToOne(mappedBy = "client")
+    private User user;
 
-    @OneToMany(mappedBy = "client")
+    @OneToMany(mappedBy = "client", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Contract> contracts;
+
 
 }

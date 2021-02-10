@@ -5,4 +5,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ContractDao extends AbstractDao<Contract>{
+
+    int generateNumber();
+
+    void incrementGenerator();
 }

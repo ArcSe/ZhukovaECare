@@ -1,18 +1,35 @@
 package com.javaschool.service;
 
 import com.javaschool.dto.OptionDto;
+import com.javaschool.exception.notFound.ExamplesNotFoundException;
+import com.javaschool.exception.notFound.NotDataFoundException;
 
 import java.util.List;
+import java.util.Set;
 
 public interface OptionService {
 
-    List<OptionDto> getAll();
+    List<OptionDto> getAll() throws NotDataFoundException;
 
-    void add(OptionDto option);
+    boolean add(OptionDto option) throws ExamplesNotFoundException;
 
-    void delete(long id);
+    void delete(long id) throws ExamplesNotFoundException;
 
-    void update(OptionDto option);
+    void update(OptionDto option) throws ExamplesNotFoundException;
 
-    OptionDto getById(long id);
+    OptionDto getById(long id) throws ExamplesNotFoundException;
+
+    OptionDto getByName(String name) throws ExamplesNotFoundException;
+
+    void addMandatory(long idOption, long mandatoryOption) throws ExamplesNotFoundException;
+
+    boolean deleteMandatoryOption(long idOption, long mandatoryOption) throws ExamplesNotFoundException;
+
+    void addBannedOptionToDB(long idOption, long bannedOption) throws ExamplesNotFoundException;
+
+    boolean deleteBannedOption(long idOption, long bannedOption);
+
+    Set<OptionDto> splitSetMandatoryOptions(long optionId);
+
+    Set<OptionDto> splitSetBannedOptions(long optionId);
 }
