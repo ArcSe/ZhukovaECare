@@ -130,6 +130,14 @@
       <version>2.3.9</version>
     </dependency>
 
+    <!-- https://mvnrepository.com/artifact/org.apache.activemq/activemq-all -->
+    <dependency>
+      <groupId>org.apache.activemq</groupId>
+      <artifactId>activemq-all</artifactId>
+      <version>5.16.1</version>
+    </dependency>
+
+
     <!-- Log4j -->
     <dependency>
       <groupId>log4j</groupId>

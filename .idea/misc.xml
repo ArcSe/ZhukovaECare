@@ -11,6 +11,9 @@
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/second/pom.xml" />
         <option value="$PROJECT_DIR$/../second/pom.xml" />
+        <option value="$PROJECT_DIR$/stand/pom.xml" />
+        <option value="$PROJECT_DIR$/ZhukovaECare/pom.xml" />
+        <option value="$PROJECT_DIR$/mobile/pom.xml" />
       </list>
     </option>
   </component>

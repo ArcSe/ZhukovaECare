@@ -7,8 +7,9 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="ZhukovaECare" />
+        <module name="stand" />
         <module name="second" />
+        <module name="ZhukovaECare" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
