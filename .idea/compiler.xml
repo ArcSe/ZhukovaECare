@@ -18,7 +18,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="ZhukovaECare" options="" />
+      <module name="ZhukovaECare" options="-parameters" />
       <module name="second" options="-parameters" />
       <module name="second (1) (com.javaschool)" options="-parameters" />
     </option>

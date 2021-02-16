@@ -10,7 +10,7 @@ import javax.jms.MessageListener;
 import javax.jms.TextMessage;
 
 
-@MessageDriven(name = "TestQueue", activationConfig = {
+@MessageDriven(name = "notificationsQueue", activationConfig = {
         @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
         @ActivationConfigProperty(propertyName = "destination", propertyValue = "notificationsQueue"),
         @ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge") })
@@ -22,17 +22,8 @@ public class Consumer implements MessageListener {
      * @see MessageListener#onMessage(Message)
      */
     public void onMessage(Message rcvMessage) {
-        TextMessage msg = null;
-        try {
-            if (rcvMessage instanceof TextMessage) {
-                msg = (TextMessage) rcvMessage;
-                LOGGER.info("Received Message from queue: " + msg.getText());
-            } else {
-                LOGGER.warning("Message of wrong type: "
-                        + rcvMessage.getClass().getName());
-            }
-        } catch (JMSException e) {
-            throw new RuntimeException(e);
-        }
+
+        LOGGER.info("Received Message from queue:" + rcvMessage);
+
     }
 }

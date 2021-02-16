@@ -8,6 +8,7 @@ com\javaschool\controller\pages\manager\OptionController.class
 com\javaschool\controller\pages\client\ClientPageController.class
 com\javaschool\dao\AbstractDao.class
 com\javaschool\model\Contract.class
+com\javaschool\Sender.class
 com\javaschool\mapper\UserMapper.class
 com\javaschool\dto\ContractDto.class
 com\javaschool\controller\pages\anon\AnonPageController.class
@@ -23,10 +24,12 @@ com\javaschool\exception\notFound\ExamplesNotFoundException.class
 com\javaschool\dto\ContractShoppingCartDto.class
 com\javaschool\controller\pages\admin\AdminContractsController.class
 com\javaschool\dao\impl\ClientDaoImpl.class
+com\javaschool\jms\JmsProducer.class
 com\javaschool\dao\ClientDao.class
 com\javaschool\dao\ContractDao.class
 com\javaschool\dao\impl\AbstractJpaDaoImpl.class
 com\javaschool\service\ContractService.class
+com\javaschool\config\ActiveMqConnectionFactoryConfig.class
 com\javaschool\dao\impl\TariffDaoImpl.class
 com\javaschool\service\ipml\TariffServiceImpl.class
 com\javaschool\model\Role.class
@@ -46,6 +49,7 @@ com\javaschool\service\ipml\UserServiceImpl.class
 com\javaschool\model\ShoppingCart.class
 com\javaschool\exception\notFound\NotDataFoundException.class
 com\javaschool\controller\pages\manager\TariffController.class
+com\javaschool\ECareApplication.class
 com\javaschool\dao\impl\OptionDaoImpl.class
 com\javaschool\dao\impl\ContractDaoImpl.class
 com\javaschool\mapper\Mapper.class

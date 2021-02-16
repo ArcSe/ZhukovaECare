@@ -4,6 +4,7 @@ import com.javaschool.controller.pages.ControllerUtils;
 import com.javaschool.dto.ContractDto;
 import com.javaschool.dto.OptionDto;
 import com.javaschool.dto.UserDto;
+import com.javaschool.jms.JmsProducer;
 import com.javaschool.model.Option;
 import com.javaschool.model.Role;
 import com.javaschool.model.User;
@@ -25,6 +26,8 @@ import java.util.stream.Collectors;
 public class OptionController {
 
     private final OptionService optionService;
+    @Autowired
+    JmsProducer producer;
 
     @Autowired
     public OptionController(OptionService optionService) {
@@ -81,6 +84,7 @@ public class OptionController {
         }
 
         optionService.update(option);
+        producer.send(option);
         return "redirect:/managers/options";
     }
 

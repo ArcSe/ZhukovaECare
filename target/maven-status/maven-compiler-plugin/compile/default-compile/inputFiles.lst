@@ -10,6 +10,7 @@ C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\dto\Abst
 C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\model\Role.java
 C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\config\PersistenceJPAConfig.java
 C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\service\ipml\ContractServiceImpl.java
+C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\ECareApplication.java
 C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\dao\UserDao.java
 C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\dao\impl\ContractDaoImpl.java
 C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\controller\pages\manager\ClientController.java
@@ -19,6 +20,7 @@ C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\service\
 C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\dao\impl\ClientDaoImpl.java
 C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\mapper\Mapper.java
 C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\exception\notFound\NotDataFoundException.java
+C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\jms\JmsProducer.java
 C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\controller\pages\auth\AuthController.java
 C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\service\ContractService.java
 C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\dto\ClientDto.java
@@ -37,6 +39,7 @@ C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\mapper\S
 C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\service\ClientService.java
 C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\controller\pages\client\ClientPageController.java
 C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\model\Client.java
+C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\Sender.java
 C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\service\TariffService.java
 C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\controller\pages\admin\AdminUserController.java
 C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\model\Counter.java
@@ -56,6 +59,7 @@ C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\model\Ta
 C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\controller\pages\anon\AnonPageController.java
 C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\dao\impl\OptionDaoImpl.java
 C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\controller\pages\manager\TariffController.java
+C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\config\ActiveMqConnectionFactoryConfig.java
 C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\mapper\AbstractMapper.java
 C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\model\ShoppingCart.java
 C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\dto\TariffDto.java

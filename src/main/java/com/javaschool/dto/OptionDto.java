@@ -1,5 +1,7 @@
 package com.javaschool.dto;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 
 import javax.validation.constraints.*;
@@ -12,6 +14,7 @@ import java.util.Set;
 @ToString
 @Setter
 @Getter
+@JsonIdentityInfo(generator= ObjectIdGenerators.IntSequenceGenerator.class,property="@id", scope = OptionDto.class)
 public class OptionDto extends AbstractDto{
 
     @Pattern(message = "Bad formed name, should be only words and numbers",
