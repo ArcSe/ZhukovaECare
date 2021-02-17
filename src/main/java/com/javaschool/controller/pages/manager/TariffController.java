@@ -1,20 +1,22 @@
 package com.javaschool.controller.pages.manager;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.javaschool.controller.pages.ControllerUtils;
 import com.javaschool.dto.ClientDto;
 import com.javaschool.dto.OptionDto;
 import com.javaschool.dto.TariffDto;
+import com.javaschool.exception.notFound.NotDataFoundException;
+import com.javaschool.jms.JmsProducer;
 import com.javaschool.service.OptionService;
 import com.javaschool.service.TariffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.validation.Valid;
 import java.util.*;
@@ -24,6 +26,8 @@ import java.util.*;
 public class TariffController {
     private final TariffService tariffService;
     private final OptionService optionService;
+    @Autowired
+    JmsProducer producer;
 
     @Autowired
     public TariffController(TariffService tariffService, OptionService optionService) {
@@ -36,6 +40,7 @@ public class TariffController {
         List<TariffDto> listTariff = tariffService.getAll();
         ModelAndView mav = new ModelAndView("jsp/managers/tariffs/tariffList");
         mav.addObject("listTariff", listTariff);
+        producer.send("push");
         return mav;
     }
 
@@ -166,5 +171,20 @@ public class TariffController {
     public String deleteTariffById(@RequestParam("tariffId") long id) throws Exception {
         tariffService.delete(id);
         return "redirect:/managers/tariffs";
+    }
+
+    @GetMapping(value = "/hot", produces = "application/json")
+    @ResponseBody
+    public String getTariffsRest() throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            System.out.println(tariffService.getAll());
+            return objectMapper.writeValueAsString(tariffService.getAll());
+
+        } catch (NotDataFoundException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }

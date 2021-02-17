@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
 
+import javax.jms.TextMessage;
+
 @Component
 public class JmsProducer {
     final
@@ -18,7 +20,7 @@ public class JmsProducer {
         this.jmsTemplate = jmsTemplate;
     }
 
-    public void send(OptionDto option){
-        jmsTemplate.convertAndSend(queue, option);
+    public void send(String command){
+        jmsTemplate.convertAndSend(queue, command);
     }
 }
