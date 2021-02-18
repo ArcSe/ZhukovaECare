@@ -4,6 +4,7 @@ package com.javaschool.stand;
 import com.javaschool.stand.model.Tariff;
 import org.apache.log4j.Logger;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.EJB;
 import javax.ejb.MessageDriven;
@@ -16,7 +17,7 @@ import javax.jms.MessageListener;
 import javax.jms.TextMessage;
 import java.util.List;
 
-@Named("tariffBean")
+//@Named("consumer")
 @MessageDriven(name = "notificationsQueue", activationConfig = {
         @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
         @ActivationConfigProperty(propertyName = "destination", propertyValue = "notificationsQueue"),
@@ -36,6 +37,7 @@ public class Consumer implements MessageListener {
 
     private List<Tariff> tariffs;
 
+    @PostConstruct
     public void setTariffs() {
         this.tariffs = rest.getTariffs();
     }
