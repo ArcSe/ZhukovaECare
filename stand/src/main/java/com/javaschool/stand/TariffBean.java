@@ -4,6 +4,7 @@ import com.javaschool.stand.model.Tariff;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
 import javax.faces.push.Push;
 import javax.faces.push.PushContext;
 import javax.inject.Inject;
@@ -12,21 +13,22 @@ import java.io.Serializable;
 import java.util.List;
 
 @Named("tariffBean")
-@Stateless
+//@Stateless
+@ApplicationScoped
 public class TariffBean implements Serializable {
 
-    @EJB
+    @Inject
     private RestController rest;
 
     @Inject
     @Push(channel = "push")
-    PushContext pushContext;
+    PushContext push;
 
 
     private List<Tariff> tariffs;
 
-    public void setTariffs(List<Tariff> tariffs) {
-        this.tariffs = tariffs;
+    public void setTariffs() {
+        this.tariffs = rest.getTariffs();
     }
 
     public List<Tariff> getTariffs() {
@@ -34,6 +36,7 @@ public class TariffBean implements Serializable {
     }
 
     public void update() {
-        pushContext.send("updateTariffs");
+        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        push.send("updateTariffs");
     }
 }

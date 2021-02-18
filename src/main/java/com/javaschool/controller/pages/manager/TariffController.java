@@ -26,8 +26,6 @@ import java.util.*;
 public class TariffController {
     private final TariffService tariffService;
     private final OptionService optionService;
-    @Autowired
-    JmsProducer producer;
 
     @Autowired
     public TariffController(TariffService tariffService, OptionService optionService) {
@@ -40,7 +38,6 @@ public class TariffController {
         List<TariffDto> listTariff = tariffService.getAll();
         ModelAndView mav = new ModelAndView("jsp/managers/tariffs/tariffList");
         mav.addObject("listTariff", listTariff);
-        producer.send("push");
         return mav;
     }
 

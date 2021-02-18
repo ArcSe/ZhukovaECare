@@ -22,6 +22,8 @@
     <deploy.jboss.port>9990</deploy.jboss.port>
     <deploy.jboss.username>admin</deploy.jboss.username>
     <deploy.jboss.password>admin</deploy.jboss.password>
+    <microprofile.version>3.3</microprofile.version>
+    <all-themes.version>1.0.10</all-themes.version>
   </properties>
 
   <dependencies>
@@ -89,17 +91,17 @@
       <version>3.6.1</version>
     </dependency>
 
-    <dependency>
-      <groupId>com.sun.facelets</groupId>
-      <artifactId>jsf-facelets</artifactId>
-      <version>1.1.14</version>
-    </dependency>
+<!--    <dependency>-->
+<!--      <groupId>com.sun.facelets</groupId>-->
+<!--      <artifactId>jsf-facelets</artifactId>-->
+<!--      <version>1.1.14</version>-->
+<!--    </dependency>-->
 
-    <dependency>
-      <groupId>com.sun.faces</groupId>
-      <artifactId>jsf-api</artifactId>
-      <version>2.2.20</version>
-    </dependency>
+<!--    <dependency>-->
+<!--      <groupId>com.sun.faces</groupId>-->
+<!--      <artifactId>jsf-api</artifactId>-->
+<!--      <version>2.2.20</version>-->
+<!--    </dependency>-->
 
     <dependency>
       <groupId>javax.faces</groupId>
@@ -113,6 +115,49 @@
       <version>8.0</version>
     </dependency>
 
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>2.11.0</version>
+    </dependency>
+
+    <!-- FROM LOG -->
+    <dependency>
+      <groupId>org.jboss.spec.javax.faces</groupId>
+      <artifactId>jboss-jsf-api_2.3_spec</artifactId>
+      <version>3.0.0.SP04</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.apache.activemq/activemq-client -->
+    <dependency>
+      <groupId>org.apache.activemq</groupId>
+      <artifactId>activemq-client</artifactId>
+      <version>5.16.1</version>
+    </dependency>
+
+    <!-- LOG -->
+
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>1.2.17</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.squareup.okhttp3</groupId>
+      <artifactId>okhttp</artifactId>
+      <version>4.9.0</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.enterprise</groupId>
+      <artifactId>cdi-api</artifactId>
+      <version>2.0</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.annotation</groupId>
+      <artifactId>javax.annotation-api</artifactId>
+      <version>1.3.2</version>
+    </dependency>
 
   </dependencies>
 

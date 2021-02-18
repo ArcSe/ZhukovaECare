@@ -7,6 +7,7 @@ import com.javaschool.dto.TariffDto;
 import com.javaschool.exception.notFound.BadValueException;
 import com.javaschool.exception.notFound.NotDataFoundException;
 import com.javaschool.exception.notFound.ExamplesNotFoundException;
+import com.javaschool.jms.JmsProducer;
 import com.javaschool.mapper.TariffMapper;
 import com.javaschool.model.Option;
 import com.javaschool.model.Tariff;
@@ -26,6 +27,9 @@ public class TariffServiceImpl implements TariffService {
     private final TariffDao tariffDao;
     private final TariffMapper tariffMapper;
     private final OptionDao optionDao;
+
+    @Autowired
+    JmsProducer producer;
 
 
     @Autowired
@@ -70,6 +74,7 @@ public class TariffServiceImpl implements TariffService {
         }
         Tariff tariff = tariffMapper.toEntity(tariffDto);
         tariffDao.update(tariff);
+        producer.send("push");
     }
 
     @Override

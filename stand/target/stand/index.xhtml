@@ -1,67 +1,42 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:c="http://java.sun.com/jstl/core">
+      xmlns:c="http://java.sun.com/jstl/core" xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<f:view>
+    <h:head>
+        Tariff
+    </h:head>
+    <h:body>
 
-<h:head>
-    <title>T-mobile Tariffs</title>
-</h:head>
+            <h:panelGroup id="tariffs" rendered="true">
+                <div class="container">
+                    <div class="row text-center">
+                        <h2>Hot Tariffs:</h2>
+                        <ui:repeat value="#{tariffBean.tariffs}" var="tariff">
+                            <div class="col-sm-4">
+                                <div class="panel panel-info">
+                                    <div class="panel-heading text-center">#{tariff.name}</div>
+                                    <div class="panel-footer">$#{tariff.price} per month</div>
+                                </div>
+                            </div>
+                        </ui:repeat>
+                    </div>
+                </div>
+            </h:panelGroup>
 
-<h:body>
-    <h:form>
-        <f:websocket channel="push">
-            <p:ajax event="updateTariffs" update="tariffs" render=":tariffs"/>
-        </f:websocket>
-        <p:dataGrid var="tariff" value="#{tariffBean.tariffs}" columns="1" layout="grid"
-                    rows="6" paginator="true" id="tariffs"
-                    paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                    rowsPerPageTemplate="3,6">
 
-            <f:facet name="header">
-                T-mobile Tariffs
-            </f:facet>
 
-            <p:panel header="#{tariff.name}" style="text-align:center">
-                <h:panelGrid columns="1" style="width:100%">
-
-                    <h:outputText value="Tariff cost: #{tariff.price}" />
-                    <h:outputText value="Tariff cost: #{tariff.serviceCost}" />
-                    <h:outputText value="Available options for this tariff: " />
-
-                    <p:dataTable value="#{tariff.options}" var="option">
-
-                        <p:column headerText="Name">
-                            <h:outputText value="#{option.name}"/>
-                        </p:column>
-
-                        <p:column headerText="Cost">
-                            <h:outputText value="#{option.price}"/>
-                        </p:column>
-
-                        <p:column headerText="Cost Of Connection">
-                            <h:outputText value="#{option.serviceCost}"/>
-                        </p:column>
-
-                        <p:column headerText="Cost Of Connection">
-                            <h:outputText value="#{option.mandatoryOptions}"/>
-                        </p:column>
-
-                        <p:column headerText="Cost Of Connection">
-                            <h:outputText value="#{option.bannedOptions}"/>
-                        </p:column>
-
-                    </p:dataTable>
-                </h:panelGrid>
-            </p:panel>
-
-        </p:dataGrid>
-
-    </h:form>
-
-</h:body>
+        <h:form>
+            <f:websocket channel = "push">
+                <f:ajax event="updateTariffs" render="tariffs"/>
+            </f:websocket>
+        </h:form>
+    </h:body>
+</f:view>
 </html>
