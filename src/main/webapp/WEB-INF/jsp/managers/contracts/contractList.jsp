@@ -14,8 +14,19 @@
 <div align="center">
     <h2>Contract Manager</h2>
     <br>
-    <div>
-        <a class="btn btn-info" href="/managers/contracts/new" role="button">New Contract</a>
+    <div class="row justify-content-center">
+        <div class="col">
+            <a class="btn btn-primary" href="${pageContext.request.contextPath}/managers/contracts/new" role="button">New Contract</a>
+            <c:choose>
+                <c:when test="${shoppingCartForManager.contracts.size()>0}">
+                    <a class="btn btn-primary" href="${pageContext.request.contextPath}/shoppingList" role="button">ShoppingList</a>
+                </c:when>
+                <c:otherwise>
+                    <a  href="${pageContext.request.contextPath}/shoppingList" role="button" class="btn btn-primary disabled"
+                        tabindex="-1"  aria-disabled="true">ShoppingList</a>
+                </c:otherwise>
+            </c:choose>
+        </div>
     </div>
     <br>
     <div class="container">

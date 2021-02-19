@@ -1,19 +1,10 @@
 package com.javaschool.controller.pages.client;
 
-import com.javaschool.dto.ContractDto;
-import com.javaschool.dto.ContractShoppingCartDto;
-import com.javaschool.dto.OptionDto;
 import com.javaschool.dto.ShoppingCartDto;
-import com.javaschool.service.ClientService;
-import com.javaschool.service.ContractService;
-import com.javaschool.service.OptionService;
-import com.javaschool.service.TariffService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Set;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 @Controller
 public class ShoppingCartController {
@@ -25,5 +16,11 @@ public class ShoppingCartController {
         return "jsp/indexCart";
     }
 
+    @GetMapping("/shoppingList")
+    public String getShoppingCartForManager(@SessionAttribute(name = "shoppingCartForManager", required=false) ShoppingCartDto cart,
+                                  final Model model) {
+        model.addAttribute("shoppingCartForManager", cart);
+        return "jsp/shoppingCart";
+    }
 
 }

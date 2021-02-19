@@ -50,15 +50,6 @@ public class ClientPageController {
         return new User();
     }
 
-    @PostMapping("/cart")
-    public String buy(final Model model, @ModelAttribute("shoppingCart") ShoppingCartDto shoppingCart) {
-
-        Set<ContractShoppingCartDto> contracts = shoppingCart.getContracts();
-        shoppingCartService.buyContracts(contracts);
-        model.addAttribute("shoppingCart", new ShoppingCartDto());
-        return "redirect:/client/userProfile";
-    }
-
     @RequestMapping("/userProfile")
     public ModelAndView getPersonalPage(@AuthenticationPrincipal User user) throws Exception{
         ModelAndView mav;
@@ -73,6 +64,15 @@ public class ClientPageController {
             mav.addObject("client", client);
         }
         return mav;
+    }
+
+    @PostMapping("/cart")
+    public String buy(final Model model, @ModelAttribute("shoppingCart") ShoppingCartDto shoppingCart) {
+
+        Set<ContractShoppingCartDto> contracts = shoppingCart.getContracts();
+        shoppingCartService.buyContracts(contracts);
+        model.addAttribute("shoppingCart", new ShoppingCartDto());
+        return "redirect:/client/userProfile";
     }
     
     @RequestMapping("/contract")

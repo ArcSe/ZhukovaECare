@@ -31,7 +31,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         this.optionService = optionService;
     }
 
-
     public ContractDto getContractDto(User user, ShoppingCartDto shoppingCart, Model model) {
         ContractDto contractDto = new ContractDto();
         contractDto.setClientId(user.getClient().getId());
@@ -115,17 +114,21 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     public void removeOptionFromShoppingCart(ShoppingCartDto shoppingCart, long contractId, long optionId) throws ExamplesNotFoundException {
-        ContractShoppingCartDto contractDto = checkingContractDuplicate(shoppingCart, contractId);
-        Set<OptionDto> options = contractDto.getOptionsShoppingCart();
+        ContractShoppingCartDto contractDto = shoppingCart.getContracts().stream()
+                .filter(contract -> contract.getContract().getId() == contractId).findFirst().orElse(null);
+        Set<OptionDto> options = null;
+        if (contractDto != null) {
+            options = contractDto.getOptionsShoppingCart();
 
-        options = options.stream().filter(optionDto -> optionDto.getId() != optionId).collect(Collectors.toSet());
-        contractDto.setOptionsShoppingCart(options);
+            options = options.stream().filter(optionDto -> optionDto.getId() != optionId).collect(Collectors.toSet());
+            contractDto.setOptionsShoppingCart(options);
 
-        Set<ContractShoppingCartDto> newContracts = deleteOldContractFromShoppingCart(shoppingCart, contractId);
-        decreaseContractPrice(contractDto, optionId);
-        newContracts.add(contractDto);
-        shoppingCart.setContracts(newContracts);
-        decreaseShoppingCartPrice(shoppingCart, optionId);
+            Set<ContractShoppingCartDto> newContracts = deleteOldContractFromShoppingCart(shoppingCart, contractId);
+            decreaseContractPrice(contractDto, optionId);
+            newContracts.add(contractDto);
+            shoppingCart.setContracts(newContracts);
+            decreaseShoppingCartPrice(shoppingCart, optionId);
+        }
     }
     private void decreaseContractPrice(ContractShoppingCartDto contract, long optionId) throws ExamplesNotFoundException {
         int price = contract.getPrice();

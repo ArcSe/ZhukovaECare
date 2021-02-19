@@ -21,6 +21,14 @@
                 <form:hidden class="form-control" path="clientId" />
             </div>
             <div class="form-group col-md-4">
+                <label >Client</label>
+                <select  name="client.id" class="form-control">
+                    <c:forEach items="${clients}" var="client">
+                        <option value="${client.id}">${client.email}</option>
+                    </c:forEach>
+                </select>
+            </div>
+            <div class="form-group col-md-4">
                 <label >Tariff</label>
                 <select  name="tariff.id" class="form-control">
                     <c:forEach items="${tariffs}" var="tariff">

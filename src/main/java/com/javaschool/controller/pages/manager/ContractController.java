@@ -1,43 +1,45 @@
 package com.javaschool.controller.pages.manager;
 
-import com.javaschool.dto.ClientDto;
-import com.javaschool.dto.ContractDto;
-import com.javaschool.dto.TariffDto;
+import com.javaschool.dto.*;
 import com.javaschool.exception.notFound.ExamplesNotFoundException;
-import com.javaschool.model.Contract;
-import com.javaschool.service.ClientService;
-import com.javaschool.service.ContractService;
-import com.javaschool.service.OptionService;
-import com.javaschool.service.TariffService;
+import com.javaschool.model.User;
+import com.javaschool.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.*;
 
 @Controller
 @RequestMapping("/managers/contracts")
+@SessionAttributes("shoppingCartForManager")
 public class ContractController {
 
     private final ContractService contractService;
     private final TariffService tariffService;
     private final OptionService optionService;
     private final ClientService clientService;
+    private final ShoppingCartService shoppingCartService;
 
     @Autowired
-    public ContractController(ContractService contractService, TariffService tariffService, OptionService optionService, ClientService clientService) {
+    public ContractController(ContractService contractService, TariffService tariffService, OptionService optionService, ClientService clientService, ShoppingCartService shoppingCartService) {
         this.contractService = contractService;
         this.tariffService = tariffService;
         this.optionService = optionService;
         this.clientService = clientService;
+        this.shoppingCartService = shoppingCartService;
+    }
+
+    @ModelAttribute("shoppingCartForManager")
+    public ShoppingCartDto shoppingCart() {
+        return new ShoppingCartDto();
     }
 
     @RequestMapping()
-    public ModelAndView home() throws Exception{
+    public ModelAndView getAllContracts() throws Exception{
         List<ContractDto> contracts = contractService.getAll();
         ModelAndView mav = new ModelAndView("jsp/managers/contracts/contractList");
         mav.addObject("contracts", contracts);
@@ -50,7 +52,7 @@ public class ContractController {
         mav.addObject("contract", contractService.getById(id));
         return mav;
     }
-
+/*
     @RequestMapping("/new")
     public String newContract(Map<String, Object> model) throws Exception{
         ContractDto contractDto = new ContractDto();
@@ -61,6 +63,8 @@ public class ContractController {
         return "jsp/managers/contracts/new_contract";
     }
 
+ */
+/*
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public String saveContract(@RequestParam("tariff.id") long tariffsId,
                                @ModelAttribute("contract") ContractDto contract) throws Exception {
@@ -74,6 +78,8 @@ public class ContractController {
         contractService.delete(id);
         return "redirect:/managers/contracts";
     }
+
+ */
 
     @RequestMapping(value ="/addClient")
     public ModelAndView addClient(@RequestParam long id) throws Exception{
@@ -93,7 +99,7 @@ public class ContractController {
         contractService.update(contractDto);
         return "redirect:/managers/contracts";
     }
-
+/*
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String updateTariff(@RequestParam("tariff.id") long tariffsId,
                                @ModelAttribute("contract") ContractDto contract) throws Exception {
@@ -115,5 +121,124 @@ public class ContractController {
         return mav;
     }
 
+ */
+
+    /////////////////////////////////////////
+
+    @PostMapping("/shoppingList")
+    public String buy(final Model model, @ModelAttribute("shoppingCartForManager") ShoppingCartDto shoppingCart) {
+
+        Set<ContractShoppingCartDto> contracts = shoppingCart.getContracts();
+        shoppingCartService.buyContracts(contracts);
+        model.addAttribute("shoppingCartForManager", new ShoppingCartDto());
+        return "redirect:/managers/contracts";
+    }
+
+    @RequestMapping("/new")
+    public ModelAndView createContract(@AuthenticationPrincipal User user,
+                                       @ModelAttribute("shoppingCartForManager") ShoppingCartDto shoppingCart,
+                                       Model model) throws Exception{
+        ModelAndView mav = new ModelAndView("jsp/managers/contracts/new_contract");
+        if(!Objects.isNull(shoppingCart.getContracts())) {
+            shoppingCart.getContracts().forEach(contract -> {
+                if (contract.getContract().getNumber().equals("new")) {
+                    model.addAttribute("newContractError", "Please, finish your order with another new contract at first");
+                }
+            });
+        }
+        ContractDto contractDto = new ContractDto();
+        mav.addObject("contract",contractDto);
+        mav.addObject("tariffs", tariffService.getAll());
+        mav.addObject("clients",clientService.getAll());
+        return mav;
+    }
+
+    @PostMapping("/save")
+    public String createContractToShoppingCart(final Model model, @ModelAttribute("shoppingCartForManager") ShoppingCartDto shoppingCart,
+                                               @RequestParam("tariff.id") long tariffId,
+                                               @RequestParam("client.id") long clientId,
+                                               @ModelAttribute("contract") ContractDto contract) throws Exception{
+        Set<ContractShoppingCartDto> set = new HashSet<>();
+        ContractShoppingCartDto contractShoppingCartDto = new ContractShoppingCartDto();
+
+        if (shoppingCart.getContracts() != null) {
+            set = shoppingCart.getContracts();
+            ContractShoppingCartDto contractShoppingCart = shoppingCart.getContracts().stream()
+                    .filter(contractL -> contractL.getContract().getNumber().equals("new")).findFirst().orElse(null);
+            if(contractShoppingCart != null){
+                model.addAttribute("newContractError", "Please, finish your order with another new contract at first");
+                return "redirect:/managers/contracts";
+            }
+            shoppingCart = new ShoppingCartDto();
+        }
+        contract.setClientId(clientId);
+        shoppingCart.setCustomerEmail(clientService.getById(clientId).getEmail());
+        shoppingCartService.addNewContractToShoppingCart(shoppingCart, tariffId, contract, set, contractShoppingCartDto);
+        //shoppingCartService.increasePriceShoppingCart(shoppingCart, contractShoppingCartDto);
+        model.addAttribute("shoppingCartForManager", shoppingCart);
+        return "redirect:/managers/contracts";
+    }
+
+    @RequestMapping("/contractInfo")
+    public ModelAndView getContractById(@RequestParam long id) throws Exception{
+        ModelAndView mav = new ModelAndView("jsp/managers/contracts/contractInfoPage");
+        mav.addObject("contract", contractService.getById(id));
+        return mav;
+    }
+
+    @RequestMapping("/addTariff")
+    public ModelAndView chooseTariff(@RequestParam long id,
+                                     @ModelAttribute("shoppingCartForManager") ShoppingCartDto shoppingCart) throws Exception{
+        ModelAndView mav = new ModelAndView("jsp/managers/contracts/edit_contract");
+        createShoppingCartDtoSession(mav, shoppingCart);
+        mav.addObject("contract", contractService.getById(id));
+        mav.addObject("listTariff", tariffService.getAll());
+        return mav;
+    }
+
+    @PostMapping("/removeTariff")
+    public String removeContractFromCart(final Model model, @ModelAttribute("shoppingCartForManager") ShoppingCartDto shoppingCart,
+                                         @RequestParam("contractId") long contractId) throws ExamplesNotFoundException {
+        shoppingCartService.refreshContractFromShoppingCart(shoppingCart, contractId);
+        model.addAttribute("shoppingCartForManager", shoppingCart);
+        return "redirect:/shoppingList";
+    }
+
+    @PostMapping("/removeOption")
+    public String removeOptionFromCart( @ModelAttribute("shoppingCartForManager") ShoppingCartDto shoppingCart,
+                                        @RequestParam("contractId") long contractId,
+                                        @RequestParam("optionId") long optionId) throws ExamplesNotFoundException {
+        shoppingCartService.removeOptionFromShoppingCart(shoppingCart, contractId, optionId);
+        return "redirect:/shoppingList";
+    }
+
+    @PostMapping("/addTariff")
+    public String addTariffToCart(@AuthenticationPrincipal User user,
+                                  final Model model, @ModelAttribute("shoppingCartForManager") ShoppingCartDto shoppingCart,
+                                  @RequestParam("tariffId") long tariffId,
+                                  @RequestParam("contractId") long contractId) throws Exception{
+        shoppingCart = shoppingCartService.addTariffToShopping(user, shoppingCart, tariffId, contractId);
+        model.addAttribute("shoppingCartForManager", shoppingCart);
+
+        return "redirect:/shoppingList";
+    }
+
+
+    @RequestMapping(value = "/addOption", method = RequestMethod.POST)
+    private String addOptionToShoppingCartDto(final Model model, @ModelAttribute("shoppingCartForManager") ShoppingCartDto shoppingCart,
+                                              @RequestParam("optionId") long optionId,
+                                              @RequestParam("contractId") long contractId) throws Exception {
+        shoppingCartService.addOptionToShoppingCart(shoppingCart, optionId, contractId);
+        model.addAttribute("shoppingCartForManager", shoppingCart);
+        return "redirect:/shoppingList";
+    }
+
+    public static void createShoppingCartDtoSession(ModelAndView model, @ModelAttribute("shoppingCartForManager") ShoppingCartDto shoppingCart){
+        if (shoppingCart != null) {
+            model.addObject("shoppingCartForManager", shoppingCart);
+        } else {
+            model.addObject("shoppingCartForManager", new ShoppingCartDto());
+        }
+    }
 
 }
