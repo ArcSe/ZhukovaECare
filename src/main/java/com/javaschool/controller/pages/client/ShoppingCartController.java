@@ -18,22 +18,9 @@ import java.util.Set;
 @Controller
 public class ShoppingCartController {
 
-    private final ClientService clientService;
-    private final ContractService contractService;
-    private final TariffService tariffService;
-    private final OptionService optionService;
-
-    @Autowired
-    public ShoppingCartController(ClientService clientService, ContractService contractService,
-                                TariffService tariffService, OptionService optionService) {
-        this.clientService = clientService;
-        this.contractService = contractService;
-        this.tariffService = tariffService;
-        this.optionService = optionService;
-    }
-
     @GetMapping("/cart")
-    public String getShoppingCart(@SessionAttribute(name = "shoppingCart", required=false) ShoppingCartDto cart, final Model model) {
+    public String getShoppingCart(@SessionAttribute(name = "shoppingCart", required=false) ShoppingCartDto cart,
+                                  final Model model) {
         model.addAttribute("shoppingCart", cart);
         return "jsp/indexCart";
     }

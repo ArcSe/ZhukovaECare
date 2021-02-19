@@ -8,6 +8,7 @@ import com.javaschool.exception.notFound.NotDataFoundException;
 import com.javaschool.mapper.ClientMapper;
 import com.javaschool.model.Client;
 import com.javaschool.model.Contract;
+import com.javaschool.model.User;
 import com.javaschool.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -120,5 +121,11 @@ public class ClientServiceImpl implements ClientService {
         else {
             return clientDao.getByPhone(name).stream().map(clientMapper::toDto).collect(Collectors.toList());
         }
+    }
+
+    public ClientDto getClientDtoForUserProfile(User user) {
+        long clientId = user.getClient().getId();
+        Client client = clientDao.getById(clientId);
+        return clientMapper.toDto(client);
     }
 }
