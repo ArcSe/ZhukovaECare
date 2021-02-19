@@ -19,6 +19,11 @@
                 ${newContractError}
         </div>
     </c:if>
+    <c:if test="${differentClientError!=null}">
+        <div class="alert alert-warning" role="alert">
+                ${differentClientError}
+        </div>
+    </c:if>
     <div class="row justify-content-center">
         <div class="col">
             <a class="btn btn-primary" href="${pageContext.request.contextPath}/managers/contracts/new" role="button">New Contract</a>
@@ -63,7 +68,7 @@
                         <c:choose>
                             <c:when test="${!contract.locked}">
                                 <a class="btn btn-light" href="/managers/contracts/addClient?id=${contract.id}" role="button">Change Client</a>
-                                <a class="btn btn-primary" href="/managers/contracts/edit?id=${contract.id}" role="button">Edit</a>
+                                <a class="btn btn-primary" href="/managers/contracts/addTariff?id=${contract.id}" role="button">Edit</a>
                             </c:when>
                             <c:otherwise>
                                 <a class="btn btn-light disabled" href="/managers/contracts/addClient?id=${contract.id}" tabindex="-1" aria-disabled="true" role="button">Change Client</a>

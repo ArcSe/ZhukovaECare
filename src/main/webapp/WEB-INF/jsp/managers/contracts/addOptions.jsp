@@ -59,11 +59,22 @@
                                 </form>
                             </c:when>
                             <c:otherwise>
+                                <security:authorize access="hasRole('USER')">
                                 <form action="${pageContext.request.contextPath}/client/addOption" method="post">
                                     <input type="hidden" name="contractId" value="${contract.id}"/>
                                     <input type="hidden" name="optionId" value="${option.id}"/>
-                                    <button type="submit" class="btn btn-danger">Add</button>
+                                    <button type="submit" class="btn btn-danger">Add to shopping cart</button>
                                 </form>
+                                </security:authorize>
+                                <br>
+                                <security:authorize access="hasRole('MANAGER')">
+                                    <form action="${pageContext.request.contextPath}/managers/contracts/addOption" method="post">
+                                        <input type="hidden" name="contractId" value="${contract.id}"/>
+                                        <input type="hidden" name="optionId" value="${option.id}"/>
+                                        <input type="hidden" name="clientId" value="${clientId}"/>
+                                        <button type="submit" class="btn btn-danger">Add </button>
+                                    </form>
+                                </security:authorize>
                             </c:otherwise>
                         </c:choose>
                     </td>

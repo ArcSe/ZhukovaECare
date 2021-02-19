@@ -167,7 +167,9 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         setOfContracts = setOfContracts.stream().filter(contractDto -> contractDto.getContract().getId() != contract.getId()).collect(Collectors.toSet());
         setOfContracts.add(contract);
         shoppingCart.setContracts(setOfContracts);
-        shoppingCart.setCustomerEmail(user.getEmail());
+        if(!Objects.isNull(user)){
+            shoppingCart.setCustomerEmail(user.getEmail());
+        }
 
         increasePriceShoppingCartInService(shoppingCart);
     }
@@ -261,25 +263,13 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     public ShoppingCartDto addTariffToShopping(User user, ShoppingCartDto shoppingCart, long tariffId, long contractId) throws ExamplesNotFoundException {
         Set<ContractShoppingCartDto> set = new HashSet<>();
         ContractShoppingCartDto contract;
-        if (shoppingCart.getContracts() != null) {
+        if (shoppingCart.getContracts() != null ) {
             set = shoppingCart.getContracts();
             contract = checkingContractDuplicate(shoppingCart, contractId);
-            /*
-            TariffDto tariff = tariffService.getById(tariffId);
-            if(contract.getContract().getTariff().equals(tariff)){
-                ShoppingCartDto finalShoppingCart = shoppingCart;
-                tariff.getOptions().forEach(o-> {
-                    try {
-                        decreaseContractPrice(contract,o.getId());
-                        decreaseShoppingCartPrice(finalShoppingCart,o.getId());
-                    } catch (ExamplesNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                });
-            }
-*/
         } else {
-            shoppingCart = new ShoppingCartDto();
+            if(shoppingCart.getCustomerEmail() == null) {
+                shoppingCart = new ShoppingCartDto();
+            }
             contract = new ContractShoppingCartDto();
             contract.setContract(contractService.getById(contractId));
             contract.setOptionsShoppingCart(new HashSet<>());

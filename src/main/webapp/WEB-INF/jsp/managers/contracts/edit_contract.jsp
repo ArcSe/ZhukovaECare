@@ -14,7 +14,7 @@
 <div class="container">
     <h2>Edit Contract</h2>
     <br>
-    <form:form action="update" method="post" modelAttribute="contract">
+    <form:form action="addTariff" method="post" modelAttribute="contract">
         <div class="form-group row">
             <label for="id" class="col-sm-2 col-form-label">ID: </label>
             <div class="col-sm-7">
@@ -33,8 +33,8 @@
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">Tariff</label>
             <div class="col-sm-4">
-                <select  name="tariff.id" class="form-control">
-                    <c:forEach items="${tariff}" var="tariff">
+                <select  name="tariffId" class="form-control">
+                    <c:forEach items="${listTariff}" var="tariff">
                         <option value="${tariff.id}">${tariff.name}</option>
                     </c:forEach>
                 </select>

@@ -44,9 +44,11 @@ public class ClientManagerContractController {
             tariffOption.forEach(o -> checkedOptions.addAll(optionService.splitSetMandatoryOptions(o.getId())));
             checkedOptions.addAll(tariffOption);
             mav.addObject("options", checkedOptions);
+            mav.addObject("clientId", contractDto.getClientId());
         }
         else {
             mav.addObject("options", optionService.getAll());
+            mav.addObject("clientId", contractDto.getClientId());
         }
         return mav;
     }
