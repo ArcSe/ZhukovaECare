@@ -14,6 +14,13 @@
 <body>
 <div align="center">
     <h2>New Contract</h2>
+    <c:if test="${newContractError!=null}">
+        <div class="alert alert-danger">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                ${newContractError}
+        </div>
+    </c:if>
+
     <form:form action="save" method="post" modelAttribute="contract">
         <div>
             <div class="form-group col-md-4">
@@ -37,7 +44,14 @@
                 </select>
             </div>
 
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <c:choose>
+                <c:when test="${newContractError!=null}">
+                    <button type="submit" class="btn btn-primary" disabled>Submit</button>
+                </c:when>
+                <c:otherwise>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </c:otherwise>
+            </c:choose>
         </div>
     </form:form>
 </div>

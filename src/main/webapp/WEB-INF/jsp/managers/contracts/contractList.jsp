@@ -14,6 +14,11 @@
 <div align="center">
     <h2>Contract Manager</h2>
     <br>
+    <c:if test="${newContractError!=null}">
+        <div class="alert alert-warning" role="alert">
+                ${newContractError}
+        </div>
+    </c:if>
     <div class="row justify-content-center">
         <div class="col">
             <a class="btn btn-primary" href="${pageContext.request.contextPath}/managers/contracts/new" role="button">New Contract</a>
