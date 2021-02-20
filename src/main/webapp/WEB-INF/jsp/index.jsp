@@ -13,6 +13,7 @@
     <div class="container pt-2">
         <div class="row justify-content-md-center">
             <h1 class="display-4">Hello! </h1>
+            <security:csrfInput />
             <security:authorize access="!isAuthenticated()">
                 <h1 class="display-4">Please,
                     <a href="${pageContext.request.contextPath}/login">login</a>

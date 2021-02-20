@@ -24,10 +24,10 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
-    
-    private final UserDao userDao;
-    private final UserMapper userMapper;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    private UserDao userDao;
+    private UserMapper userMapper;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     public UserServiceImpl(UserDao userDao, UserMapper userMapper, BCryptPasswordEncoder bCryptPasswordEncoder) {
@@ -36,6 +36,8 @@ public class UserServiceImpl implements UserService {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
+    public UserServiceImpl() {
+    }
 
     @Override
     public List<UserDto> getAll() throws NotDataFoundException {

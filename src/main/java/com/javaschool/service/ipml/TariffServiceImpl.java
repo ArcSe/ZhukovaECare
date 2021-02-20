@@ -31,7 +31,6 @@ public class TariffServiceImpl implements TariffService {
     @Autowired
     JmsProducer producer;
 
-
     @Autowired
     public TariffServiceImpl(TariffDao tariffDao, TariffMapper tariffMapper, OptionDao optionDao) {
         this.tariffDao = tariffDao;
