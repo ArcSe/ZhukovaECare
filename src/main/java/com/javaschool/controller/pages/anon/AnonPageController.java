@@ -10,12 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class AnonPageController {
 
-    private final TariffService tariffService;
 
+    public AnonPageController() {
 
-    @Autowired
-    public AnonPageController(TariffService tariffService) {
-        this.tariffService = tariffService;
     }
 
 
