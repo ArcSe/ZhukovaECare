@@ -108,6 +108,11 @@ public class OptionServiceImpl implements OptionService {
 
         mandatoryOptions.addAll(recursMandatoryOption(mandatoryOptions, mandatoryOption,option));
         option.setMandatoryOptions(mandatoryOptions);
+        if(option.getMandatoryOptions().contains(option)){
+            Set<Option> recOptions = new HashSet<>(option.getMandatoryOptions());
+            recOptions = recOptions.stream().filter(option1 -> option1.getId() != optionId).collect(Collectors.toSet());
+            option.setMandatoryOptions(recOptions);
+        }
         Set<Option> banOption = addBannedOption(optionId, idMandatoryOption).getBannedOptions();
         banOption.remove(mandatoryOption);
         option.getBannedOptions().addAll(banOption);
