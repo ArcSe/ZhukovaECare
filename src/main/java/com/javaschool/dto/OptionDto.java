@@ -6,6 +6,7 @@ import lombok.*;
 
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.util.Map;
 import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
@@ -32,7 +33,10 @@ public class OptionDto extends AbstractDto implements Serializable {
     @DecimalMin(message = "Option service cost should be negative",
             value = "-1", inclusive = false)
     private int serviceCost;
-    private Set<Long> mandatoryOptions;
-    private Set<Long> bannedOptions;
+//    private Set<Long> mandatoryOptions;
+//    private Set<Long> bannedOptions;
+    private Map<Long, String> mandatoryOptions;
+    private Map<Long, String> bannedOptions;
+
 
 }

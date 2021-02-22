@@ -4,7 +4,9 @@ import lombok.*;
 
 import javax.persistence.Id;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 
@@ -20,8 +22,8 @@ public class Option implements Serializable {
     private String name;
     private int price;
     private int serviceCost;
-    private Set<Long> mandatoryOptions = new HashSet<>();
-    private Set<Long> bannedOptions = new HashSet<>();
+    private Map<Long, String> mandatoryOptions = new HashMap<>();
+    private Map<Long, String> bannedOptions = new HashMap<>();
 
     public Option(String name, int price, int serviceCost) {
         this.name = name;

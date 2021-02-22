@@ -91,10 +91,14 @@ class OptionServiceImplTest {
                 new HashSet<>(Arrays.asList(option2)), new HashSet<>());
         Option option4 = new Option("option4", 100, 100, false, null, null,
                 new HashSet<>(), new HashSet<>());
-        OptionDto optionDto1 = new OptionDto("option1", 100, 100, new HashSet<>(), new HashSet<>());
-        OptionDto optionDto2 = new OptionDto("option2", 100, 100, new HashSet<>(Arrays.asList(optionDto1.getId())), new HashSet<>());
-        OptionDto optionDto3 = new OptionDto("option3", 100, 100, new HashSet<>(Arrays.asList(optionDto1.getId())), new HashSet<>());
-        OptionDto optionDto4 = new OptionDto("option4", 100, 100, new HashSet<>(), new HashSet<>());
+        OptionDto optionDto1 = new OptionDto("option1", 100, 100, new HashMap<>(), new HashMap<>());
+        Map<Long, String> option = new HashMap<>();
+        option.put(optionDto1.getId(), optionDto1.getName());
+        OptionDto optionDto2 = new OptionDto("option2", 100, 100, option, new HashMap<>());
+        Map<Long, String> optionMan2 = new HashMap<>();
+        option.put(optionDto2.getId(), optionDto2.getName());
+        OptionDto optionDto3 = new OptionDto("option3", 100, 100, optionMan2, new HashMap<>());
+        OptionDto optionDto4 = new OptionDto("option4", 100, 100, new HashMap<>(), new HashMap<>());
 
 
     }
@@ -124,9 +128,11 @@ class OptionServiceImplTest {
         Option option3 = new Option("option3", 100, 100, false, null, null,
                 new HashSet<>(), new HashSet<>(Arrays.asList(option1)));
 
-        OptionDto optionDto1 = new OptionDto("option1", 100, 100, new HashSet<>(), new HashSet<>());
-        OptionDto optionDto2 = new OptionDto("option2", 100, 100, new HashSet<>(), new HashSet<>(Arrays.asList(optionDto1.getId())));
-        OptionDto optionDto3 = new OptionDto("option3", 100, 100, new HashSet<>(), new HashSet<>(Arrays.asList(optionDto1.getId())));
+        OptionDto optionDto1 = new OptionDto("option1", 100, 100, new HashMap<>(), new HashMap<>());
+        Map<Long, String> option = new HashMap<>();
+        option.put(optionDto1.getId(), optionDto1.getName());
+        OptionDto optionDto2 = new OptionDto("option2", 100, 100, new HashMap<>(), option);
+        OptionDto optionDto3 = new OptionDto("option3", 100, 100, new HashMap<>(), option);
 
         Mockito.when(optionDao.getById(option3.getId())).thenReturn(option3);
         List<Option> options = new ArrayList<>(Arrays.asList(option1,option2,option3));
@@ -147,9 +153,11 @@ class OptionServiceImplTest {
         Option option3 = new Option("option3", 100, 100, false, null, null,
                 new HashSet<>(Arrays.asList(option1)), new HashSet<>());
 
-        OptionDto optionDto1 = new OptionDto("option1", 100, 100, new HashSet<>(), new HashSet<>());
-        OptionDto optionDto2 = new OptionDto("option2", 100, 100, new HashSet<>(Arrays.asList(optionDto1.getId())), new HashSet<>());
-        OptionDto optionDto3 = new OptionDto("option3", 100, 100, new HashSet<>(Arrays.asList(optionDto1.getId())), new HashSet<>());
+        OptionDto optionDto1 = new OptionDto("option1", 100, 100, new HashMap<>(), new HashMap<>());
+        Map<Long, String> option = new HashMap<>();
+        option.put(optionDto1.getId(), optionDto1.getName());
+        OptionDto optionDto2 = new OptionDto("option2", 100, 100, option, new HashMap<>());
+        OptionDto optionDto3 = new OptionDto("option3", 100, 100, option, new HashMap<>());
 
         Mockito.when(optionDao.getById(option3.getId())).thenReturn(option3);
         List<Option> options = new ArrayList<>(Arrays.asList(option1,option2,option3));
