@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 
 import javax.validation.constraints.*;
+import java.io.Serializable;
 import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
@@ -15,7 +16,7 @@ import java.util.Set;
 @Setter
 @Getter
 //@JsonIdentityInfo(generator= ObjectIdGenerators.IntSequenceGenerator.class,property="@id", scope = OptionDto.class)
-public class OptionDto extends AbstractDto{
+public class OptionDto extends AbstractDto implements Serializable {
 
     @Pattern(message = "Bad formed name, should be only words and numbers",
             regexp = "[0-9a-zA-Z-\\s]*")

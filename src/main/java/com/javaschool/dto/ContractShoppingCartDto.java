@@ -9,6 +9,8 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Setter
+@Getter
 public class ContractShoppingCartDto extends AbstractDto {
     private int price;
     private int serviceCost;

@@ -51,6 +51,7 @@ com\javaschool\exception\notFound\NotDataFoundException.class
 com\javaschool\controller\pages\manager\TariffController.class
 com\javaschool\ECareApplication.class
 com\javaschool\dao\impl\OptionDaoImpl.class
+com\javaschool\service\ShoppingCartService.class
 com\javaschool\dao\impl\ContractDaoImpl.class
 com\javaschool\mapper\Mapper.class
 com\javaschool\mapper\OptionMapper.class
@@ -66,6 +67,7 @@ com\javaschool\controller\pages\ClientManagerContractController.class
 com\javaschool\exception\ExceptionHandlerController.class
 com\javaschool\controller\pages\client\ShoppingCartController.class
 com\javaschool\mapper\ClientMapper.class
+com\javaschool\service\ipml\ShoppingCartServiceImpl.class
 com\javaschool\dto\ShoppingCartDto.class
 com\javaschool\controller\pages\manager\ClientController.class
 com\javaschool\controller\pages\ControllerUtils.class

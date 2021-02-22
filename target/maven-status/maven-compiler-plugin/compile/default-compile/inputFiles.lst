@@ -1,6 +1,7 @@
 C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\service\ipml\ClientServiceImpl.java
 C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\dao\ContractDao.java
 C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\dao\AbstractDao.java
+C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\service\ipml\ShoppingCartServiceImpl.java
 C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\controller\pages\ControllerUtils.java
 C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\exception\notFound\BadValueException.java
 C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\service\ipml\TariffServiceImpl.java
@@ -38,6 +39,7 @@ C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\dto\Opti
 C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\mapper\ShoppingCartMapper.java
 C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\service\ClientService.java
 C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\controller\pages\client\ClientPageController.java
+C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\service\ShoppingCartService.java
 C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\model\Client.java
 C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\Sender.java
 C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\service\TariffService.java

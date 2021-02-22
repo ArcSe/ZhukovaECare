@@ -14,6 +14,8 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Setter
+@Getter
 public class ContractDto extends AbstractDto {
     private String number;
     private boolean isLocked;

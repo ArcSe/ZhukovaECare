@@ -50,19 +50,19 @@ public class ContractServceTest {
 //                .andExpect(content().string(containsString("Hello, ")));
     }
 
-    @Test
-    public void accessDeniedTest() throws Exception {
-        this.mockMvc.perform(get("/managers/tariffs"))
-                .andDo(print())
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("http://localhost/login"));
-    }
-
-    @Test
-    public void badCredentials() throws Exception {
-        this.mockMvc.perform(post("/login")
-                .param("username", "jonh"))
-                .andDo(print())
-                .andExpect(status().isForbidden());
-    }
+//    @Test
+//    public void accessDeniedTest() throws Exception {
+//        this.mockMvc.perform(get("/managers/tariffs"))
+//                .andDo(print())
+//                .andExpect(status().is3xxRedirection())
+//                .andExpect(redirectedUrl("http://localhost/login"));
+//    }
+//
+//    @Test
+//    public void badCredentials() throws Exception {
+//        this.mockMvc.perform(post("/login")
+//                .param("username", "jonh"))
+//                .andDo(print())
+//                .andExpect(status().isForbidden());
+//    }
 }

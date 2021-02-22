@@ -45,7 +45,7 @@ class UserServiceImplTest {
     private UserDaoImpl userDao;
 
     @Mock
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private BCryptPasswordEncoder bCryptPasswordEncoder ;
 
     @Mock
     private UserMapper userMapper;
@@ -82,6 +82,9 @@ class UserServiceImplTest {
 //        userList.add(user);
 //
 //
+//    /important
+//        Mockito.when(bCryptPasswordEncoder.encode(any)).thenReturn("password");
+//    Assert.assertEquals("password", user.getPassword() );
 //        Mockito.when(patientDAO.getAll()).thenReturn(patientList);
 //        Assert.assertTrue("Contract list successfully uploaded");
 //    }

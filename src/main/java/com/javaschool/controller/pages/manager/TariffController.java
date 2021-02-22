@@ -170,18 +170,5 @@ public class TariffController {
         return "redirect:/managers/tariffs";
     }
 
-    @GetMapping(value = "/hot", produces = "application/json")
-    @ResponseBody
-    public String getTariffsRest() throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            System.out.println(tariffService.getAll());
-            return objectMapper.writeValueAsString(tariffService.getAll());
 
-        } catch (NotDataFoundException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
 }
