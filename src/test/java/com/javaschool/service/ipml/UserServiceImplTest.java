@@ -50,7 +50,7 @@ class UserServiceImplTest {
     @Mock
     private UserMapper userMapper;
 
-    private List<User> userList;
+    private List<UserDto> userList;
 
     private List<UserDto> userDtoList;
 
@@ -66,27 +66,55 @@ class UserServiceImplTest {
         Set<Role> roles = new HashSet<>();
         roles.add(Role.ROLE_ADMIN);
         User user = new User("admin@admin.ru", "1", "1", true, null, roles);
-        userList.add(user);
+        //userList.add(user);
 
         userService.add(userMapper.toDto(user));
         Assert.assertNotNull("Contract list successfully uploaded", userService.getAll());
         //Assert.assertEquals(userList, userService.getAll());
     }
 
-//    @Test
-//    public void createUser(){
-//        userList = new ArrayList<>();
-//        Set<Role> roles = new HashSet<>();
-//        roles.add(Role.ROLE_ADMIN);
-//        User user = new User("admin@admin.ru", "1", "1", true, null, roles);
-//        userList.add(user);
-//
-//
-//    /important
-//        Mockito.when(bCryptPasswordEncoder.encode(any)).thenReturn("password");
-//    Assert.assertEquals("password", user.getPassword() );
-//        Mockito.when(patientDAO.getAll()).thenReturn(patientList);
-//        Assert.assertTrue("Contract list successfully uploaded");
-//    }
+    @Test
+    public void createUserSuccessful(){
+        userList = new ArrayList<>();
+        Set<Role> roles = new HashSet<>();
+        roles.add(Role.ROLE_ADMIN);
+        UserDto user = new UserDto("password", "password", "admin@admin.ru", true, null, roles);
+        userList.add(user);
+
+        Mockito.when(bCryptPasswordEncoder.encode(Mockito.any())).thenReturn("password");
+        Assert.assertEquals("password", user.getPassword());
+
+        Assert.assertTrue(userService.save(user));
+    }
+
+    @Test
+    public void createUserFail(){
+        Set<Role> roles = new HashSet<>();
+        roles.add(Role.ROLE_ADMIN);
+        String email = "admin@admin.ru";
+        String password = "password";
+        User user = new User(password, password, email, true, null, roles);
+        UserDto userDto = new UserDto(password, password, email, true, null, roles);
+
+        Mockito.when(bCryptPasswordEncoder.encode(Mockito.any())).thenReturn("password");
+        Assert.assertEquals("password", user.getPassword());
+
+        Mockito.when(userService.getByUserEmail(email)).thenReturn(user);
+
+        Assert.assertFalse(userService.save(userDto));
+    }
+
+
+    @Test
+    void getByUserEmail() {
+        Set<Role> roles = new HashSet<>();
+        roles.add(Role.ROLE_ADMIN);
+        String email = "admin@admin.ru";
+        String password = "password";
+        User user = new User(password, password, email, true, null, roles);
+
+        Mockito.when(userDao.getByEmail(email)).thenReturn(user);
+        Assert.assertEquals(user, userService.getByUserEmail(email));
+    }
 
 }
