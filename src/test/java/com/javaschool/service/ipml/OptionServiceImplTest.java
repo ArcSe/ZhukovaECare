@@ -1,6 +1,7 @@
 package com.javaschool.service.ipml;
 
 import com.javaschool.dao.impl.OptionDaoImpl;
+import com.javaschool.dto.OptionDto;
 import com.javaschool.exception.notFound.ExamplesNotFoundException;
 import com.javaschool.exception.notFound.NotDataFoundException;
 import com.javaschool.mapper.OptionMapper;
@@ -17,9 +18,8 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 @RunWith(SpringRunner.class)
@@ -35,7 +35,7 @@ class OptionServiceImplTest {
     }
 
     @InjectMocks
-    OptionServiceImpl optionService;
+    OptionServiceImpl optionServiceImp;
 
     @Mock
     private OptionDaoImpl optionDao;
@@ -55,7 +55,7 @@ class OptionServiceImplTest {
         Mockito.when(optionDao.getAll()).thenReturn(null);
         String message = null;
         try {
-            optionService.getAll();
+            optionServiceImp.getAll();
         }
         catch (NotDataFoundException e){
             message = "NotDataFoundException";
@@ -72,7 +72,7 @@ class OptionServiceImplTest {
         options.add(option);
         Mockito.when(optionDao.getAll()).thenReturn(options);
         try {
-            optionService.getAll();
+            optionServiceImp.getAll();
             message = "All options were gotten";
         }
         catch (NotDataFoundException e){
@@ -83,14 +83,19 @@ class OptionServiceImplTest {
 
     @Test
     void addMandatory() {
-        Option option1 = new Option("option1", 100, 100,false, null, null, new HashSet<>(), new HashSet<>());
-        Option option2 = new Option("option2", 100, 100,false, null, null, new HashSet<>(), new HashSet<>());
-        Option option3 = new Option("option3", 100, 100,false, null, null, new HashSet<>(), new HashSet<>());
-        Option option4 = new Option("option4", 100, 100,false, null, null, new HashSet<>(), new HashSet<>());
+        Option option1 = new Option("option1", 100, 100, false, null, null,
+                new HashSet<>(), new HashSet<>());
+        Option option2 = new Option("option2", 100, 100, false, null, null,
+                new HashSet<>(Arrays.asList(option1)), new HashSet<>());
+        Option option3 = new Option("option3", 100, 100, false, null, null,
+                new HashSet<>(Arrays.asList(option2)), new HashSet<>());
+        Option option4 = new Option("option4", 100, 100, false, null, null,
+                new HashSet<>(), new HashSet<>());
+        OptionDto optionDto1 = new OptionDto("option1", 100, 100, new HashSet<>(), new HashSet<>());
+        OptionDto optionDto2 = new OptionDto("option2", 100, 100, new HashSet<>(Arrays.asList(optionDto1.getId())), new HashSet<>());
+        OptionDto optionDto3 = new OptionDto("option3", 100, 100, new HashSet<>(Arrays.asList(optionDto1.getId())), new HashSet<>());
+        OptionDto optionDto4 = new OptionDto("option4", 100, 100, new HashSet<>(), new HashSet<>());
 
-        HashSet<Option> mandatoryOptions = new HashSet<>();
-        mandatoryOptions.add(option1);
-        option2.setMandatoryOptions(mandatoryOptions);
 
     }
 
@@ -112,10 +117,48 @@ class OptionServiceImplTest {
 
     @Test
     void splitSetMandatoryOptions() {
+        Option option1 = new Option("option1", 100, 100, false, null, null,
+                new HashSet<>(), new HashSet<>());
+        Option option2 = new Option("option2", 100, 100, false, null, null,
+                new HashSet<>(), new HashSet<>(Arrays.asList(option1)));
+        Option option3 = new Option("option3", 100, 100, false, null, null,
+                new HashSet<>(), new HashSet<>(Arrays.asList(option1)));
+
+        OptionDto optionDto1 = new OptionDto("option1", 100, 100, new HashSet<>(), new HashSet<>());
+        OptionDto optionDto2 = new OptionDto("option2", 100, 100, new HashSet<>(), new HashSet<>(Arrays.asList(optionDto1.getId())));
+        OptionDto optionDto3 = new OptionDto("option3", 100, 100, new HashSet<>(), new HashSet<>(Arrays.asList(optionDto1.getId())));
+
+        Mockito.when(optionDao.getById(option3.getId())).thenReturn(option3);
+        List<Option> options = new ArrayList<>(Arrays.asList(option1,option2,option3));
+        Mockito.when(optionDao.getAllNotDeleted()).thenReturn(options);
+
+        Set<OptionDto> optionDtos = new HashSet<>(Arrays.asList(optionDto1, optionDto2, optionDto3));
+        Mockito.when(optionMapper.toDto(Mockito.any())).thenReturn(new OptionDto());
+
+        Assert.assertEquals(optionServiceImp.splitSetMandatoryOptions(option3.getId()), new HashSet<>());
     }
 
     @Test
     void splitSetBannedOptions() {
+        Option option1 = new Option("option1", 100, 100, false, null, null,
+                new HashSet<>(), new HashSet<>());
+        Option option2 = new Option("option2", 100, 100, false, null, null,
+                new HashSet<>(Arrays.asList(option1)), new HashSet<>());
+        Option option3 = new Option("option3", 100, 100, false, null, null,
+                new HashSet<>(Arrays.asList(option1)), new HashSet<>());
+
+        OptionDto optionDto1 = new OptionDto("option1", 100, 100, new HashSet<>(), new HashSet<>());
+        OptionDto optionDto2 = new OptionDto("option2", 100, 100, new HashSet<>(Arrays.asList(optionDto1.getId())), new HashSet<>());
+        OptionDto optionDto3 = new OptionDto("option3", 100, 100, new HashSet<>(Arrays.asList(optionDto1.getId())), new HashSet<>());
+
+        Mockito.when(optionDao.getById(option3.getId())).thenReturn(option3);
+        List<Option> options = new ArrayList<>(Arrays.asList(option1,option2,option3));
+        Mockito.when(optionDao.getAllNotDeleted()).thenReturn(options);
+
+        Set<OptionDto> optionDtos = new HashSet<>(Arrays.asList(optionDto1, optionDto2, optionDto3));
+        Mockito.when(optionMapper.toDto(Mockito.any())).thenReturn(new OptionDto());
+
+        Assert.assertEquals(optionServiceImp.splitSetBannedOptions(option3.getId()), new HashSet<>());
     }
 
 
