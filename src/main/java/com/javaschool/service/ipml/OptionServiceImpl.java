@@ -22,8 +22,8 @@ import java.util.stream.Collectors;
 @EnableTransactionManagement
 public class OptionServiceImpl implements OptionService {
 
-    private final OptionDao optionDao;
-    private final OptionMapper optionMapper;
+    private  OptionDao optionDao;
+    private  OptionMapper optionMapper;
 
     @Autowired
     public OptionServiceImpl(OptionDao optionDao, OptionMapper optionMapper) {
@@ -31,6 +31,8 @@ public class OptionServiceImpl implements OptionService {
         this.optionMapper = optionMapper;
     }
 
+    public OptionServiceImpl() {
+    }
 
     @Override
 
@@ -42,6 +44,7 @@ public class OptionServiceImpl implements OptionService {
     }
 
     @Override
+    @Transactional
     public boolean add(OptionDto option) throws ExamplesNotFoundException {
         OptionDto optionFromDb = getByName(option.getName());
 
@@ -54,6 +57,7 @@ public class OptionServiceImpl implements OptionService {
     }
 
     @Override
+    @Transactional
     public void delete(long id) throws ExamplesNotFoundException {
         if(Objects.isNull(optionDao.getById(id))){
             throw new ExamplesNotFoundException(id);
@@ -62,6 +66,7 @@ public class OptionServiceImpl implements OptionService {
     }
 
     @Override
+    @Transactional
     public void update(OptionDto option) throws ExamplesNotFoundException {
         optionDao.update(optionMapper.toEntity(option));
     }
@@ -88,8 +93,11 @@ public class OptionServiceImpl implements OptionService {
         if(Objects.isNull(optionDao.getById(idMandatoryOption))){
             throw new ExamplesNotFoundException(idMandatoryOption);
         }
+
         Option option = optionDao.getById(optionId);
         Option mandatoryOption = optionDao.getById(idMandatoryOption);
+
+
         Set<Option> mandatoryOptions;
         if(!Objects.isNull(option.getMandatoryOptions())) {
             mandatoryOptions = option.getMandatoryOptions();
@@ -97,7 +105,8 @@ public class OptionServiceImpl implements OptionService {
         else {
             mandatoryOptions = new HashSet<>();
         }
-        mandatoryOptions.addAll(recursMandatoryOption(mandatoryOptions, mandatoryOption));
+
+        mandatoryOptions.addAll(recursMandatoryOption(mandatoryOptions, mandatoryOption,option));
         option.setMandatoryOptions(mandatoryOptions);
         Set<Option> banOption = addBannedOption(optionId, idMandatoryOption).getBannedOptions();
         banOption.remove(mandatoryOption);
@@ -105,7 +114,7 @@ public class OptionServiceImpl implements OptionService {
         optionDao.update(option);
     }
 
-    private Set<Option> recursMandatoryOption(Set<Option> options, Option newOption){
+    private Set<Option> recursMandatoryOption(Set<Option> options, Option newOption, Option baseOption){
         options.add(newOption);
         Set<Option> mandatoryOptions;
         if(!Objects.isNull(newOption.getMandatoryOptions())) {
@@ -115,11 +124,13 @@ public class OptionServiceImpl implements OptionService {
             mandatoryOptions = new HashSet<>();
         }
         mandatoryOptions.removeAll(options);
-        if(mandatoryOptions.isEmpty()){
+        if(mandatoryOptions.isEmpty() || newOption.getId()== baseOption.getId()){
             return options;
         }
         else {
-            mandatoryOptions.forEach(option ->  {options.addAll(recursMandatoryOption(mandatoryOptions, option));});
+            mandatoryOptions.stream().filter(option -> option.getId()!= baseOption.getId())
+                    .map(option ->  options.addAll(recursMandatoryOption(mandatoryOptions, option, baseOption)))
+                    .collect(Collectors.toSet());
         }
 
         return options;
@@ -139,13 +150,14 @@ public class OptionServiceImpl implements OptionService {
             return options;
         }
         else {
-            bannedOptions.forEach(option ->  options.addAll(recursMandatoryOption(bannedOptions, option)));
+ //           bannedOptions.forEach(option ->  options.addAll(recursMandatoryOption(bannedOptions, option, )));
         }
 
         return options;
     }
 
     @Override
+    @Transactional
     public boolean deleteMandatoryOption(long idOption, long mandatoryOption) throws ExamplesNotFoundException {
         if(Objects.isNull(optionDao.getById(idOption))){
             throw new ExamplesNotFoundException(idOption);
@@ -168,12 +180,14 @@ public class OptionServiceImpl implements OptionService {
     }
 
     @Override
+    @Transactional
     public void addBannedOptionToDB(long idOption, long bannedOptionId) throws ExamplesNotFoundException {
         Option option = addBannedOption(idOption,bannedOptionId);
         optionDao.update(option);
     }
 
 
+    @Transactional
     public Option addBannedOption(long idOption, long bannedOptionId) throws ExamplesNotFoundException {
         Option option = optionDao.getById(idOption);
         Option bannedOption = optionDao.getById(bannedOptionId);
@@ -194,6 +208,7 @@ public class OptionServiceImpl implements OptionService {
     }
 
     @Override
+    @Transactional
     public boolean deleteBannedOption(long idOption, long bannedOption) {
         Option optionDB = optionDao.getById(idOption);
         Option optionBannedDB = optionDao.getById(bannedOption);
