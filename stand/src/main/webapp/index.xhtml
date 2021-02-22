@@ -10,28 +10,42 @@
       xmlns:c="http://java.sun.com/jstl/core" xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 <f:view>
     <h:head>
-        Tariff
     </h:head>
     <h:body>
+        <p:dataGrid var="tariff" value="#{tariffBean.tariffs}" columns="1" layout="grid"
+                    rows="6" paginator="true" id="tariffs"
+                    paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                    rowsPerPageTemplate="3,6">
 
-            <h:panelGroup id="tariffs" rendered="true">
-                <div class="container">
-                    <div class="row text-center">
-                        <h2>Hot Tariffs:</h2>
-                        <ui:repeat value="#{tariffBean.tariffs}" var="tariff">
-                            <div class="col-sm-4">
-                                <div class="panel panel-info">
-                                    <div class="panel-heading text-center">#{tariff.name}</div>
-                                    <div class="panel-footer">$#{tariff.price} per month</div>
-                                </div>
-                            </div>
-                        </ui:repeat>
-                    </div>
-                </div>
-            </h:panelGroup>
+            <f:facet name="header">
+                T-mobile Tariffs
+            </f:facet>
 
+            <p:panel header="#{tariff.name}" style="text-align:center">
+                <h:panelGrid columns="1" style="width:100%">
 
+                    <h:outputText value="Tariff price: #{tariff.price}" />
+                    <h:outputText value="Available options for this tariff: " />
 
+                    <p:dataTable value="#{tariff.options}" var="option">
+
+                        <p:column headerText="Name">
+                            <h:outputText value="#{option.name}"/>
+                        </p:column>
+
+                        <p:column headerText="Price">
+                            <h:outputText value="#{option.price}"/>
+                        </p:column>
+
+                        <p:column headerText="Service cost">
+                            <h:outputText value="#{option.serviceCost}"/>
+                        </p:column>
+
+                    </p:dataTable>
+                </h:panelGrid>
+            </p:panel>
+
+        </p:dataGrid>
         <h:form>
             <f:websocket channel = "push">
                 <f:ajax event="updateTariffs" render="tariffs"/>
