@@ -4,12 +4,14 @@ import com.javaschool.controller.pages.client.ClientPageController;
 import com.javaschool.dto.ContractDto;
 import com.javaschool.dto.OptionDto;
 import com.javaschool.dto.ShoppingCartDto;
+import com.javaschool.exception.RemoveOptionFromMandatorySetException;
 import com.javaschool.model.User;
 import com.javaschool.service.ContractService;
 import com.javaschool.service.OptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -66,9 +68,20 @@ public class ClientManagerContractController {
     }
 
     @RequestMapping(value ="/deleteOption", method = RequestMethod.POST)
-    public String  deleteOption(@RequestParam("optionId") long optionId,
+    public String  deleteOption(Model model, @AuthenticationPrincipal User user,@RequestParam("optionId") long optionId,
                                 @RequestParam("contractId") long contractId) throws Exception{
-        contractService.deleteOptions(optionId, contractId);
+        try {
+            contractService.deleteOptions(optionId, contractId);
+        }
+        catch (RemoveOptionFromMandatorySetException e){
+            ContractDto contractDto = contractService.getById(contractId);
+            model.addAttribute("contract", contractDto);
+            model.addAttribute("options", optionService.getAll());
+            model.addAttribute("clientId", contractDto.getClientId());
+            model.addAttribute("userId", user.getClient().getId());
+            model.addAttribute("removeOptionError", "You can delete this option, because it's mandatory for another options");
+            return "jsp/managers/contracts/addOptions";
+        }
         return "redirect:/contracts/addOption?id="+ contractId;
     }
 

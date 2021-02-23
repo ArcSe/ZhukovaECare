@@ -16,6 +16,12 @@
 <body>
 <div align="center">
     <h2>Add Options</h2>
+    <c:if test="${removeOptionError!=null}">
+        <div class="alert alert-warning">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                ${removeOptionError}
+        </div>
+    </c:if>
     <div class="container">
         <label >Options</label>
         <table class="table">
