@@ -26,6 +26,11 @@ public class ContractClientController {
         this.tariffService = tariffService;
     }
 
+    @RequestMapping("/lockedContract")
+    public String lockedContract(@RequestParam long contractId) throws Exception{
+        contractService.lockedContract(contractId);
+        return "redirect:/managers/contracts";
+    }
 
 
 }

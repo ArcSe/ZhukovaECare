@@ -126,8 +126,6 @@ public class ContractController {
 
  */
 
-    /////////////////////////////////////////
-
     @PostMapping("/shoppingList")
     public String buy(final Model model, @ModelAttribute("shoppingCartForManager") ShoppingCartDto shoppingCart) {
 
