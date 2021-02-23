@@ -4,9 +4,11 @@ import com.javaschool.controller.pages.client.ClientPageController;
 import com.javaschool.dto.ContractDto;
 import com.javaschool.dto.OptionDto;
 import com.javaschool.dto.ShoppingCartDto;
+import com.javaschool.model.User;
 import com.javaschool.service.ContractService;
 import com.javaschool.service.OptionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,7 +33,7 @@ public class ClientManagerContractController {
     }
 
     @RequestMapping("/addOption")
-    public ModelAndView editOption(@ModelAttribute("shoppingCart") ShoppingCartDto shoppingCart,
+    public ModelAndView editOption(@AuthenticationPrincipal User user, @ModelAttribute("shoppingCart") ShoppingCartDto shoppingCart,
                                    @RequestParam long id) throws Exception{
         ModelAndView mav = new ModelAndView("jsp/managers/contracts/addOptions");
         ClientPageController.createShoppingCartDtoSession(mav, shoppingCart);
@@ -44,10 +46,12 @@ public class ClientManagerContractController {
             checkedOptions.addAll(tariffOption);
             mav.addObject("options", checkedOptions);
             mav.addObject("clientId", contractDto.getClientId());
+            mav.addObject("userId", user.getClient().getId());
         }
         else {
             mav.addObject("options", optionService.getAll());
             mav.addObject("clientId", contractDto.getClientId());
+            mav.addObject("userId", user.getClient().getId());
         }
         return mav;
     }

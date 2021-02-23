@@ -4,6 +4,7 @@ import com.javaschool.dao.OptionDao;
 import com.javaschool.dao.TariffDao;
 import com.javaschool.dto.OptionDto;
 import com.javaschool.dto.TariffDto;
+import com.javaschool.exception.RemoveOptionFromMandatorySetException;
 import com.javaschool.exception.notFound.BadValueException;
 import com.javaschool.exception.notFound.NotDataFoundException;
 import com.javaschool.exception.notFound.ExamplesNotFoundException;
@@ -94,14 +95,21 @@ public class TariffServiceImpl implements TariffService {
     }
 
     @Override
-    public void removeOption(long optionId, long tariffId) throws ExamplesNotFoundException {
+    public void removeOption(long optionId, long tariffId) throws ExamplesNotFoundException, RemoveOptionFromMandatorySetException {
         if(Objects.isNull(tariffDao.getById(tariffId))){
             throw new ExamplesNotFoundException(tariffId);
         }
         Tariff tariff = tariffDao.getById(tariffId);
-        Set<Option> options = tariff.getOptions().stream()
+        Option removedOption = optionDao.getById(optionId);
+        Set<Option> tariffOptions = tariff.getOptions();
+        Set<Option> options = tariffOptions.stream()
                 .filter(option -> option.getId()!=optionId)
                 .collect(Collectors.toSet());
+        for (Option o:options) {
+            if(o.getMandatoryOptions().contains(removedOption)){
+                throw new RemoveOptionFromMandatorySetException();
+            }
+        }
         tariff.setOptions(options);
         changeTariffPrice(tariff);
         changeTariffServiceCost(tariff);

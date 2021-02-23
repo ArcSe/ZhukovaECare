@@ -2,6 +2,7 @@ package com.javaschool.service.ipml;
 
 import com.javaschool.dto.*;
 import com.javaschool.exception.notFound.ExamplesNotFoundException;
+import com.javaschool.model.Option;
 import com.javaschool.model.User;
 import com.javaschool.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -230,6 +232,10 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         }
         OptionDto option = optionService.getById(optionId);
         options.add(option);
+        Set<Long> mandatoryOptions = option.getMandatoryOptions().keySet();
+        for (Long id: mandatoryOptions) {
+            options.add(optionService.getById(id));
+        }
         contract.setOptionsShoppingCart(options);
     }
 

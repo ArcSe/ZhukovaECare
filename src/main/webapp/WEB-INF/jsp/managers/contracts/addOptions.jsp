@@ -58,23 +58,20 @@
                                     <button type="submit" class="btn btn-warning">Delete</button>
                                 </form>
                             </c:when>
-                            <c:otherwise>
-                                <security:authorize access="hasRole('USER')">
+                            <c:when test="${userId == clientId}">
                                 <form action="${pageContext.request.contextPath}/client/addOption" method="post">
                                     <input type="hidden" name="contractId" value="${contract.id}"/>
                                     <input type="hidden" name="optionId" value="${option.id}"/>
-                                    <button type="submit" class="btn btn-danger">Add to shopping cart</button>
+                                    <button type="submit" class="btn btn-danger">Add to my shopping cart</button>
                                 </form>
-                                </security:authorize>
-                                <br>
-                                <security:authorize access="hasRole('MANAGER')">
-                                    <form action="${pageContext.request.contextPath}/managers/contracts/addOption" method="post">
-                                        <input type="hidden" name="contractId" value="${contract.id}"/>
-                                        <input type="hidden" name="optionId" value="${option.id}"/>
-                                        <input type="hidden" name="clientId" value="${clientId}"/>
-                                        <button type="submit" class="btn btn-danger">Add </button>
-                                    </form>
-                                </security:authorize>
+                            </c:when>
+                            <c:otherwise>
+                                <form action="${pageContext.request.contextPath}/managers/contracts/addOption" method="post">
+                                    <input type="hidden" name="contractId" value="${contract.id}"/>
+                                    <input type="hidden" name="optionId" value="${option.id}"/>
+                                    <input type="hidden" name="clientId" value="${clientId}"/>
+                                    <button type="submit" class="btn btn-danger">Add to client's shopping cart </button>
+                                </form>
                             </c:otherwise>
                         </c:choose>
                     </td>

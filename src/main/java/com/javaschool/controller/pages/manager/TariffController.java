@@ -5,6 +5,7 @@ import com.javaschool.controller.pages.ControllerUtils;
 import com.javaschool.dto.ClientDto;
 import com.javaschool.dto.OptionDto;
 import com.javaschool.dto.TariffDto;
+import com.javaschool.exception.RemoveOptionFromMandatorySetException;
 import com.javaschool.exception.notFound.NotDataFoundException;
 import com.javaschool.jms.JmsProducer;
 import com.javaschool.service.OptionService;
@@ -86,11 +87,19 @@ public class TariffController {
     }
 
     @RequestMapping(value = "/removeOption", method = RequestMethod.POST)
-    public String removeOptionFromTariff(@RequestParam("optionId") Long optionId,
+    public String removeOptionFromTariff(Model model,@RequestParam("optionId") Long optionId,
                                          @RequestParam("tariffId") Long tariffId,
                                          @RequestParam("isFromAddForm") boolean isForm) throws Exception {
 
-        tariffService.removeOption(optionId, tariffId);
+        try {
+            tariffService.removeOption(optionId, tariffId);
+        }
+        catch (RemoveOptionFromMandatorySetException e){
+            model.addAttribute("tariff", tariffService.getById(tariffId));
+            model.addAttribute("removeOptionError", "You can delete this option, because it's mandatory for another options");
+            return "jsp/managers/tariffs/tariffgetById";
+        }
+
         if(!isForm) {
             return "redirect:/managers/tariffs/getById?id=" + tariffId;
         }
@@ -114,7 +123,7 @@ public class TariffController {
         if (!tariffDto.getOptions().isEmpty()) {
             Set<OptionDto> tariffOption = tariffDto.getOptions();
             Set<OptionDto> checkedOptions = new HashSet<>();
-            tariffOption.forEach(o -> checkedOptions.addAll(optionService.splitSetMandatoryOptions(o.getId())));
+            tariffOption.forEach(o -> checkedOptions.addAll(optionService.splitSetMandatoryOptionsForTariff(o.getId())));
             checkedOptions.addAll(tariffOption);
             mav.addObject("options", checkedOptions);
         }

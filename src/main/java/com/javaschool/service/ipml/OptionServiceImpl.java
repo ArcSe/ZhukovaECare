@@ -247,14 +247,25 @@ public class OptionServiceImpl implements OptionService {
         Option optionDB = optionDao.getById(optionId);
         Set<Option> options = optionDao.getAllNotDeleted().stream().filter(o->o.getId()!=optionId).collect(Collectors.toSet());
         Set<Option> mandatoryOption = optionDB.getMandatoryOptions();
-        //Set<Option> optionSet = new HashSet<>();
         for (Option o: mandatoryOption) {
             options = options.stream().filter(option -> !option.getMandatoryOptions().contains(o)).collect(Collectors.toSet());
         }
-        //mandatoryOption.addAll(optionSet);
         options = options.stream().filter(option -> !option.getMandatoryOptions().contains(optionDB)).collect(Collectors.toSet());
         options.removeAll(mandatoryOption);
         return options.stream().map(optionMapper::toDto).collect(Collectors.toSet());
     }
+
+    public Set<OptionDto> splitSetMandatoryOptionsForTariff(long optionId) {
+        Option optionDB = optionDao.getById(optionId);
+        Set<Option> options = optionDao.getAllNotDeleted().stream().filter(o->o.getId()!=optionId).collect(Collectors.toSet());
+        Set<Option> bannedOption = optionDB.getBannedOptions();
+        for (Option o: bannedOption) {
+            options = options.stream().filter(option -> !option.getBannedOptions().contains(o)).collect(Collectors.toSet());
+        }
+        options = options.stream().filter(option -> !option.getBannedOptions().contains(optionDB)).collect(Collectors.toSet());
+        options.removeAll(bannedOption);
+        return options.stream().map(optionMapper::toDto).collect(Collectors.toSet());
+    }
+
 
 }

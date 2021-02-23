@@ -23,7 +23,8 @@
         <div class="alert alert-warning" role="alert">
                 ${differentClientError}
         </div>
-    </c:if><c:if test="${notFoundClient!=null}">
+    </c:if>
+    <c:if test="${notFoundClient!=null}">
         <div class="alert alert-warning" role="alert">
                 ${notFoundClient}
         </div>
