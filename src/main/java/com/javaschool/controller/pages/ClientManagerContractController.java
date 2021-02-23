@@ -30,7 +30,6 @@ public class ClientManagerContractController {
         this.optionService = optionService;
     }
 
-    //todo перенести в сервис
     @RequestMapping("/addOption")
     public ModelAndView editOption(@ModelAttribute("shoppingCart") ShoppingCartDto shoppingCart,
                                    @RequestParam long id) throws Exception{

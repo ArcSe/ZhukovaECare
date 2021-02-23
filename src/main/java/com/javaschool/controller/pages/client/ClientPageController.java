@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -165,9 +166,10 @@ public class ClientPageController {
 
    
     @RequestMapping(value = "/addOption", method = RequestMethod.POST)
-    private String addOptionToShoppingCartDto(final Model model, @ModelAttribute("shoppingCart") ShoppingCartDto shoppingCart,
+    private String addOptionToShoppingCartDto(@AuthenticationPrincipal User user, final Model model, @ModelAttribute("shoppingCart") ShoppingCartDto shoppingCart,
                                            @RequestParam("optionId") long optionId,
                                            @RequestParam("contractId") long contractId) throws Exception {
+        shoppingCart.setCustomerEmail(user.getEmail());
         shoppingCartService.addOptionToShoppingCart(shoppingCart, optionId, contractId);
         model.addAttribute("shoppingCart", shoppingCart);
         return "redirect:/cart";

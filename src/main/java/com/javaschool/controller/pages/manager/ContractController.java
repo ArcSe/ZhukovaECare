@@ -23,7 +23,6 @@ public class ContractController {
 
     private final ContractService contractService;
     private final TariffService tariffService;
-    private final OptionService optionService;
     private final ClientService clientService;
     private final ShoppingCartService shoppingCartService;
 
@@ -31,10 +30,9 @@ public class ContractController {
 
 
     @Autowired
-    public ContractController(ContractService contractService, TariffService tariffService, OptionService optionService, ClientService clientService, ShoppingCartService shoppingCartService) {
+    public ContractController(ContractService contractService, TariffService tariffService,  ClientService clientService, ShoppingCartService shoppingCartService) {
         this.contractService = contractService;
         this.tariffService = tariffService;
-        this.optionService = optionService;
         this.clientService = clientService;
         this.shoppingCartService = shoppingCartService;
     }
@@ -228,17 +226,19 @@ public class ContractController {
     }
 
     @PostMapping("/addTariff")
-    public String addTariffToCart(@AuthenticationPrincipal User user,
-                                  final Model model, @ModelAttribute("shoppingCartForManager") ShoppingCartDto shoppingCart,
+    public String addTariffToCart(final Model model, @ModelAttribute("shoppingCartForManager") ShoppingCartDto shoppingCart,
                                   @RequestParam("tariffId") long tariffId,
                                   @RequestParam("id") long contractId,
                                   @RequestParam("clientId") long clientId) throws Exception{
+        if(clientId==0){
+            model.addAttribute("notFoundClient", "Contract don't have a client");
+            model.addAttribute("contracts", contractService.getAll());
+            return "jsp/managers/contracts/contractList";
+        }
         if(addClientEmail(model, shoppingCart, clientId)){
             return "jsp/managers/contracts/contractList";
         }
-        logger.debug(shoppingCart.getCustomerEmail());
-        shoppingCart = shoppingCartService.addTariffToShopping(user, shoppingCart, tariffId, contractId);
-        logger.debug(shoppingCart.getCustomerEmail());
+        shoppingCart = shoppingCartService.addTariffToShopping(null, shoppingCart, tariffId, contractId);
         model.addAttribute("shoppingCartForManager", shoppingCart);
 
         return "redirect:/shoppingList";
@@ -250,8 +250,22 @@ public class ContractController {
                                               @RequestParam("optionId") long optionId,
                                               @RequestParam("contractId") long contractId,
                                               @RequestParam("clientId") long clientId) throws Exception {
-        if(addClientEmail(model, shoppingCart, clientId)){
+
+        if(clientId==0){
+            model.addAttribute("notFoundClient", "Contract don't have a client");
+            model.addAttribute("contracts", contractService.getAll());
             return "jsp/managers/contracts/contractList";
+        }
+        ClientDto clientDto = clientService.getById(clientId);
+        String customerEmail = shoppingCart.getCustomerEmail();
+        if(customerEmail != null && !customerEmail.equals(clientDto.getEmail())){
+            model.addAttribute("differentClientError", "Please, finish your order with another client at first");
+            List<ContractDto> contracts = contractService.getAll();
+            model.addAttribute("contracts", contracts);
+            return "jsp/managers/contracts/contractList";
+        }
+        if(customerEmail == null){
+            shoppingCart.setCustomerEmail(clientDto.getEmail());
         }
         shoppingCartService.addOptionToShoppingCart(shoppingCart, optionId, contractId);
         model.addAttribute("shoppingCartForManager", shoppingCart);

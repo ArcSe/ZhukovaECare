@@ -23,6 +23,10 @@
         <div class="alert alert-warning" role="alert">
                 ${differentClientError}
         </div>
+    </c:if><c:if test="${notFoundClient!=null}">
+        <div class="alert alert-warning" role="alert">
+                ${notFoundClient}
+        </div>
     </c:if>
     <div class="row justify-content-center">
         <div class="col">
