@@ -10,6 +10,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Repository
 public class TariffDaoImpl extends AbstractJpaDaoImpl<Tariff> implements TariffDao {
@@ -31,6 +32,12 @@ public class TariffDaoImpl extends AbstractJpaDaoImpl<Tariff> implements TariffD
             System.out.println(e.getCause());
         }
         return foundtariff;
+    }
+
+    @Override
+    public List<Tariff> getLast(int count) {
+        List<Tariff> sortList = em.createQuery("select c from   Tariff  c  order by c.id desc ").getResultList();
+        return sortList.stream().limit(count).collect(Collectors.toList());
     }
 
     @Override

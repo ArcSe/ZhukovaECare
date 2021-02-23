@@ -23,5 +23,7 @@ public interface TariffService {
 
     void removeOption(long optionId, long tariffId) throws ExamplesNotFoundException;
 
+    List<TariffDto> getAllHotTariffs() throws NotDataFoundException;
+
     void addOption(Long optionId, Long tariffId) throws BadValueException, ExamplesNotFoundException, Exception;
 }

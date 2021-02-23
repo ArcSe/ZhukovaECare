@@ -16,9 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,6 +25,7 @@ public class TariffServiceImpl implements TariffService {
     private final TariffDao tariffDao;
     private final TariffMapper tariffMapper;
     private final OptionDao optionDao;
+    private final int COUNT_OF_HOT_TARIFFS = 6;
 
     @Autowired
     JmsProducer producer;
@@ -109,7 +108,16 @@ public class TariffServiceImpl implements TariffService {
         tariffDao.update(tariff);
     }
 
-    //todo message about banned options
+    @Override
+    public List<TariffDto> getAllHotTariffs() throws NotDataFoundException {
+        List<Tariff> allTariffs = tariffDao.getLast(COUNT_OF_HOT_TARIFFS);
+        if(Objects.isNull(allTariffs)){
+            allTariffs = new ArrayList<>();
+        }
+        return allTariffs.stream().map(tariffMapper::toDto).collect(Collectors.toList());
+    }
+
+
     @Override
     public void addOption(Long optionId, Long tariffId) throws Exception {
         if(Objects.isNull(tariffDao.getById(tariffId))){

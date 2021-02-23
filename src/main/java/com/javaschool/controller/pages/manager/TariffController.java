@@ -26,11 +26,13 @@ import java.util.*;
 public class TariffController {
     private final TariffService tariffService;
     private final OptionService optionService;
+    private final JmsProducer producer;
 
     @Autowired
-    public TariffController(TariffService tariffService, OptionService optionService) {
+    public TariffController(TariffService tariffService, OptionService optionService, JmsProducer producer) {
         this.tariffService = tariffService;
         this.optionService = optionService;
+        this.producer = producer;
     }
     
     @RequestMapping()
@@ -170,5 +172,9 @@ public class TariffController {
         return "redirect:/managers/tariffs";
     }
 
-
+    @RequestMapping(value ="/NewTariffs", method = RequestMethod.GET)
+    public String sendNewTariff() throws Exception {
+        producer.send("push");
+        return "redirect:/managers/tariffs";
+    }
 }

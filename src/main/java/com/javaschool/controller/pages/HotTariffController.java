@@ -26,6 +26,6 @@ public class HotTariffController {
 
     @GetMapping(value = "/hot", produces = "application/json")
     public List<TariffDto> getTariffsRest() throws JsonProcessingException, NotDataFoundException {
-        return tariffService.getAll();
+        return tariffService.getAllHotTariffs();
     }
 }

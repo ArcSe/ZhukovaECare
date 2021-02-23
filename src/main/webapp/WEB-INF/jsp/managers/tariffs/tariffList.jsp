@@ -13,7 +13,8 @@
     <h2>Tariff Manager</h2>
     <br>
     <div>
-        <a class="btn btn-info" href="/managers/tariffs/new" role="button">New Tariff</a>
+        <a class="btn btn-primary" href="/managers/tariffs/new" role="button">New Tariff</a>
+        <a class="btn btn-primary" href="/managers/tariffs/NewTariffs" role="button">Send New Tariff</a>
     </div>
     <br>
     <div class="container">

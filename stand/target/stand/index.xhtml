@@ -13,12 +13,12 @@
     </h:head>
     <h:body>
         <p:dataGrid var="tariff" value="#{tariffBean.tariffs}" columns="1" layout="grid"
-                    rows="6" paginator="true" id="tariffs"
+                    rows="2" paginator="true" id="tariffs"
                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                    rowsPerPageTemplate="3,6">
+                    >
 
             <f:facet name="header">
-                T-mobile Tariffs
+                ECare Tariffs
             </f:facet>
 
             <p:panel header="#{tariff.name}" style="text-align:center">
