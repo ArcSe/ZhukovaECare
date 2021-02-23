@@ -22,9 +22,6 @@ public interface ClientService {
 
     ClientDto getClientDtoForUserProfile(User user);
 
-    /*
-    Client getByClientEmail(String email);
-*/
     @Transactional
     void save(Client client);
 

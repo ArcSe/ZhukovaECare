@@ -23,10 +23,10 @@ import java.util.stream.Collectors;
 @Service
 public class TariffServiceImpl implements TariffService {
     
-    private final TariffDao tariffDao;
-    private final TariffMapper tariffMapper;
-    private final OptionDao optionDao;
-    private final int COUNT_OF_HOT_TARIFFS = 6;
+    private TariffDao tariffDao;
+    private TariffMapper tariffMapper;
+    private OptionDao optionDao;
+    private int COUNT_OF_HOT_TARIFFS = 6;
 
     @Autowired
     JmsProducer producer;
@@ -36,6 +36,9 @@ public class TariffServiceImpl implements TariffService {
         this.tariffDao = tariffDao;
         this.tariffMapper = tariffMapper;
         this.optionDao = optionDao;
+    }
+
+    public TariffServiceImpl() {
     }
 
     @Override

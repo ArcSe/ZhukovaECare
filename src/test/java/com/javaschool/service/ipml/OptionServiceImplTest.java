@@ -19,7 +19,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 
 @RunWith(SpringRunner.class)
@@ -96,8 +95,6 @@ class OptionServiceImplTest {
         OptionDto optionDto2 = new OptionDto("option2", 100, 100, option, new HashMap<>());
         Map<Long, String> optionMan2 = new HashMap<>();
         optionMan2.put(optionDto2.getId(), optionDto2.getName());
-        OptionDto optionDto3 = new OptionDto("option3", 100, 100, optionMan2, new HashMap<>());
-        OptionDto optionDto4 = new OptionDto("option4", 100, 100, new HashMap<>(), new HashMap<>());
 
         Mockito.when(optionDao.getById(4)).thenReturn(option4);
         Mockito.when(optionDao.getById(3)).thenReturn(option3);
