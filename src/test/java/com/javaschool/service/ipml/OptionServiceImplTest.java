@@ -46,7 +46,6 @@ class OptionServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        //enable mocks
         MockitoAnnotations.initMocks(this);
     }
 
@@ -82,7 +81,32 @@ class OptionServiceImplTest {
     }
 
     @Test
-    void addMandatory() {
+    void deleteMandatoryOptionSuccessful() throws ExamplesNotFoundException {
+        Option option1 = new Option("option1", 100, 100, false, null, null,
+                new HashSet<>(), new HashSet<>());
+        Option option2 = new Option("option2", 100, 100, false, null, null,
+                new HashSet<>(Arrays.asList(option1)), new HashSet<>());
+        Option option3 = new Option("option3", 100, 100, false, null, null,
+                new HashSet<>(Arrays.asList(option2)), new HashSet<>());
+        Option option4 = new Option("option4", 100, 100, false, null, null,
+                new HashSet<>(Arrays.asList(option3)), new HashSet<>());
+        OptionDto optionDto1 = new OptionDto("option1", 100, 100, new HashMap<>(), new HashMap<>());
+        Map<Long, String> option = new HashMap<>();
+        option.put(optionDto1.getId(), optionDto1.getName());
+        OptionDto optionDto2 = new OptionDto("option2", 100, 100, option, new HashMap<>());
+        Map<Long, String> optionMan2 = new HashMap<>();
+        optionMan2.put(optionDto2.getId(), optionDto2.getName());
+        OptionDto optionDto3 = new OptionDto("option3", 100, 100, optionMan2, new HashMap<>());
+        OptionDto optionDto4 = new OptionDto("option4", 100, 100, new HashMap<>(), new HashMap<>());
+
+        Mockito.when(optionDao.getById(4)).thenReturn(option4);
+        Mockito.when(optionDao.getById(3)).thenReturn(option3);
+
+        Assert.assertTrue(optionServiceImp.deleteMandatoryOption(4, 3));
+    }
+
+    @Test
+    void deleteMandatoryOptionFail() throws ExamplesNotFoundException {
         Option option1 = new Option("option1", 100, 100, false, null, null,
                 new HashSet<>(), new HashSet<>());
         Option option2 = new Option("option2", 100, 100, false, null, null,
@@ -96,27 +120,63 @@ class OptionServiceImplTest {
         option.put(optionDto1.getId(), optionDto1.getName());
         OptionDto optionDto2 = new OptionDto("option2", 100, 100, option, new HashMap<>());
         Map<Long, String> optionMan2 = new HashMap<>();
-        option.put(optionDto2.getId(), optionDto2.getName());
-        OptionDto optionDto3 = new OptionDto("option3", 100, 100, optionMan2, new HashMap<>());
-        OptionDto optionDto4 = new OptionDto("option4", 100, 100, new HashMap<>(), new HashMap<>());
+        optionMan2.put(optionDto2.getId(), optionDto2.getName());
 
+        Mockito.when(optionDao.getById(4)).thenReturn(option4);
+        Mockito.when(optionDao.getById(3)).thenReturn(option3);
 
+        Assert.assertFalse(optionServiceImp.deleteMandatoryOption(4, 3));
     }
 
     @Test
-    void deleteMandatoryOption() {
+    void deleteBannedOptionFail() {
+        Option option1 = new Option("option1", 100, 100, false, null, null,
+                new HashSet<>(), new HashSet<>());
+        Option option2 = new Option("option2", 100, 100, false, null, null,
+                new HashSet<>(Arrays.asList(option1)), new HashSet<>());
+        Option option3 = new Option("option3", 100, 100, false, null, null,
+                new HashSet<>(Arrays.asList(option2)), new HashSet<>());
+        Option option4 = new Option("option4", 100, 100, false, null, null,
+                new HashSet<>(), new HashSet<>());
+        OptionDto optionDto1 = new OptionDto("option1", 100, 100, new HashMap<>(), new HashMap<>());
+        Map<Long, String> option = new HashMap<>();
+        option.put(optionDto1.getId(), optionDto1.getName());
+        OptionDto optionDto2 = new OptionDto("option2", 100, 100, option, new HashMap<>());
+        Map<Long, String> optionMan2 = new HashMap<>();
+        optionMan2.put(optionDto2.getId(), optionDto2.getName());
+
+        Map<Long, String> optionMan = new HashMap<>();
+        optionMan.put(optionDto2.getId(), optionDto2.getName());
+        optionMan.put(optionDto1.getId(), optionDto1.getName());
+        OptionDto optionDto = new OptionDto("option4", 100, 100, optionMan, new HashMap<>());
+
+        Mockito.when(optionDao.getById(4)).thenReturn(option4);
+        Mockito.when(optionDao.getById(3)).thenReturn(option3);
+
+        Assert.assertFalse(optionServiceImp.deleteBannedOption(4, 3));
     }
 
     @Test
-    void addBannedOptionToDB() {
-    }
+    void deleteBannedOptionSuccessful() {
+        Option option1 = new Option("option1", 100, 100, false, null, null,
+                new HashSet<>(), new HashSet<>());
+        Option option2 = new Option("option2", 100, 100, false, null, null,
+                new HashSet<>(Arrays.asList(option1)), new HashSet<>());
+        Option option3 = new Option("option3", 100, 100, false, null, null,
+                new HashSet<>(Arrays.asList(option2)), new HashSet<>());
+        Option option4 = new Option("option4", 100, 100, false, null, null,
+                new HashSet<>(), new HashSet<>(Arrays.asList(option3)));
+        OptionDto optionDto1 = new OptionDto("option1", 100, 100, new HashMap<>(), new HashMap<>());
+        Map<Long, String> option = new HashMap<>();
+        option.put(optionDto1.getId(), optionDto1.getName());
+        OptionDto optionDto2 = new OptionDto("option2", 100, 100, option, new HashMap<>());
+        Map<Long, String> optionMan2 = new HashMap<>();
+        optionMan2.put(optionDto2.getId(), optionDto2.getName());
 
-    @Test
-    void addBannedOption() {
-    }
+        Mockito.when(optionDao.getById(4)).thenReturn(option4);
+        Mockito.when(optionDao.getById(3)).thenReturn(option3);
 
-    @Test
-    void deleteBannedOption() {
+        Assert.assertTrue(optionServiceImp.deleteBannedOption(4, 3));
     }
 
     @Test
