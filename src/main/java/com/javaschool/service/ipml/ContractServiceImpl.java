@@ -26,9 +26,9 @@ import java.util.zip.DataFormatException;
 
 @Service
 public class ContractServiceImpl implements ContractService {
-    private final ContractDao contractDao;
-    private final OptionDao optionDao;
-    private final ContractMapper contractMapper;
+    private ContractDao contractDao;
+    private OptionDao optionDao;
+    private ContractMapper contractMapper;
 
 
     @Autowired
@@ -38,6 +38,8 @@ public class ContractServiceImpl implements ContractService {
         this.contractMapper = contractMapper;
     }
 
+    public ContractServiceImpl() {
+    }
 
     @Override
     public List<ContractDto> getAll() throws NotDataFoundException {
