@@ -18,11 +18,10 @@ import java.util.Set;
 @ToString
 @Getter
 @Setter
-//@JsonIdentityInfo(generator= ObjectIdGenerators.IntSequenceGenerator.class,property="@id", scope = TariffDto.class)
 public class TariffDto extends AbstractDto implements Serializable {
 
     @Pattern(message = "Bad formed name, should be only words and numbers",
-            regexp = "[0-9a-zA-Z]*")
+            regexp = "[0-9a-zA-Z-\\s]*")
     @NotBlank(message = "Name shouldn't be empty")
     private String name;
     private int price = 0;

@@ -16,7 +16,6 @@ import java.util.Set;
 @ToString
 @Setter
 @Getter
-//@JsonIdentityInfo(generator= ObjectIdGenerators.IntSequenceGenerator.class,property="@id", scope = OptionDto.class)
 public class OptionDto extends AbstractDto implements Serializable {
 
     @Pattern(message = "Bad formed name, should be only words and numbers",
@@ -33,8 +32,6 @@ public class OptionDto extends AbstractDto implements Serializable {
     @DecimalMin(message = "Option service cost should be negative",
             value = "-1", inclusive = false)
     private int serviceCost;
-//    private Set<Long> mandatoryOptions;
-//    private Set<Long> bannedOptions;
     private Map<Long, String> mandatoryOptions;
     private Map<Long, String> bannedOptions;
 

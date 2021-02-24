@@ -1,3 +1,13 @@
-com\javaschool\ContractServceTest.class
+com\javaschool\service\ipml\OptionServiceImplTest$OptionServiceTestConfiguration.class
 com\javaschool\service\ipml\UserServiceImplTest$UserServiceTestConfiguration.class
+com\javaschool\service\ipml\ContractServiceImplTest.class
+com\javaschool\service\ipml\ContractServiceImplTest$ContractServiceTestConfiguration.class
+com\javaschool\service\ipml\ClientServiceImplTest.class
+com\javaschool\ContractServceTest.class
+com\javaschool\service\ipml\ShoppingCartServiceImplTest$ShoppingCartServiceTestConfiguration.class
+com\javaschool\service\ipml\TariffServiceImplTest$TariffServiceTestConfiguration.class
+com\javaschool\service\ipml\ClientServiceImplTest$ClientServiceTestConfiguration.class
 com\javaschool\service\ipml\UserServiceImplTest.class
+com\javaschool\service\ipml\TariffServiceImplTest.class
+com\javaschool\service\ipml\OptionServiceImplTest.class
+com\javaschool\service\ipml\ShoppingCartServiceImplTest.class

@@ -25,8 +25,6 @@ import java.util.List;
 import java.util.Set;
 
 @RunWith(SpringRunner.class)
-//@SpringBootTest(classes = ECareApplication.class)
-//@ContextConfiguration(classes = TariffServiceConfiguration.class)
 class UserServiceImplTest {
 
     @TestConfiguration

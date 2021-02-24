@@ -28,6 +28,7 @@ C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\dto\Clie
 C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\config\WebConfig.java
 C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\dao\TariffDao.java
 C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\controller\pages\client\ContractClientController.java
+C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\controller\pages\HotTariffController.java
 C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\dao\impl\UserDaoImpl.java
 C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\exception\notFound\ExamplesNotFoundException.java
 C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\config\SecurityConfig.java
@@ -36,12 +37,12 @@ C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\mapper\U
 C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\service\ipml\OptionServiceImpl.java
 C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\controller\pages\client\ShoppingCartController.java
 C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\dto\OptionDto.java
+C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\exception\RemoveOptionFromMandatorySetException.java
 C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\mapper\ShoppingCartMapper.java
 C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\service\ClientService.java
 C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\controller\pages\client\ClientPageController.java
 C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\service\ShoppingCartService.java
 C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\model\Client.java
-C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\Sender.java
 C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\service\TariffService.java
 C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\controller\pages\admin\AdminUserController.java
 C:\Users\Arc\Documents\GitHub\ZhukovaECare\src\main\java\com\javaschool\model\Counter.java

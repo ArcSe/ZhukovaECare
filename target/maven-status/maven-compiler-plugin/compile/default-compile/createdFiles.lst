@@ -8,7 +8,6 @@ com\javaschool\controller\pages\manager\OptionController.class
 com\javaschool\controller\pages\client\ClientPageController.class
 com\javaschool\dao\AbstractDao.class
 com\javaschool\model\Contract.class
-com\javaschool\Sender.class
 com\javaschool\mapper\UserMapper.class
 com\javaschool\dto\ContractDto.class
 com\javaschool\controller\pages\anon\AnonPageController.class
@@ -47,6 +46,7 @@ com\javaschool\config\WebAppInitialiser.class
 com\javaschool\dto\UserDto.class
 com\javaschool\service\ipml\UserServiceImpl.class
 com\javaschool\model\ShoppingCart.class
+com\javaschool\controller\pages\HotTariffController.class
 com\javaschool\exception\notFound\NotDataFoundException.class
 com\javaschool\controller\pages\manager\TariffController.class
 com\javaschool\ECareApplication.class
@@ -69,6 +69,7 @@ com\javaschool\controller\pages\client\ShoppingCartController.class
 com\javaschool\mapper\ClientMapper.class
 com\javaschool\service\ipml\ShoppingCartServiceImpl.class
 com\javaschool\dto\ShoppingCartDto.class
+com\javaschool\exception\RemoveOptionFromMandatorySetException.class
 com\javaschool\controller\pages\manager\ClientController.class
 com\javaschool\controller\pages\ControllerUtils.class
 com\javaschool\config\SecurityWebApplicationInitializer.class

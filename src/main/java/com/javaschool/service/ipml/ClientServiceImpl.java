@@ -45,11 +45,17 @@ public class ClientServiceImpl implements ClientService {
     @Transactional
     @Override
     public boolean add(ClientDto client) {
-        Client client1 = clientDao.getByPassport(client.getPassport());
+        Client client1 = null;
+        try {
+            client1 = clientDao.getByPassport(client.getPassport());
+        }
+        catch (Exception e){
+        }
         if(client1 != null){
           return false;
         }
-        clientDao.add(clientMapper.toEntity(client));
+        Client clientToSave = clientMapper.toEntity(client);
+        clientDao.add(clientToSave);
         return true;
     }
 

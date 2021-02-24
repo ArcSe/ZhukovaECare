@@ -25,10 +25,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest(classes = AnonPageController.class)
-//@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @SpringJUnitConfig(value =WebAppInitialiser.class)
-// @ExtendWith({SpringExtension.class})
-//@RunWith(SpringRunner.class)
 @AutoConfigureMockMvc(secure=false)
 public class ContractServceTest {
 
@@ -47,22 +44,6 @@ public class ContractServceTest {
         this.mockMvc.perform(get("/"))
                 .andDo(print())
                 .andExpect(status().isOk());
-//                .andExpect(content().string(containsString("Hello, ")));
     }
 
-//    @Test
-//    public void accessDeniedTest() throws Exception {
-//        this.mockMvc.perform(get("/managers/tariffs"))
-//                .andDo(print())
-//                .andExpect(status().is3xxRedirection())
-//                .andExpect(redirectedUrl("http://localhost/login"));
-//    }
-//
-//    @Test
-//    public void badCredentials() throws Exception {
-//        this.mockMvc.perform(post("/login")
-//                .param("username", "jonh"))
-//                .andDo(print())
-//                .andExpect(status().isForbidden());
-//    }
 }

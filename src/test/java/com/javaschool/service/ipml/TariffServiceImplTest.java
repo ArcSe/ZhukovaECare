@@ -106,26 +106,4 @@ class TariffServiceImplTest {
             Assert.fail();
         }
     }
-
-    @Test
-    void getAllHotTariffs() {
-        Tariff tariff1 = new Tariff("tariff1", 0, 0, true, null, null);
-        Tariff tariff2 = new Tariff("tariff2", 0, 0, true, null, null);
-        Tariff tariff3 = new Tariff("tariff3", 0, 0, true, null, null);
-        TariffDto tariffDto1 = new TariffDto("tariff1", 0, 0, null);
-        TariffDto tariffDto2 = new TariffDto("tariff2", 0, 0, null);
-        TariffDto tariffDto3 = new TariffDto("tariff3", 0, 0, null);
-
-        List<Tariff> tariffs = new ArrayList<>(Arrays.asList(tariff1, tariff2, tariff3));
-        List<TariffDto> tariffDtos = new ArrayList<>(Arrays.asList(tariffDto1, tariffDto2, tariffDto3));
-        Mockito.when(tariffDao.getLast(3)).thenReturn(tariffs);
-        Mockito.when(tariffMapper.toDto(tariff1)).thenReturn(tariffDto1);
-        Mockito.when(tariffs.stream().map(t -> tariffMapper.toDto(t)).collect(Collectors.toList())).thenReturn(Arrays.asList(tariffDto1, tariffDto2, tariffDto3));
-
-        try {
-            Assert.assertEquals(3, tariffServiceImp.getAllHotTariffs().size());
-        } catch (NotDataFoundException e) {
-            Assert.fail();
-        }
-    }
 }

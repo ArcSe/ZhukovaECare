@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="com.javaschool.service.ipml.UserServiceImplTest" time="0.001" tests="3" errors="3" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="com.javaschool.service.ipml.OptionServiceImplTest" time="0" tests="3" errors="3" skipped="0" failures="0">
   <properties>
     <property name="sun.desktop" value="windows"/>
     <property name="awt.toolkit" value="sun.awt.windows.WToolkit"/>
@@ -63,15 +63,15 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="55.0"/>
   </properties>
-  <testcase name="initializationError" classname="com.javaschool.service.ipml.UserServiceImplTest" time="0">
-    <error message="The class com.javaschool.service.ipml.UserServiceImplTest is not public." type="java.lang.Exception">java.lang.Exception: The class com.javaschool.service.ipml.UserServiceImplTest is not public.
+  <testcase name="initializationError" classname="com.javaschool.service.ipml.OptionServiceImplTest" time="0">
+    <error message="The class com.javaschool.service.ipml.OptionServiceImplTest is not public." type="java.lang.Exception">java.lang.Exception: The class com.javaschool.service.ipml.OptionServiceImplTest is not public.
 </error>
   </testcase>
-  <testcase name="initializationError" classname="com.javaschool.service.ipml.UserServiceImplTest" time="0">
+  <testcase name="initializationError" classname="com.javaschool.service.ipml.OptionServiceImplTest" time="0">
     <error message="Test class should have exactly one public constructor" type="java.lang.Exception">java.lang.Exception: Test class should have exactly one public constructor
 </error>
   </testcase>
-  <testcase name="initializationError" classname="com.javaschool.service.ipml.UserServiceImplTest" time="0">
+  <testcase name="initializationError" classname="com.javaschool.service.ipml.OptionServiceImplTest" time="0">
     <error message="No runnable methods" type="java.lang.Exception">java.lang.Exception: No runnable methods
 </error>
   </testcase>
