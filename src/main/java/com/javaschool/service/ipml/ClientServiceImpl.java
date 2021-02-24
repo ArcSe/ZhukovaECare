@@ -23,9 +23,9 @@ import java.util.stream.Collectors;
 @Service
 public class ClientServiceImpl implements ClientService {
     
-    private final ClientDao clientDao;
-    private final ClientMapper clientMapper;
-    private final ContractDao contractDao;
+    private ClientDao clientDao;
+    private ClientMapper clientMapper;
+    private ContractDao contractDao;
 
     @Autowired
     public ClientServiceImpl(ClientDao clientDao, ClientMapper clientMapper, ContractDao contractDao) {
@@ -34,6 +34,8 @@ public class ClientServiceImpl implements ClientService {
         this.contractDao = contractDao;
     }
 
+    public ClientServiceImpl() {
+    }
 
     @Override
     public List<ClientDto> getAll() {
@@ -107,7 +109,7 @@ public class ClientServiceImpl implements ClientService {
         Contract contract = contractDao.getById(contractId);
         Set<Contract> contracts = client.getContracts();
         if (!contracts.contains(contract)) {
-            //todo: Exception EntityNotFound
+            throw new ExamplesNotFoundException(Client.class.getName());
         }
         client.setContracts(contracts);
         clientDao.update(client);

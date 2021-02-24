@@ -26,7 +26,6 @@ class OptionServiceImplTest {
 
     @TestConfiguration
     static class OptionServiceTestConfiguration {
-
         @Bean
         public OptionServiceImpl userService() {
             return new OptionServiceImpl();

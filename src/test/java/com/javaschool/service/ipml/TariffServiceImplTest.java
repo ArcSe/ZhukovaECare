@@ -2,11 +2,14 @@ package com.javaschool.service.ipml;
 
 import com.javaschool.dao.impl.OptionDaoImpl;
 import com.javaschool.dao.impl.TariffDaoImpl;
+import com.javaschool.dto.AbstractDto;
+import com.javaschool.dto.OptionDto;
 import com.javaschool.dto.TariffDto;
 import com.javaschool.exception.notFound.ExamplesNotFoundException;
 import com.javaschool.exception.notFound.NotDataFoundException;
 import com.javaschool.mapper.OptionMapper;
 import com.javaschool.mapper.TariffMapper;
+import com.javaschool.model.Option;
 import com.javaschool.model.Tariff;
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,8 +21,8 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -106,5 +109,23 @@ class TariffServiceImplTest {
 
     @Test
     void getAllHotTariffs() {
+        Tariff tariff1 = new Tariff("tariff1", 0, 0, true, null, null);
+        Tariff tariff2 = new Tariff("tariff2", 0, 0, true, null, null);
+        Tariff tariff3 = new Tariff("tariff3", 0, 0, true, null, null);
+        TariffDto tariffDto1 = new TariffDto("tariff1", 0, 0, null);
+        TariffDto tariffDto2 = new TariffDto("tariff2", 0, 0, null);
+        TariffDto tariffDto3 = new TariffDto("tariff3", 0, 0, null);
+
+        List<Tariff> tariffs = new ArrayList<>(Arrays.asList(tariff1, tariff2, tariff3));
+        List<TariffDto> tariffDtos = new ArrayList<>(Arrays.asList(tariffDto1, tariffDto2, tariffDto3));
+        Mockito.when(tariffDao.getLast(3)).thenReturn(tariffs);
+        Mockito.when(tariffMapper.toDto(tariff1)).thenReturn(tariffDto1);
+        Mockito.when(tariffs.stream().map(t -> tariffMapper.toDto(t)).collect(Collectors.toList())).thenReturn(Arrays.asList(tariffDto1, tariffDto2, tariffDto3));
+
+        try {
+            Assert.assertEquals(3, tariffServiceImp.getAllHotTariffs().size());
+        } catch (NotDataFoundException e) {
+            Assert.fail();
+        }
     }
 }
