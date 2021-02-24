@@ -9,9 +9,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Component
 public class OptionMapper extends AbstractMapper<Option, OptionDto>{
@@ -38,11 +36,11 @@ public class OptionMapper extends AbstractMapper<Option, OptionDto>{
     @Override
     public void mapSpecificFields(Option source, OptionDto destination) {
         if(!Objects.isNull(getSet(source))){
-            Set<Long> optionsMandatoryId = new HashSet<>();
-            source.getMandatoryOptions().forEach(o -> optionsMandatoryId.add(o.getId()));
+            Map<Long,String> optionsMandatoryId = new HashMap<>();
+            source.getMandatoryOptions().forEach(o -> optionsMandatoryId.put(o.getId(), o.getName()));
             destination.setMandatoryOptions(optionsMandatoryId);
-            Set<Long> optionsBannedId = new HashSet<>();
-            source.getBannedOptions().forEach(o -> optionsBannedId.add(o.getId()));
+            Map<Long,String> optionsBannedId =  new HashMap<>();
+            source.getBannedOptions().forEach(o -> optionsBannedId.put(o.getId(), o.getName()));
             destination.setBannedOptions(optionsBannedId);
         }
 
@@ -56,12 +54,16 @@ public class OptionMapper extends AbstractMapper<Option, OptionDto>{
     void mapSpecificFields(OptionDto source, Option destination) {
         Set<Option> options = new HashSet<>();
         if(!Objects.isNull(source.getMandatoryOptions())) {
-            source.getMandatoryOptions().forEach(o -> options.add(optionDao.getById(o)));
+            Map<Long, String> optionsMandatory = source.getMandatoryOptions();
+            Set<Long> optionsMandatoryId = optionsMandatory.keySet();
+            optionsMandatoryId.forEach(o -> options.add(optionDao.getById(o)));
             destination.setMandatoryOptions(options);
         }
         Set<Option> bannedOptions = new HashSet<>();
         if(!Objects.isNull(source.getBannedOptions())) {
-            source.getBannedOptions().forEach(o -> bannedOptions.add(optionDao.getById(o)));
+            Map<Long, String> optionsBanned = source.getBannedOptions();
+            Set<Long> optionsBannedId = optionsBanned.keySet();
+            optionsBannedId.forEach(o -> bannedOptions.add(optionDao.getById(o)));
             destination.setBannedOptions(bannedOptions);
         }
 

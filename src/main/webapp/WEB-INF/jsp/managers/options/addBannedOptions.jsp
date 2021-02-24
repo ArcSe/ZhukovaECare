@@ -39,21 +39,21 @@
                         <td class="text-center">${optionBanned.serviceCost}</td>
                         <td class="text-center">
                             <ul>
-                                <c:forEach items="${optionBanned.mandatoryOptions}" var="mandatoryOption">
+                                <c:forEach items="${optionBanned.mandatoryOptions.values()}" var="mandatoryOption">
                                     <li>${mandatoryOption}</li>
                                 </c:forEach>
                             </ul>
                         </td>
                         <td class="text-center">
                             <ul>
-                                <c:forEach items="${optionBanned.bannedOptions}" var="bannedOption">
+                                <c:forEach items="${optionBanned.bannedOptions.values()}" var="bannedOption">
                                     <li>${bannedOption}</li>
                                 </c:forEach>
                             </ul>
                         </td>
                         <td class="text-center">
                             <c:choose>
-                                <c:when test="${option.bannedOptions.contains(optionBanned.id)}">
+                                <c:when test="${option.bannedOptions.keySet().contains(optionBanned.id)}">
                                     <form action="${pageContext.request.contextPath}/managers/options/deleteBannedOption" method="post">
                                             <input type="hidden" name="bannedOptionId" value="${optionBanned.id}"/>
                                             <input type="hidden" name="optionId" value="${option.id}"/>

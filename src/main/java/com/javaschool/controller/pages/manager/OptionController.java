@@ -4,6 +4,7 @@ import com.javaschool.controller.pages.ControllerUtils;
 import com.javaschool.dto.ContractDto;
 import com.javaschool.dto.OptionDto;
 import com.javaschool.dto.UserDto;
+import com.javaschool.jms.JmsProducer;
 import com.javaschool.model.Option;
 import com.javaschool.model.Role;
 import com.javaschool.model.User;

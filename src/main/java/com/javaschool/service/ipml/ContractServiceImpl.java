@@ -5,6 +5,7 @@ import com.javaschool.dao.OptionDao;
 import com.javaschool.dto.ContractDto;
 import com.javaschool.dto.OptionDto;
 import com.javaschool.dto.TariffDto;
+import com.javaschool.exception.RemoveOptionFromMandatorySetException;
 import com.javaschool.exception.notFound.ExamplesNotFoundException;
 import com.javaschool.exception.notFound.NotDataFoundException;
 import com.javaschool.mapper.ContractMapper;
@@ -25,9 +26,9 @@ import java.util.zip.DataFormatException;
 
 @Service
 public class ContractServiceImpl implements ContractService {
-    private final ContractDao contractDao;
-    private final OptionDao optionDao;
-    private final ContractMapper contractMapper;
+    private ContractDao contractDao;
+    private OptionDao optionDao;
+    private ContractMapper contractMapper;
 
 
     @Autowired
@@ -37,6 +38,8 @@ public class ContractServiceImpl implements ContractService {
         this.contractMapper = contractMapper;
     }
 
+    public ContractServiceImpl() {
+    }
 
     @Override
     public List<ContractDto> getAll() throws NotDataFoundException {
@@ -142,6 +145,11 @@ public class ContractServiceImpl implements ContractService {
         Set<Option> resultOptions = options.stream()
                 .filter(option1 -> option1.getId()!=optionId)
                 .collect(Collectors.toSet());
+        for (Option o:resultOptions) {
+            if(o.getMandatoryOptions().contains(option)){
+                throw new RemoveOptionFromMandatorySetException();
+            }
+        }
         contract.setOptions(resultOptions);
         contractDao.update(contract);
     }

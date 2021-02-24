@@ -31,7 +31,10 @@
 
             </ul>
             <security:authorize access="!isAuthenticated()">
-            <a class="nav-link" href="/login"> Login </a>
+                <a class="nav-link" href="/login"> Login </a>
+            </security:authorize>
+            <security:authorize access="hasAnyRole('ADMIN','MANAGER')">
+                <a class="nav-link" href="/logout"> Logout </a>
             </security:authorize>
             <security:authorize access="hasRole('USER')">
                 <div class="dropdown">

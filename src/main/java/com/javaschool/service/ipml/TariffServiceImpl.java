@@ -4,9 +4,11 @@ import com.javaschool.dao.OptionDao;
 import com.javaschool.dao.TariffDao;
 import com.javaschool.dto.OptionDto;
 import com.javaschool.dto.TariffDto;
+import com.javaschool.exception.RemoveOptionFromMandatorySetException;
 import com.javaschool.exception.notFound.BadValueException;
 import com.javaschool.exception.notFound.NotDataFoundException;
 import com.javaschool.exception.notFound.ExamplesNotFoundException;
+import com.javaschool.jms.JmsProducer;
 import com.javaschool.mapper.TariffMapper;
 import com.javaschool.model.Option;
 import com.javaschool.model.Tariff;
@@ -15,24 +17,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class TariffServiceImpl implements TariffService {
     
-    private final TariffDao tariffDao;
-    private final TariffMapper tariffMapper;
-    private final OptionDao optionDao;
+    private TariffDao tariffDao;
+    private TariffMapper tariffMapper;
+    private OptionDao optionDao;
+    private int COUNT_OF_HOT_TARIFFS = 6;
 
+    @Autowired
+    JmsProducer producer;
 
     @Autowired
     public TariffServiceImpl(TariffDao tariffDao, TariffMapper tariffMapper, OptionDao optionDao) {
         this.tariffDao = tariffDao;
         this.tariffMapper = tariffMapper;
         this.optionDao = optionDao;
+    }
+
+    public TariffServiceImpl() {
     }
 
     @Override
@@ -70,6 +76,7 @@ public class TariffServiceImpl implements TariffService {
         }
         Tariff tariff = tariffMapper.toEntity(tariffDto);
         tariffDao.update(tariff);
+        producer.send("push");
     }
 
     @Override
@@ -91,21 +98,37 @@ public class TariffServiceImpl implements TariffService {
     }
 
     @Override
-    public void removeOption(long optionId, long tariffId) throws ExamplesNotFoundException {
+    public void removeOption(long optionId, long tariffId) throws ExamplesNotFoundException, RemoveOptionFromMandatorySetException {
         if(Objects.isNull(tariffDao.getById(tariffId))){
             throw new ExamplesNotFoundException(tariffId);
         }
         Tariff tariff = tariffDao.getById(tariffId);
-        Set<Option> options = tariff.getOptions().stream()
+        Option removedOption = optionDao.getById(optionId);
+        Set<Option> tariffOptions = tariff.getOptions();
+        Set<Option> options = tariffOptions.stream()
                 .filter(option -> option.getId()!=optionId)
                 .collect(Collectors.toSet());
+        for (Option o:options) {
+            if(o.getMandatoryOptions().contains(removedOption)){
+                throw new RemoveOptionFromMandatorySetException();
+            }
+        }
         tariff.setOptions(options);
         changeTariffPrice(tariff);
         changeTariffServiceCost(tariff);
         tariffDao.update(tariff);
     }
 
-    //todo message about banned options
+    @Override
+    public List<TariffDto> getAllHotTariffs() throws NotDataFoundException {
+        List<Tariff> allTariffs = tariffDao.getLast(COUNT_OF_HOT_TARIFFS);
+        if(Objects.isNull(allTariffs)){
+            allTariffs = new ArrayList<>();
+        }
+        return allTariffs.stream().map(tariffMapper::toDto).collect(Collectors.toList());
+    }
+
+
     @Override
     public void addOption(Long optionId, Long tariffId) throws Exception {
         if(Objects.isNull(tariffDao.getById(tariffId))){

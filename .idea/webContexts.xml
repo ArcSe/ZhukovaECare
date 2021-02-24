@@ -5,6 +5,7 @@
       <map>
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/general/navbar.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/general" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/managers/options/addMandatoryOptions.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/managers/options" />
+        <entry key="file://$PROJECT_DIR$/stand/src/main/webapp/index.xhtml" value="file://$PROJECT_DIR$/stand/src/main/webapp" />
       </map>
     </option>
   </component>

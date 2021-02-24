@@ -1,20 +1,23 @@
 package com.javaschool.controller.pages.manager;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.javaschool.controller.pages.ControllerUtils;
 import com.javaschool.dto.ClientDto;
 import com.javaschool.dto.OptionDto;
 import com.javaschool.dto.TariffDto;
+import com.javaschool.exception.RemoveOptionFromMandatorySetException;
+import com.javaschool.exception.notFound.NotDataFoundException;
+import com.javaschool.jms.JmsProducer;
 import com.javaschool.service.OptionService;
 import com.javaschool.service.TariffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.validation.Valid;
 import java.util.*;
@@ -24,11 +27,13 @@ import java.util.*;
 public class TariffController {
     private final TariffService tariffService;
     private final OptionService optionService;
+    private final JmsProducer producer;
 
     @Autowired
-    public TariffController(TariffService tariffService, OptionService optionService) {
+    public TariffController(TariffService tariffService, OptionService optionService, JmsProducer producer) {
         this.tariffService = tariffService;
         this.optionService = optionService;
+        this.producer = producer;
     }
     
     @RequestMapping()
@@ -82,11 +87,19 @@ public class TariffController {
     }
 
     @RequestMapping(value = "/removeOption", method = RequestMethod.POST)
-    public String removeOptionFromTariff(@RequestParam("optionId") Long optionId,
+    public String removeOptionFromTariff(Model model,@RequestParam("optionId") Long optionId,
                                          @RequestParam("tariffId") Long tariffId,
                                          @RequestParam("isFromAddForm") boolean isForm) throws Exception {
 
-        tariffService.removeOption(optionId, tariffId);
+        try {
+            tariffService.removeOption(optionId, tariffId);
+        }
+        catch (RemoveOptionFromMandatorySetException e){
+            model.addAttribute("tariff", tariffService.getById(tariffId));
+            model.addAttribute("removeOptionError", "You can delete this option, because it's mandatory for another options");
+            return "jsp/managers/tariffs/tariffgetById";
+        }
+
         if(!isForm) {
             return "redirect:/managers/tariffs/getById?id=" + tariffId;
         }
@@ -110,7 +123,7 @@ public class TariffController {
         if (!tariffDto.getOptions().isEmpty()) {
             Set<OptionDto> tariffOption = tariffDto.getOptions();
             Set<OptionDto> checkedOptions = new HashSet<>();
-            tariffOption.forEach(o -> checkedOptions.addAll(optionService.splitSetMandatoryOptions(o.getId())));
+            tariffOption.forEach(o -> checkedOptions.addAll(optionService.splitSetMandatoryOptionsForTariff(o.getId())));
             checkedOptions.addAll(tariffOption);
             mav.addObject("options", checkedOptions);
         }
@@ -165,6 +178,12 @@ public class TariffController {
     @RequestMapping(value ="/delete", method = RequestMethod.POST)
     public String deleteTariffById(@RequestParam("tariffId") long id) throws Exception {
         tariffService.delete(id);
+        return "redirect:/managers/tariffs";
+    }
+
+    @RequestMapping(value ="/NewTariffs", method = RequestMethod.GET)
+    public String sendNewTariff() throws Exception {
+        producer.send("push");
         return "redirect:/managers/tariffs";
     }
 }

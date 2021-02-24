@@ -21,7 +21,7 @@
             <div class="col-lg-3">
                 <form action="${pageContext.request.contextPath}/managers/client" method="post">
                     <input type="search" class="form-control" name="phone"
-                           placeholder="Enter name" style="padding: 5px 2px 5px 25px;
+                           placeholder="Enter phone number" style="padding: 5px 2px 5px 25px;
                                     background: url('http://3.bp.blogspot.com/-4w14hQHr5yQ/Tgm6u7KwUkI/AAAAAAAACAI/Hu2poBOPx3g/s25/search.png')
                                     no-repeat scroll 0 50%;"/>
                 </form>

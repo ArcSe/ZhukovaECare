@@ -1,13 +1,8 @@
 package com.javaschool.model;
 
-import com.javaschool.dto.ContractDto;
-import com.javaschool.dto.OptionDto;
-import com.javaschool.dto.TariffDto;
-import lombok.*;
-
-import javax.persistence.*;
-import java.util.Map;
-import java.util.Set;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Data
 @Getter

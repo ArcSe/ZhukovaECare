@@ -12,6 +12,8 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Getter
+@Setter
 public class ClientDto extends AbstractDto {
     @Pattern(message = "Bad formed name, should be only words",
             regexp = "^[A-Z][a-z]*")

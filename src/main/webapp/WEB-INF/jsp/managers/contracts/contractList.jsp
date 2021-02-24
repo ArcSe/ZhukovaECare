@@ -14,8 +14,34 @@
 <div align="center">
     <h2>Contract Manager</h2>
     <br>
-    <div>
-        <a class="btn btn-info" href="/managers/contracts/new" role="button">New Contract</a>
+    <c:if test="${newContractError!=null}">
+        <div class="alert alert-warning" role="alert">
+                ${newContractError}
+        </div>
+    </c:if>
+    <c:if test="${differentClientError!=null}">
+        <div class="alert alert-warning" role="alert">
+                ${differentClientError}
+        </div>
+    </c:if>
+    <c:if test="${notFoundClient!=null}">
+        <div class="alert alert-warning" role="alert">
+                ${notFoundClient}
+        </div>
+    </c:if>
+    <div class="row justify-content-center">
+        <div class="col">
+            <a class="btn btn-primary" href="${pageContext.request.contextPath}/managers/contracts/new" role="button">New Contract</a>
+            <c:choose>
+                <c:when test="${shoppingCartForManager.contracts.size()>0}">
+                    <a class="btn btn-primary" href="${pageContext.request.contextPath}/shoppingList" role="button">ShoppingList</a>
+                </c:when>
+                <c:otherwise>
+                    <a  href="${pageContext.request.contextPath}/shoppingList" role="button" class="btn btn-primary disabled"
+                        tabindex="-1"  aria-disabled="true">ShoppingList</a>
+                </c:otherwise>
+            </c:choose>
+        </div>
     </div>
     <br>
     <div class="container">
@@ -47,7 +73,7 @@
                         <c:choose>
                             <c:when test="${!contract.locked}">
                                 <a class="btn btn-light" href="/managers/contracts/addClient?id=${contract.id}" role="button">Change Client</a>
-                                <a class="btn btn-primary" href="/managers/contracts/edit?id=${contract.id}" role="button">Edit</a>
+                                <a class="btn btn-primary" href="/managers/contracts/addTariff?id=${contract.id}" role="button">Edit</a>
                             </c:when>
                             <c:otherwise>
                                 <a class="btn btn-light disabled" href="/managers/contracts/addClient?id=${contract.id}" tabindex="-1" aria-disabled="true" role="button">Change Client</a>

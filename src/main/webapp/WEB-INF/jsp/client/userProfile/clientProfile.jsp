@@ -34,8 +34,6 @@
                 <th scope="col">Number</th>
                 <th scope="col">Tariff</th>
                 <th scope="col">Options</th>
-                <th scope="col">Locked</th>
-                <th scope="col">ByAdmin</th>
                 <th scope="col">Actions</th>
             </tr>
             </thead>
@@ -51,8 +49,6 @@
                             </c:forEach>
                             </ul>
                         </td>
-                        <td>${contract.locked}</td>
-                        <td>${contract.lockedByAdmin}</td>
                         <td>
                             <c:choose>
                                 <c:when test="${!contract.locked}">

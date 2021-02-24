@@ -2,12 +2,18 @@
 <project version="4">
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="web" url="file://$PROJECT_DIR$/../second" />
     <file type="web" url="file://$PROJECT_DIR$" />
   </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/second/pom.xml" />
+        <option value="$PROJECT_DIR$/../second/pom.xml" />
+        <option value="$PROJECT_DIR$/stand/pom.xml" />
+        <option value="$PROJECT_DIR$/ZhukovaECare/pom.xml" />
+        <option value="$PROJECT_DIR$/mobile/pom.xml" />
       </list>
     </option>
   </component>

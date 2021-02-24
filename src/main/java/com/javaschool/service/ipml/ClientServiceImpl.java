@@ -8,6 +8,7 @@ import com.javaschool.exception.notFound.NotDataFoundException;
 import com.javaschool.mapper.ClientMapper;
 import com.javaschool.model.Client;
 import com.javaschool.model.Contract;
+import com.javaschool.model.User;
 import com.javaschool.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,9 +23,9 @@ import java.util.stream.Collectors;
 @Service
 public class ClientServiceImpl implements ClientService {
     
-    private final ClientDao clientDao;
-    private final ClientMapper clientMapper;
-    private final ContractDao contractDao;
+    private ClientDao clientDao;
+    private ClientMapper clientMapper;
+    private ContractDao contractDao;
 
     @Autowired
     public ClientServiceImpl(ClientDao clientDao, ClientMapper clientMapper, ContractDao contractDao) {
@@ -33,6 +34,8 @@ public class ClientServiceImpl implements ClientService {
         this.contractDao = contractDao;
     }
 
+    public ClientServiceImpl() {
+    }
 
     @Override
     public List<ClientDto> getAll() {
@@ -42,11 +45,17 @@ public class ClientServiceImpl implements ClientService {
     @Transactional
     @Override
     public boolean add(ClientDto client) {
-        Client client1 = clientDao.getByPassport(client.getPassport());
+        Client client1 = null;
+        try {
+            client1 = clientDao.getByPassport(client.getPassport());
+        }
+        catch (Exception e){
+        }
         if(client1 != null){
           return false;
         }
-        clientDao.add(clientMapper.toEntity(client));
+        Client clientToSave = clientMapper.toEntity(client);
+        clientDao.add(clientToSave);
         return true;
     }
 
@@ -106,7 +115,7 @@ public class ClientServiceImpl implements ClientService {
         Contract contract = contractDao.getById(contractId);
         Set<Contract> contracts = client.getContracts();
         if (!contracts.contains(contract)) {
-            //todo: Exception EntityNotFound
+            throw new ExamplesNotFoundException(Client.class.getName());
         }
         client.setContracts(contracts);
         clientDao.update(client);
@@ -120,5 +129,11 @@ public class ClientServiceImpl implements ClientService {
         else {
             return clientDao.getByPhone(name).stream().map(clientMapper::toDto).collect(Collectors.toList());
         }
+    }
+
+    public ClientDto getClientDtoForUserProfile(User user) {
+        long clientId = user.getClient().getId();
+        Client client = clientDao.getById(clientId);
+        return clientMapper.toDto(client);
     }
 }

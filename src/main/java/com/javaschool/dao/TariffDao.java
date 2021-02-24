@@ -11,4 +11,6 @@ public interface TariffDao extends AbstractDao<Tariff>{
     List<Tariff> getAllNotDeleted();
 
     Tariff getByName(String name);
+
+    List<Tariff> getLast(int count);
 }

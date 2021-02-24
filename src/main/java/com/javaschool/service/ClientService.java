@@ -4,6 +4,7 @@ import com.javaschool.dto.ClientDto;
 import com.javaschool.exception.notFound.ExamplesNotFoundException;
 import com.javaschool.exception.notFound.NotDataFoundException;
 import com.javaschool.model.Client;
+import com.javaschool.model.User;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -19,9 +20,8 @@ public interface ClientService {
 
     ClientDto getById(long id) throws ExamplesNotFoundException;
 
-    /*
-    Client getByClientEmail(String email);
-*/
+    ClientDto getClientDtoForUserProfile(User user);
+
     @Transactional
     void save(Client client);
 

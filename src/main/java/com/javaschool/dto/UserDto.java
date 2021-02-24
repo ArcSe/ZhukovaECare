@@ -13,6 +13,8 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Setter
+@Getter
 public class UserDto extends AbstractDto{
     @Size(min=8, message = "Password should have 8 characters")
     private String password;

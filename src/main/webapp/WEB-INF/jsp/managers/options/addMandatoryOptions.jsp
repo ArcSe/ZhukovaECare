@@ -39,7 +39,7 @@
                         <td class="text-center">${optionMad.serviceCost}</td>
                         <td class="text-center">
                             <ul>
-                                <c:forEach items="${optionMad.mandatoryOptions}" var="mandatoryOption">
+                                <c:forEach items="${optionMad.mandatoryOptions.values()}" var="mandatoryOption">
                                     <li>${mandatoryOption}</li>
                                 </c:forEach>
                             </ul>
@@ -47,13 +47,13 @@
                         <td class="text-center">
                             <ul>
                                 <c:forEach items="${optionMad.bannedOptions}" var="bannedOption">
-                                    <li>${bannedOption}</li>
+                                    <li>${bannedOption.value}</li>
                                 </c:forEach>
                             </ul>
                         </td>
                         <td class="text-center">
                             <c:choose>
-                                <c:when test="${option.mandatoryOptions.contains(optionMad.id)}">
+                                <c:when test="${option.mandatoryOptions.keySet().contains(optionMad.id)}">
                                     <form action="${pageContext.request.contextPath}/managers/options/deleteMandatoryOption" method="post">
                                         <input type="hidden" name="mandatoryOptionId" value="${optionMad.id}"/>
                                         <input type="hidden" name="optionId" value="${option.id}"/>
