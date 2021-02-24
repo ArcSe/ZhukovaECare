@@ -19,10 +19,10 @@ import java.util.zip.DataFormatException;
 @Service
 public class ShoppingCartServiceImpl implements ShoppingCartService {
 
-    private final ClientService clientService;
-    private final ContractService contractService;
-    private final TariffService tariffService;
-    private final OptionService optionService;
+    private ClientService clientService;
+    private ContractService contractService;
+    private TariffService tariffService;
+    private OptionService optionService;
 
     @Autowired
     public ShoppingCartServiceImpl(ClientService clientService, ContractService contractService,
@@ -31,6 +31,9 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         this.contractService = contractService;
         this.tariffService = tariffService;
         this.optionService = optionService;
+    }
+
+    public ShoppingCartServiceImpl() {
     }
 
     public ContractDto getContractDto(User user, ShoppingCartDto shoppingCart, Model model) {
